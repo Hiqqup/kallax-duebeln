@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Diagnostics;
 using Godot.Collections;
+using LetHimCook.scripts;
 
 public partial class I_GraphNode : Node2D
 {
@@ -41,9 +42,9 @@ public partial class I_GraphNode : Node2D
 		}
 	}
 	
-	public void ReceiveInput(string input)
+	public void ReceiveInput(ProductionResource input)
 	{
-		GD.Print(input + " received");
+		GD.Print(input.ToString() + " received");
 	}
 	
 	

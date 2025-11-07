@@ -1,5 +1,5 @@
 using Godot;
-using System;
+using LetHimCook.scripts;
 
 public partial class GraphPath : Node2D
 {
@@ -11,7 +11,7 @@ public partial class GraphPath : Node2D
 	private float Speed { get; set; }
 	private float Progress { get; set; }
 	private bool Active { get; set; }
-	private String TransportedItem { get; set; }
+	private ProductionResource TransportedItem { get; set; }
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -22,7 +22,7 @@ public partial class GraphPath : Node2D
 
 	public void Transport(string input)
 	{
-		TransportedItem = input;
+		TransportedItem = ProductionResource.A;
 		Active = true;
 		Progress = 0;
 		GD.Print("Started Transport");
