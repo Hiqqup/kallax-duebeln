@@ -20,12 +20,12 @@ public partial class GraphPath : Node2D
 		Speed = 1;
 	}
 
-	public void Transport(string input)
+	public void Transport(ProductionResource input)
 	{
-		TransportedItem = ProductionResource.A;
+		TransportedItem = input;
 		Active = true;
 		Progress = 0;
-		GD.Print("Started Transport");
+		GD.Print("Started Transport of " + TransportedItem.ToString());
 	}
 	
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

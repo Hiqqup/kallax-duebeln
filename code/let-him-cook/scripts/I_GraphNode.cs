@@ -9,9 +9,9 @@ public partial class I_GraphNode : Node2D
 	[Export]
 	public Array<GraphPath> Paths { get; set; }
 	[Export]
-	public string Input { get; set; }
+	public ProductionResource Input { get; set; }
 	[Export]
-	public string Output { get; set; }
+	public ProductionResource Output { get; set; }
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -24,7 +24,7 @@ public partial class I_GraphNode : Node2D
 			}
 		}
 
-		if (Input == null || Input == "")
+		if (Input == ProductionResource.None)
 		{
 			GD.Print("This node is a root node");
 			ProduceOutput();
@@ -33,7 +33,7 @@ public partial class I_GraphNode : Node2D
 
 	public void ProduceOutput()
 	{
-		if (Output != null || Output != "")
+		if (Output != ProductionResource.None)
 		{
 			foreach (var graphPath in Paths)
 			{
