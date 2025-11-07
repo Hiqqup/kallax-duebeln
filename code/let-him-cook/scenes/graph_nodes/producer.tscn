@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dgn84hypmmi6h"]
+
+[ext_resource type="PackedScene" uid="uid://bxk16rwk6e0sh" path="res://scenes/graph_nodes/node.tscn" id="1_f08ra"]
+
+[node name="Producer" instance=ExtResource("1_f08ra")]
+Output = "Hello, World!"
