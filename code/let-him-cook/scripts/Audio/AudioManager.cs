@@ -2,11 +2,6 @@ using System;
 using Godot;
 using Godot.Collections;
 
-public enum MUSIC_CLIPS
-{
-	None
-}
-
 public partial class AudioManager : Node2D
 {
 	public static AudioManager Instance { get; private set; }
