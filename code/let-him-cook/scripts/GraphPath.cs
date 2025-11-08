@@ -4,7 +4,7 @@ public partial class GraphPath : Node2D
 {
     private I_GraphNode _childNode;
     [Export]
-    private I_GraphNode ChildNode { 
+    public I_GraphNode ChildNode { 
         get => _childNode;
         set{
             _childNode = value;
@@ -52,7 +52,7 @@ public partial class GraphPath : Node2D
         TransportedItem = input;
         Active = true;
         Progress = 0;
-        GD.Print("Started Transport of " + TransportedItem);
+        //GD.Print(this.Name + ": Started Transport of " + TransportedItem);
     }
 
     private void UpdateLine()
@@ -76,7 +76,8 @@ public partial class GraphPath : Node2D
                 if (ChildNode != null)
                 {
                     ChildNode.ReceiveInput(TransportedItem);
-                    ParentNode.ProduceOutput();
+                    TransportedItem = ProductionResource.None;
+                    ParentNode.PathFinished(this);
                 }
             }
         }
