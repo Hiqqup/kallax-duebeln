@@ -55,21 +55,6 @@ public partial class I_GraphNode : CharacterBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		 if (false) // type == consumer
-		 {
-			 _questDuration = new Timer();
-			 _questDuration.OneShot = true;
-			 AddChild(_questDuration);
-			 
-			 _questDuration.Timeout += OnQuestDurationTimeout;
-		 }
-
-		 if (true) // type == producer
-		 {
-			 _cam = GetViewport().GetCamera2D();
-			 // selector.Hide(); if there is a visible selector
-		 } 
-		 
 		 if (GetViewport().GetCamera2D() == null) GD.PrintErr("Camera not found! Please add camera to your scene with a camera manager script attached.");
 		 
 		_collisionShape2D = GetNode<CollisionShape2D>("CollisionShape2D");
@@ -82,6 +67,16 @@ public partial class I_GraphNode : CharacterBody2D
 		if (_nodeType == NodeType.Producer || _nodeType == NodeType.Factory)
 		{
 			AddToGroup("selectable_units");
+		}
+
+		if (_nodeType == NodeType.Consumer)
+		{
+			_questDuration = new Timer();
+			_questDuration.OneShot = true;
+			AddChild(_questDuration);
+			 
+			_questDuration.Timeout += OnQuestDurationTimeout;
+			// CheckTimer(float) functions activates the timer for float seconds
 		}
 		
 		ResetInputInventory();
