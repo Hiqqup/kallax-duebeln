@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Godot.Collections;
@@ -15,14 +16,21 @@ public partial class I_GraphNode : CharacterBody2D
 
 	// Internal dictionary for easy access - maps resource to required amount
 	private SystemDictionary _inputInventory;
-	[Export]
-	public ProductionResource Output { get; set; }
+	[Export] 
+	public Array<ResourceAmount> Output { get; set; } = new Array<ResourceAmount>();
 
 	public delegate void InputSatisfiedHandler();
 	public event InputSatisfiedHandler OnInputSatisfied;
 
 	private NodeType _nodeType = NodeType.None;
 	
+	private ResourceAmount _producedResourceBuffer = new ResourceAmount();
+	private Queue<GraphPath> _pathQueue = new Queue<GraphPath>();
+	/**
+	 * Should only be used by producer
+	 */
+	private Timer _resourceProductionTimer = new Timer();
+
 	[Export]
 	public bool MouseOver = false;
 	public bool Selected = false;
@@ -40,28 +48,61 @@ public partial class I_GraphNode : CharacterBody2D
 		DetectNodeType();
 		ResetInputInventory();
 		
+		if (Recource_Input == null || Recource_Input.Count == 0)
+		{
+			GD.Print("This node is a root node " + this.Name);
+			ProduceOutput();
+		}
+		
 		if (Paths != null)
 		{
 			foreach (var graphPaths in Paths)
 			{
 				if (graphPaths == null) continue;
 				graphPaths.ParentNode = this;
+				
+				PathFinished(graphPaths);
 			}
 		}
 		
-		if (Recource_Input == null || Recource_Input.Count == 0)
+		if (_nodeType == NodeType.Producer)
 		{
-			//GD.Print("This node is a root node " + this.Name);
-			ProduceOutput();
+			AddChild(_resourceProductionTimer);
+			_resourceProductionTimer.OneShot = false;
+			_resourceProductionTimer.Start(1);
+			_resourceProductionTimer.Timeout += ProduceOutput;
 		}
 
-		OnInputSatisfied += () => { GD.Print("Input satisfied"); };
+		OnInputSatisfied += () => { GD.Print(this.Name + ": Input satisfied"); };
+	}
+
+	public void PathFinished(GraphPath path)
+	{
+		_pathQueue.Enqueue(path);
+
+		if (_producedResourceBuffer.Amount > 0)
+		{
+			TryConsumeResource();
+		}
+	}
+
+	private void TryConsumeResource()
+	{
+		if (_pathQueue.Count == 0)
+		{
+			return;
+		}
+		
+		var path = _pathQueue.Dequeue();
+		path.Transport(_producedResourceBuffer.Resource);
+		_producedResourceBuffer.Amount--;
+		//GD.Print(path.Name + " started transporting " + _producedResourceBuffer.Resource.ToString());
 	}
 
 	private void DetectNodeType()
 	{
-		bool hasInput = Recource_Input != null && Recource_Input.Count > 0;
-		bool hasOutput = Output != ProductionResource.None;
+		bool hasInput = Recource_Input is { Count: > 0 };
+		bool hasOutput = Output != null && Output.Count > 0 && Output[0].Resource != ProductionResource.None;
 
 		if (hasInput && hasOutput)
 		{
@@ -102,12 +143,15 @@ public partial class I_GraphNode : CharacterBody2D
 
 	public void ProduceOutput()
 	{
-		if (Output != ProductionResource.None && Paths != null)
+		if (Output == null || Output.Count == 0 || Output[0].Resource == ProductionResource.None) return;
+		
+		_producedResourceBuffer.Resource = Output[0].Resource;
+		_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + Output[0].Amount, 0, Output[0].Amount * 2);
+		//GD.Print($"Produced resource: {_producedResourceBuffer.Resource}, stored amount: {_producedResourceBuffer.Amount}");
+		
+		if (_producedResourceBuffer.Amount > 0)
 		{
-			foreach (var graphPath in Paths)
-			{
-				graphPath?.Transport(Output);
-			}
+			TryConsumeResource();
 		}
 	}
 
