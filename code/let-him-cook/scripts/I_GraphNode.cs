@@ -62,6 +62,8 @@ public partial class I_GraphNode : CharacterBody2D
 			 questDuration.Timeout += OnQuestDurationTimeout;
 		 }
 		 
+		 if (GetViewport().GetCamera2D() == null) GD.PrintErr("Camera not found! Please add camera to your scene with a camera manager script attached.");
+		 
 		_collisionShape2D = GetNode<CollisionShape2D>("CollisionShape2D");
 		_statusLabel = GetNode<Label>("StatusLabel");
 		// Initialize the input inventory from the Input array
@@ -245,7 +247,7 @@ public partial class I_GraphNode : CharacterBody2D
 				Selected = !Selected;
 				if (mouseEvent.Pressed)
 				{
-					_mouseOffset = Position - GetViewport().GetMousePosition();
+					_mouseOffset = Position - GetViewport().GetCamera2D().GetGlobalMousePosition();
 					FollowMouse =  true;
 				}
 				else
@@ -261,7 +263,7 @@ public partial class I_GraphNode : CharacterBody2D
 	{
 		if (FollowMouse)
 		{
-			Position = GetViewport().GetMousePosition() + _mouseOffset;
+			Position = GetViewport().GetCamera2D().GetGlobalMousePosition() + _mouseOffset;
 		}
 
 		if (Input.IsMouseButtonPressed(MouseButton.Right))
@@ -280,7 +282,7 @@ public partial class I_GraphNode : CharacterBody2D
 			}
 			if (_preview != null)
 			{
-				_preview!.EndPosition = GetViewport().GetMousePosition();
+				_preview!.EndPosition = GetViewport().GetCamera2D().GetGlobalMousePosition();
 			}
 		}
 		else

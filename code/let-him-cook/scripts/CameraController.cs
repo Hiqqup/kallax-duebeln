@@ -4,7 +4,7 @@ using System;
 public partial class CameraController : Camera2D
 {
 
-	[Export] private float _moveSpeed = 5.0f;
+	[Export] private float _moveSpeed = 750.0f;
 	[Export] private float _zoomSpeed = 10.0f;
 	
 	private Vector2 _zoomTarget;
@@ -17,7 +17,19 @@ public partial class CameraController : Camera2D
 	public override void _Ready()
 	{
 		_zoomTarget = Zoom;
+		UpdateMovementSpeed();
+		GetTree().Root.SizeChanged += OnWindowSizeChanged;
 	}
+
+	private void UpdateMovementSpeed()
+	{
+		_moveSpeed = DisplayServer.ScreenGetSize().X / 2.0f;
+	}
+	
+	private void OnWindowSizeChanged()
+    {
+	    UpdateMovementSpeed();
+    }
 
 	// Unity update
 	public override void _Process(double delta)
