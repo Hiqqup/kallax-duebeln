@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 
 public partial class GraphPath : Node2D
@@ -39,6 +40,8 @@ public partial class GraphPath : Node2D
     private float Progress { get; set; }
     private bool Active { get; set; }
     private ProductionResource TransportedItem { get; set; }
+    
+    private bool _hovered = false;
 	
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -82,5 +85,28 @@ public partial class GraphPath : Node2D
             }
         }
         UpdateLine();
+    }
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton mouseEvent && _hovered)
+        {
+            // mouse right
+            if (mouseEvent.ButtonIndex == MouseButton.Right)
+            {
+                ParentNode.Paths.Remove(ParentNode.Paths.FirstOrDefault(x => x == this));
+                QueueFree();
+            }
+        }
+    }
+
+    private void OnMouseEntered()
+    {
+        _hovered = true;
+    }
+
+    private void OnMouseExited()
+    {
+        _hovered = false;
     }
 }
