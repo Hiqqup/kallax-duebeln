@@ -1,10 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://dgn84hypmmi6h"]
 
 [ext_resource type="PackedScene" uid="uid://bxk16rwk6e0sh" path="res://scenes/graph_nodes/node.tscn" id="1_f08ra"]
-[ext_resource type="Texture2D" uid="uid://behowpn31nbmm" path="res://assets/placeholder/Bild1-2.png" id="2_s5jox"]
+[ext_resource type="Texture2D" uid="uid://bu3ugp2tl53mf" path="res://assets/parts/kallax_2x4.png" id="2_s5jox"]
 
 [node name="Producer" instance=ExtResource("1_f08ra")]
 
 [node name="Sprite2D" parent="." index="0"]
-scale = Vector2(0.1, 0.1)
+position = Vector2(-5.722046e-06, -5.722046e-06)
+scale = Vector2(0.44444445, 0.44444445)
 texture = ExtResource("2_s5jox")
