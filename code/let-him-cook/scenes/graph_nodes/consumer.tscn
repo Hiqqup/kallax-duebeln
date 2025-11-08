@@ -1,11 +1,12 @@
 [gd_scene load_steps=3 format=3 uid="uid://sy2xlku1ghrf"]
 
 [ext_resource type="PackedScene" uid="uid://bxk16rwk6e0sh" path="res://scenes/graph_nodes/node.tscn" id="1_wb5pj"]
-[ext_resource type="Texture2D" uid="uid://5q5jrgrpr3ls" path="res://assets/placeholder/pngtree-cartoon-house-clip-art-vector-png-image_12542577.png" id="2_82c14"]
+[ext_resource type="Texture2D" uid="uid://f7m0m0dq2pv4" path="res://assets/parts/screw.png" id="2_82c14"]
 
 [node name="Consumer" node_paths=PackedStringArray("Paths") instance=ExtResource("1_wb5pj")]
 Paths = []
 
 [node name="Sprite2D" parent="." index="0"]
-scale = Vector2(0.25, 0.25)
+position = Vector2(-1.9073486e-06, -1.9073486e-06)
+scale = Vector2(0.44444445, 0.44444445)
 texture = ExtResource("2_82c14")
