@@ -4,7 +4,7 @@ public partial class GraphPath : Node2D
 {
     private I_GraphNode _childNode;
     [Export]
-    private I_GraphNode ChildNode { 
+    public I_GraphNode ChildNode { 
         get => _childNode;
         set{
             _childNode = value;

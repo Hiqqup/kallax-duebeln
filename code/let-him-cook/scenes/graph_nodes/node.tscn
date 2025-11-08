@@ -1,26 +1,31 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxk16rwk6e0sh"]
+[gd_scene load_steps=5 format=3 uid="uid://bxk16rwk6e0sh"]
 
 [ext_resource type="Script" uid="uid://ce5tbu5w4imum" path="res://scripts/I_GraphNode.cs" id="1_6r00q"]
+[ext_resource type="Texture2D" uid="uid://sapt04gkgg8m" path="res://assets/svg/circle_outline.svg" id="2_dsmoq"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8g1y3"]
-size = Vector2(160, 160)
+[sub_resource type="CircleShape2D" id="CircleShape2D_dsmoq"]
+radius = 99.24717
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_dsmoq"]
-size = Vector2(160, 160)
+[sub_resource type="CircleShape2D" id="CircleShape2D_5tsiq"]
+radius = 100.04499
 
 [node name="Node" type="CharacterBody2D" node_paths=PackedStringArray("Paths")]
 script = ExtResource("1_6r00q")
 Paths = [null, null]
+
+[node name="CircleOutline" type="Sprite2D" parent="."]
+scale = Vector2(0.9875, 0.9875)
+texture = ExtResource("2_dsmoq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("RectangleShape2D_8g1y3")
+shape = SubResource("CircleShape2D_dsmoq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_dsmoq")
+shape = SubResource("CircleShape2D_5tsiq")
 
 [node name="StatusLabel" type="Label" parent="."]
 offset_left = -80.0
