@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://df3fscr3rm5ha"]
+[gd_scene load_steps=3 format=3 uid="uid://bxig3oq27bpru"]
 
 [ext_resource type="Texture2D" uid="uid://c6ijbhtc6hjtp" path="res://assets/placeholder/breathtaking_illustration_of_s.jpeg" id="1_1wtp1"]
-[ext_resource type="Script" uid="uid://do0xs6j1lh1m0" path="res://scripts/CameraController.cs" id="2_4p2lb"]
+[ext_resource type="Script" uid="uid://da58rbm6p2x3x" path="res://scripts/CameraController.cs" id="2_4p2lb"]
 
 [node name="EgorPigsCanFly" type="Node2D"]
 
@@ -13,3 +13,4 @@ texture = ExtResource("1_1wtp1")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(591, 342)
 script = ExtResource("2_4p2lb")
+_moveSpeed = 500.0

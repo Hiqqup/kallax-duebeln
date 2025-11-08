@@ -116,6 +116,7 @@ public partial class I_GraphNode : Node2D
 			// mouse left
 			if (mouseEvent.ButtonIndex == MouseButton.Left)
 			{
+				Selected = !Selected;
 				if (mouseEvent.Pressed)
 				{
 					_mouseOffset = Position - GetViewport().GetMousePosition();
