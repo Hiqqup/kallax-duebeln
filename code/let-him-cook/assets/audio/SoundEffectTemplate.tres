@@ -1,0 +1,8 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://cf677sm3kkyrl"]
+
+[ext_resource type="Script" uid="uid://beua27kvn3yo4" path="res://scripts/Audio/SoundEffect.cs" id="1_4tsqa"]
+
+[resource]
+script = ExtResource("1_4tsqa")
+Limit = 10
+Type = 1
