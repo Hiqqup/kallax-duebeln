@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://df2at473yqewo"]
+[gd_scene load_steps=13 format=3 uid="uid://df2at473yqewo"]
 
 [ext_resource type="PackedScene" uid="uid://dsyi8dy5hr8ro" path="res://scenes/path.tscn" id="1_tx7of"]
 [ext_resource type="PackedScene" uid="uid://dgn84hypmmi6h" path="res://scenes/graph_nodes/producer.tscn" id="2_8w4ag"]
@@ -42,15 +42,21 @@ Resource = 1
 Amount = 1
 metadata/_custom_type_script = "uid://bco38vskfst5"
 
+[sub_resource type="Resource" id="Resource_6uos2"]
+script = ExtResource("3_8w4ag")
+Resource = 2
+Amount = 1
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
 [node name="Konsti" type="Node2D"]
 
 [node name="ProducerB" parent="." node_paths=PackedStringArray("Paths") instance=ExtResource("2_8w4ag")]
-position = Vector2(345, 109)
+position = Vector2(-225, -338)
 Paths = [NodePath("../Path")]
 Output = Array[ExtResource("3_8w4ag")]([SubResource("Resource_7nkr0")])
 
 [node name="Factory" parent="." node_paths=PackedStringArray("Paths") instance=ExtResource("3_foijs")]
-position = Vector2(796, 323)
+position = Vector2(226, -124)
 Paths = [NodePath("../Path2")]
 Recource_Input = Array[ExtResource("3_8w4ag")]([SubResource("Resource_8w4ag"), SubResource("Resource_foijs")])
 Output = Array[ExtResource("3_8w4ag")]([SubResource("Resource_mwwd8")])
@@ -59,14 +65,14 @@ Output = Array[ExtResource("3_8w4ag")]([SubResource("Resource_mwwd8")])
 ChildNode = NodePath("../Factory")
 
 [node name="Consumer2" parent="." instance=ExtResource("3_foijs")]
-position = Vector2(1056, 471)
+position = Vector2(486, 24)
 Recource_Input = Array[ExtResource("3_8w4ag")]([SubResource("Resource_6pkd6")])
 
 [node name="Path2" parent="." node_paths=PackedStringArray("ChildNode") instance=ExtResource("1_tx7of")]
 ChildNode = NodePath("../Consumer2")
 
 [node name="ProducerA" parent="." node_paths=PackedStringArray("Paths") instance=ExtResource("2_8w4ag")]
-position = Vector2(181, 350)
+position = Vector2(-389, -97)
 Paths = [NodePath("../Path3")]
 Output = Array[ExtResource("3_8w4ag")]([SubResource("Resource_lkjgc")])
 
@@ -75,3 +81,7 @@ ChildNode = NodePath("../Factory")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("5_foijs")
+
+[node name="Producer" parent="." instance=ExtResource("2_8w4ag")]
+position = Vector2(-323, 207)
+Output = Array[ExtResource("3_8w4ag")]([SubResource("Resource_6uos2")])
