@@ -3,6 +3,8 @@
 namespace LetHimCook.scripts.Audio;
 
 public enum SOUND_EFFECT_TYPE {
+    Empty,
+    Test
 }
 public partial class SoundEffect : Resource
 {
