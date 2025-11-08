@@ -1,8 +1,11 @@
+using System;
 using System.Linq;
 using Godot;
 
 public partial class GraphPath : Node2D
 {
+    [Export] private Sprite2D _dot;
+    [Export] private Sprite2D _dotSymbol;
     private I_GraphNode _childNode;
     [Export]
     public I_GraphNode ChildNode { 
@@ -38,7 +41,16 @@ public partial class GraphPath : Node2D
     private float Length { get; set; }
     private float Speed { get; set; }
     private float Progress { get; set; }
-    private bool Active { get; set; }
+    private bool _active;
+    private bool Active
+    {
+        get => _active;
+        set
+        {
+            _active = value;
+            _dot.Visible = _active;
+        }
+    }
     private ProductionResource TransportedItem { get; set; }
     
     private bool _hovered = false;
@@ -47,7 +59,7 @@ public partial class GraphPath : Node2D
     public override void _Ready()
     {
         Length = 3;
-        Speed = 1;
+        Speed = 200;
     }
 
     public void Transport(ProductionResource input)
@@ -55,16 +67,26 @@ public partial class GraphPath : Node2D
         TransportedItem = input;
         Active = true;
         Progress = 0;
-        //GD.Print(this.Name + ": Started Transport of " + TransportedItem);
+        _dotSymbol.Texture = GD.Load<Texture2D>(SpriteLookup.MapResourceToFile(input));
     }
 
     private void UpdateLine()
     {
-        _line.SetPoints(new []{ParentNode.Position, ChildNode.Position});
-        var pathVector = ChildNode.Position - ParentNode.Position;
-        _collisionShape.Position = ParentNode.Position + pathVector / 2;
-        _collisionShape.Scale = new(pathVector.Length() - 160, 1f);
+        var startPos = ParentNode.Position;
+        var endPos = ChildNode.Position;
+        var direction = (endPos - startPos).Normalized();
+        
+        startPos = ParentNode.Position + (direction * Constants.NodeRadius);
+        endPos = ChildNode.Position - (direction * Constants.NodeRadius);
+        
+        _line.SetPoints(new []{startPos, endPos});
+        var pathVector = endPos - startPos;
+        var relativeCenter = (endPos - startPos) / 2.0f;
+        _collisionShape.Position = startPos + relativeCenter;
+        _collisionShape.Scale = new(pathVector.Length(), 1f);
         _collisionShape.Rotation = pathVector.Angle();
+        
+        Length = startPos.DistanceTo(endPos);
     }
     
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -83,6 +105,13 @@ public partial class GraphPath : Node2D
                     ParentNode.PathFinished(this);
                 }
             }
+            
+            //Travel Indicator
+            var startPosition = _line.Points[0];
+            var endPosition = _line.Points[1];
+            var direction = (endPosition - startPosition).Normalized();
+            var length = (endPosition - startPosition).Length();
+            _dot.Position = _line.Points[0] + (Progress * direction);
         }
         UpdateLine();
     }
