@@ -20,6 +20,8 @@ public partial class I_GraphNode : CharacterBody2D
 
 	public delegate void InputSatisfiedHandler();
 	public event InputSatisfiedHandler OnInputSatisfied;
+
+	private NodeType _nodeType = NodeType.None;
 	
 	[Export]
 	public bool MouseOver = false;
@@ -35,6 +37,7 @@ public partial class I_GraphNode : CharacterBody2D
 		// Initialize the input inventory from the Input array
 		_inputInventory = new SystemDictionary();
 		
+		DetectNodeType();
 		ResetInputInventory();
 		
 		if (Paths != null)
@@ -55,6 +58,33 @@ public partial class I_GraphNode : CharacterBody2D
 		OnInputSatisfied += () => { GD.Print("Input satisfied"); };
 	}
 
+	private void DetectNodeType()
+	{
+		bool hasInput = Recource_Input != null && Recource_Input.Count > 0;
+		bool hasOutput = Output != ProductionResource.None;
+
+		if (hasInput && hasOutput)
+		{
+			//GD.Print("Node " + this.Name + " is a Factory");
+			_nodeType = NodeType.Factory;
+			return;
+		}
+
+		if (hasInput)
+		{
+			//GD.Print("Node \"" + this.Name + "\" is a Consumer");
+			_nodeType = NodeType.Consumer;
+			return;
+		}
+
+		if (hasOutput)
+		{
+			//GD.Print("Node \"" + this.Name + "\" is a Producer");
+			_nodeType = NodeType.Producer;
+			return;
+		}
+	}
+
 	private void ResetInputInventory()
 	{
 		if (Recource_Input == null || Recource_Input.Count <= 0) return;
@@ -66,6 +96,8 @@ public partial class I_GraphNode : CharacterBody2D
 			_inputInventory[resourceAmount.Resource] = resourceAmount.Amount;
 			//GD.Print("Input: " + resourceAmount.Resource + " " + resourceAmount.Amount + "x");
 		}
+
+		//GD.Print("Reset inventory for node " + this.Name);
 	}
 
 	public void ProduceOutput()
@@ -84,7 +116,7 @@ public partial class I_GraphNode : CharacterBody2D
 	 */
 	private bool IsInputSatisfied()
 	{
-		return _inputInventory.Values.All(count => count == 0);
+		return _inputInventory.Values.All(count => count <= 0);
 	}
 	
 	public void ReceiveInput(ProductionResource input)
@@ -96,7 +128,9 @@ public partial class I_GraphNode : CharacterBody2D
 			if (IsInputSatisfied())
 			{
 				OnInputSatisfied?.Invoke();
+				
 				ResetInputInventory();
+				ProduceOutput();
 			}
 		}
 	}
