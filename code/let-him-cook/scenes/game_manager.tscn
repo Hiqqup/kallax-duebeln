@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://vywow137nbyf"]
+[gd_scene load_steps=7 format=3 uid="uid://vywow137nbyf"]
 
 [ext_resource type="Script" uid="uid://bm4h8tuqralvs" path="res://scripts/global/GameManager.cs" id="1_hwd4i"]
+[ext_resource type="PackedScene" uid="uid://dxnsklpj5li7y" path="res://scenes/cursor.tscn" id="2_glms7"]
 
 [sub_resource type="Animation" id="Animation_glms7"]
 length = 0.001
@@ -114,3 +115,5 @@ root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_udu3i")
 }
+
+[node name="Cursor" parent="Internal" instance=ExtResource("2_glms7")]
