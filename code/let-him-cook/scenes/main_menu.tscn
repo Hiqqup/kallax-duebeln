@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://785wfprvqtaw"]
+[gd_scene load_steps=8 format=3 uid="uid://dv1g3l4fhodp6"]
 
 [ext_resource type="Theme" uid="uid://b8by5uv0gw361" path="res://assets/resources/main_gui_theme.tres" id="1_ekxnf"]
 [ext_resource type="Script" uid="uid://cygyvnlrqc4lm" path="res://scripts/MainMenu.cs" id="1_l6cm7"]
@@ -14,7 +14,7 @@ region = Rect2(159.82751, 698.4776, 871.65283, 1289.3779)
 atlas = ExtResource("4_wu84c")
 region = Rect2(2833.2676, 138.7261, 835.4497, 1812.9265)
 
-[node name="MainMenu" type="Control" node_paths=PackedStringArray("CreditsLabel", "KallaxVideo")]
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("CreditsLabel", "StartButton", "KallaxVideo")]
 z_index = -1
 layout_mode = 3
 anchors_preset = 15
@@ -25,6 +25,7 @@ grow_vertical = 2
 theme = ExtResource("1_ekxnf")
 script = ExtResource("1_l6cm7")
 CreditsLabel = NodePath("Credits")
+StartButton = NodePath("VBoxContainer/Start")
 KallaxVideo = NodePath("KallaxVideo")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -108,6 +109,7 @@ text = "                 Game by:
 -Max \"xXM_BXx\" Burckhard
 -Maximilian \"KatzenFisch\" Oberländer"
 
+[connection signal="mouse_entered" from="VBoxContainer/Start" to="." method="HoverStart"]
 [connection signal="pressed" from="VBoxContainer/Start" to="." method="StartGame"]
 [connection signal="pressed" from="VBoxContainer/Close" to="." method="ExitGame"]
 [connection signal="pressed" from="VBoxContainer/Credits" to="." method="ToggleCredits"]

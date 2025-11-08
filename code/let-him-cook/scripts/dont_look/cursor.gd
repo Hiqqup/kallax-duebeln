@@ -10,7 +10,7 @@ func _ready() -> void:
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			pass
+			AnimationUtil.bounce_tween(self);
 	
 	if event is InputEventMouseMotion:
 		var camera2d = get_viewport().get_camera_2d();
