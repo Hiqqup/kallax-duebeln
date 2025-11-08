@@ -1,7 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://dxnsklpj5li7y"]
+[gd_scene load_steps=6 format=3 uid="uid://dxnsklpj5li7y"]
 
 [ext_resource type="Texture2D" uid="uid://d4cxj8spct0wd" path="res://assets/misc/cursor.png" id="1_s0nli"]
 [ext_resource type="Script" uid="uid://btp3mowqi0kkr" path="res://scripts/cursor.gd" id="2_ndevg"]
+
+[sub_resource type="Animation" id="Animation_s0nli"]
+resource_name = "click"
+
+[sub_resource type="Animation" id="Animation_ndevg"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_n5qf0"]
+_data = {
+&"RESET": SubResource("Animation_ndevg"),
+&"click": SubResource("Animation_s0nli")
+}
 
 [node name="Cursor" type="TextureRect"]
 anchors_preset = 8
@@ -21,3 +33,8 @@ texture = ExtResource("1_s0nli")
 expand_mode = 3
 stretch_mode = 4
 script = ExtResource("2_ndevg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_n5qf0")
+}

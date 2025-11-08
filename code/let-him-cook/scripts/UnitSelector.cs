@@ -55,8 +55,7 @@ public partial class UnitSelector : Node2D
 	{
 		foreach (I_GraphNode unit in GetTree().GetNodesInGroup("selectable_units").Cast<I_GraphNode>())
 		{
-			if (unit.IsInsideSelectionBox(_selectBox))
-				unit.Select();
+			if (unit.IsInsideSelectionBox(_selectBox)) unit.Select();
 			else unit.Deselect();
 		}
 	}
