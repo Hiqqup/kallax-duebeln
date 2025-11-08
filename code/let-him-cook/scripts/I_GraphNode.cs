@@ -9,7 +9,7 @@ using SystemDictionary = System.Collections.Generic.Dictionary<ProductionResourc
 
 public partial class I_GraphNode : CharacterBody2D
 {
-	[Export] private Array<GraphPath> Paths { get; set; } = [];
+	[Export] public Array<GraphPath> Paths { get; private set; } = [];
 	
 	[Export]
 	//Input
@@ -335,6 +335,7 @@ public partial class I_GraphNode : CharacterBody2D
 			pathInstance.ParentNode = _pathOrigin;
 			_pathOrigin.Paths.Add(pathInstance);
 			GetParent()!.AddChild(pathInstance);
+			_pathOrigin.PathFinished(pathInstance);
 		}
 	}
 
