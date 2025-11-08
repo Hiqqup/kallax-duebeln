@@ -11,7 +11,10 @@ _line = NodePath("Line2D")
 _collisionShape = NodePath("Area2D/CollisionShape2D")
 
 [node name="Line2D" type="Line2D" parent="."]
+z_index = -1
 points = PackedVector2Array(379, 171, 695, 103)
+width = 2.0
+default_color = Color(0.16924527, 0.1692453, 0.16924527, 1)
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
