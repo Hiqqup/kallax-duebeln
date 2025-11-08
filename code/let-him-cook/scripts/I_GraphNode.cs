@@ -47,7 +47,7 @@ public partial class I_GraphNode : CharacterBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		 if (false)
+		 if (false) // type == consumer
 		 {
 			 questDuration = new Timer();
 			 questDuration.OneShot = true;
@@ -55,7 +55,6 @@ public partial class I_GraphNode : CharacterBody2D
 			 
 			 questDuration.Timeout += OnQuestDurationTimeout;
 		 }
-		 
 		_collisionShape2D = GetNode<CollisionShape2D>("CollisionShape2D");
 		// Initialize the input inventory from the Input array
 		_inputInventory = new SystemDictionary();
@@ -89,6 +88,10 @@ public partial class I_GraphNode : CharacterBody2D
 		}
 
 		OnInputSatisfied += () => { GD.Print(this.Name + ": Input satisfied"); };
+		/* if (_nodeType == NodeType.Consumer)
+		{
+			OnInputSatisfied += () => {};
+		} */
 	}
 
 	public void PathFinished(GraphPath path)
