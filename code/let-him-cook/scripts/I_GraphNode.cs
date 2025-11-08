@@ -11,7 +11,7 @@ public partial class I_GraphNode : Node2D
 	public Array<GraphPath> Paths { get; set; }
 	
 	[Export]
-	public Array<ResourceAmount> Input { get; set; } = new Array<ResourceAmount>();
+	public Array<ResourceAmount> Recource_Input { get; set; } = new Array<ResourceAmount>();
 
 	// Internal dictionary for easy access - maps resource to required amount
 	private SystemDictionary _inputInventory;
@@ -21,7 +21,11 @@ public partial class I_GraphNode : Node2D
 	public delegate void InputSatisfiedHandler();
 	public event InputSatisfiedHandler OnInputSatisfied;
 	
+	[Export]
 	public bool MouseOver = false;
+	public bool Selected = false;
+	public bool FollowMouse = false;
+	private Vector2 _mouseOffset;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -40,7 +44,7 @@ public partial class I_GraphNode : Node2D
 			}
 		}
 		
-		if (Input == null || Input.Count == 0)
+		if (Recource_Input == null || Recource_Input.Count == 0)
 		{
 			//GD.Print("This node is a root node " + this.Name);
 			ProduceOutput();
@@ -51,9 +55,9 @@ public partial class I_GraphNode : Node2D
 
 	private void ResetInputInventory()
 	{
-		if (Input == null || Input.Count <= 0) return;
+		if (Recource_Input == null || Recource_Input.Count <= 0) return;
 		
-		foreach (var resourceAmount in Input)
+		foreach (var resourceAmount in Recource_Input)
 		{
 			if (resourceAmount?.Resource == null || resourceAmount.Resource == ProductionResource.None || resourceAmount.Amount <= 0) continue;
 			
@@ -104,10 +108,34 @@ public partial class I_GraphNode : Node2D
 	{
 		MouseOver = false;
 	}
-	
-	
+
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is InputEventMouseButton mouseEvent && MouseOver)
+		{
+			// mouse left
+			if (mouseEvent.ButtonIndex == MouseButton.Left)
+			{
+				if (mouseEvent.Pressed)
+				{
+					_mouseOffset = Position - GetViewport().GetMousePosition();
+					FollowMouse =  true;
+				}
+				else
+				{
+					FollowMouse = false;
+				}
+				
+			}
+		}
+	}
+
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (FollowMouse)
+		{
+			Position = GetViewport().GetMousePosition() + _mouseOffset;
+		}
 	}
 }
