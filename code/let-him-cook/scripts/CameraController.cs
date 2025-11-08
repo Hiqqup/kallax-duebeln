@@ -9,6 +9,10 @@ public partial class CameraController : Camera2D
 	
 	private Vector2 _zoomTarget;
 	
+	private bool _isDragging = false;
+	private Vector2 _dragStartMousePos = Vector2.Zero;
+	private Vector2 _dragStartCameraPos = Vector2.Zero;
+	
 	// Unity start
 	public override void _Ready()
 	{
@@ -72,7 +76,7 @@ public partial class CameraController : Camera2D
 		if (moveDirection != Vector2.Zero)
 		{
 			moveDirection = moveDirection.Normalized();
-			Position += moveDirection * _moveSpeed * (float)delta;
+			Position += moveDirection * _moveSpeed * (float)delta * (1/Zoom.X);
 		}
 		
 	}
@@ -80,5 +84,23 @@ public partial class CameraController : Camera2D
 	private void ClickAndDrag()
 	{
 		
+		
+		if (!_isDragging && Input.IsActionJustPressed("camera_pan"))
+		{
+			_isDragging = true;
+			_dragStartMousePos = GetViewport().GetMousePosition();
+			_dragStartCameraPos = Position;
+		}
+
+		if (_isDragging && Input.IsActionJustReleased("camera_pan"))
+		{
+			_isDragging = false;
+		}
+
+		if (_isDragging)
+		{
+			Vector2 moveVector = GetViewport().GetMousePosition() - _dragStartMousePos;
+			Position = _dragStartCameraPos - moveVector * (1/Zoom.X);
+		}
 	}
 }
