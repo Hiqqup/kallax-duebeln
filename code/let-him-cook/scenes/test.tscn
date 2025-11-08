@@ -1,9 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://b0ussgm4aw1r6"]
+[gd_scene load_steps=7 format=3 uid="uid://b0ussgm4aw1r6"]
 
 [ext_resource type="PackedScene" uid="uid://sy2xlku1ghrf" path="res://scenes/graph_nodes/consumer.tscn" id="2_bl13t"]
 [ext_resource type="PackedScene" uid="uid://dgn84hypmmi6h" path="res://scenes/graph_nodes/producer.tscn" id="2_iyx0m"]
 [ext_resource type="Script" uid="uid://da58rbm6p2x3x" path="res://scripts/CameraController.cs" id="3_iyx0m"]
+[ext_resource type="Script" uid="uid://bco38vskfst5" path="res://scripts/ResourceAmount.cs" id="3_j5jx5"]
 [ext_resource type="Material" uid="uid://b8mwcr8b5hsgi" path="res://assets/resources/paper_texture_shader_material.tres" id="4_74lek"]
+
+[sub_resource type="Resource" id="Resource_lpvoh"]
+script = ExtResource("3_j5jx5")
+Resource = 2
+Amount = 1
+metadata/_custom_type_script = "uid://bco38vskfst5"
 
 [node name="Node2D" type="Node2D"]
 
@@ -18,6 +25,11 @@ position = Vector2(653, 349)
 [node name="Producer" parent="." instance=ExtResource("2_iyx0m")]
 material = null
 position = Vector2(186, 390)
+
+[node name="Producer2" parent="." instance=ExtResource("2_iyx0m")]
+material = null
+position = Vector2(372, 780)
+Output = Array[ExtResource("3_j5jx5")]([SubResource("Resource_lpvoh")])
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(960, 540)
