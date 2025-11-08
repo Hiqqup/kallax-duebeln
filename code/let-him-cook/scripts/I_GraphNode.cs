@@ -48,19 +48,27 @@ public partial class I_GraphNode : CharacterBody2D
 	private CollisionShape2D  _collisionShape2D;
 	private Label _statusLabel;
 	
-	private Timer questDuration;
+	private Timer _questDuration;
+
+	private Camera2D _cam;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		 if (false) // type == consumer
 		 {
-			 questDuration = new Timer();
-			 questDuration.OneShot = true;
-			 AddChild(questDuration);
+			 _questDuration = new Timer();
+			 _questDuration.OneShot = true;
+			 AddChild(_questDuration);
 			 
-			 questDuration.Timeout += OnQuestDurationTimeout;
+			 _questDuration.Timeout += OnQuestDurationTimeout;
 		 }
+
+		 if (true) // type == producer
+		 {
+			 _cam = GetViewport().GetCamera2D();
+			 // selector.Hide(); if there is a visible selector
+		 } 
 		 
 		 if (GetViewport().GetCamera2D() == null) GD.PrintErr("Camera not found! Please add camera to your scene with a camera manager script attached.");
 		 
@@ -210,20 +218,37 @@ public partial class I_GraphNode : CharacterBody2D
 
 	public void CheckTimer(float length)
 	{
-		if (!questDuration.IsStopped())
+		if (!_questDuration.IsStopped())
 		{
-			GD.Print($"Timer is running. Time left: {questDuration.TimeLeft:F2} seconds" );
+			GD.Print($"Timer is running. Time left: {_questDuration.TimeLeft:F2} seconds" );
 		}
 		else 
 		{
 			GD.Print("Timer not running - starting new timer");
-			questDuration.Start(length);
+			_questDuration.Start(length);
 		}
 	}
 
 	public void OnQuestDurationTimeout()
 	{
 		GD.Print("Timer finished");
+	}
+
+	public bool IsInsideSelectionBox(Rect2 box)
+	{
+		return box.HasPoint(_cam.Position);
+	}
+
+	public void Select()
+	{
+		// selector.Show(); if there is a selector
+		AddToGroup("selected_units");
+	}
+
+	public void Deselect()
+	{
+		// selector.Hide();
+		RemoveFromGroup("selected_units");
 	}
 
 	public void _on_area_2d_mouse_entered()
