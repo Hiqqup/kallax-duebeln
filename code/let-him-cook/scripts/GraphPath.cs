@@ -47,7 +47,7 @@ public partial class GraphPath : Node2D
     public override void _Ready()
     {
         Length = 3;
-        Speed = 1;
+        Speed = 200;
     }
 
     public void Transport(ProductionResource input)
@@ -55,16 +55,27 @@ public partial class GraphPath : Node2D
         TransportedItem = input;
         Active = true;
         Progress = 0;
-        //GD.Print(this.Name + ": Started Transport of " + TransportedItem);
     }
 
     private void UpdateLine()
     {
-        _line.SetPoints(new []{ParentNode.Position, ChildNode.Position});
-        var pathVector = ChildNode.Position - ParentNode.Position;
-        _collisionShape.Position = ParentNode.Position + pathVector / 2;
+        var startPos = ParentNode.Position;
+        var endPos = ChildNode.Position;
+        var direction = (endPos - startPos).Normalized();
+        
+        float radius = 100;
+        
+        startPos = ParentNode.Position + (direction * radius);
+        endPos = ChildNode.Position - (direction * radius);
+        
+        
+        _line.SetPoints(new []{startPos, endPos});
+        var pathVector = startPos - endPos;
+        _collisionShape.Position = startPos + pathVector / 2;
         _collisionShape.Scale = new(pathVector.Length() - 160, 1f);
         _collisionShape.Rotation = pathVector.Angle();
+        
+        Length = startPos.DistanceTo(endPos);
     }
     
     // Called every frame. 'delta' is the elapsed time since the previous frame.
