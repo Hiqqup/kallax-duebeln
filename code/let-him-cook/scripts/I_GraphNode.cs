@@ -46,6 +46,7 @@ public partial class I_GraphNode : CharacterBody2D
 	private static I_GraphNode _pathOrigin;
 	private static I_GraphNode _lastHovered;
 	private CollisionShape2D  _collisionShape2D;
+	private Sprite2D _fillSprite2D;
 	private Label _statusLabel;
 	
 	private Timer _questDuration;
@@ -61,7 +62,8 @@ public partial class I_GraphNode : CharacterBody2D
 		_statusLabel = GetNode<Label>("StatusLabel");
 		// Initialize the input inventory from the Input array
 		_inputInventory = new SystemDictionary();
-		
+		_fillSprite2D = GetNode<Sprite2D>("Fill");
+
 		DetectNodeType();
 
 		if (_nodeType == NodeType.Producer || _nodeType == NodeType.Factory)
@@ -182,7 +184,11 @@ public partial class I_GraphNode : CharacterBody2D
 	public void ProduceOutput()
 	{
 		if (Output == null || Output.Count == 0 || Output[0].Resource == ProductionResource.None) return;
-		
+
+		var scale = (float)_producedResourceBuffer.Amount / 2 / Output[0].Amount;
+		GD.Print("scale " + scale);
+		_fillSprite2D.Scale = new Vector2(scale, scale);
+
 		_producedResourceBuffer.Resource = Output[0].Resource;
 		if (_nodeType == NodeType.Producer)
 			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + 1, 0, Output[0].Amount * 2);
@@ -203,7 +209,7 @@ public partial class I_GraphNode : CharacterBody2D
 	{
 		return _inputInventory.Values.All(count => count <= 0);
 	}
-	
+
 	public void ReceiveInput(ProductionResource input)
 	{
 		//GD.Print(input.ToString() + " received");
