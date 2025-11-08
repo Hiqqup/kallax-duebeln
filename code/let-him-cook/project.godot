@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="LetHimCook"
-run/main_scene="uid://df3fscr3rm5ha"
+run/main_scene="uid://vywow137nbyf"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
