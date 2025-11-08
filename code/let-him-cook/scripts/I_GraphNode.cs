@@ -10,11 +10,11 @@ using SystemDictionary = System.Collections.Generic.Dictionary<ProductionResourc
 public partial class I_GraphNode : CharacterBody2D
 {
 	[Export] public Array<GraphPath> Paths { get; private set; } = [];
-	
+
 	[Export]
 	//Input
 	public Array<ResourceAmount> Recource_Input { get; set; } = new Array<ResourceAmount>(); //max
-	
+
 	private SystemDictionary _inputInventory; //buffer
 	[Export]
 	//Output
@@ -22,14 +22,14 @@ public partial class I_GraphNode : CharacterBody2D
 	private ResourceAmount _producedResourceBuffer = new ResourceAmount(); //buffer
 
 	// Internal dictionary for easy access - maps resource to required amount
-	
+
 
 	public delegate void InputSatisfiedHandler();
 	public event InputSatisfiedHandler OnInputSatisfied;
 
 	private NodeType _nodeType = NodeType.None;
-	
-	
+
+
 	private Queue<GraphPath> _pathQueue = new Queue<GraphPath>();
 	/**
 	 * Should only be used by producer
@@ -45,58 +45,60 @@ public partial class I_GraphNode : CharacterBody2D
 	private static PathPreview _preview;
 	private static I_GraphNode _pathOrigin;
 	private static I_GraphNode _lastHovered;
-	private CollisionShape2D  _collisionShape2D;
+	private CollisionShape2D _collisionShape2D;
+	private Sprite2D _fillSprite2D;
 	private Label _statusLabel;
-	
+
 	private Timer _questDuration;
 
 	private Camera2D _cam;
-	
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		 if (false) // type == consumer
-		 {
-			 _questDuration = new Timer();
-			 _questDuration.OneShot = true;
-			 AddChild(_questDuration);
-			 
-			 _questDuration.Timeout += OnQuestDurationTimeout;
-		 }
+		if (false) // type == consumer
+		{
+			_questDuration = new Timer();
+			_questDuration.OneShot = true;
+			AddChild(_questDuration);
 
-		 if (true) // type == producer
-		 {
-			 _cam = GetViewport().GetCamera2D();
-			 // selector.Hide(); if there is a visible selector
-		 } 
-		 
-		 if (GetViewport().GetCamera2D() == null) GD.PrintErr("Camera not found! Please add camera to your scene with a camera manager script attached.");
-		 
+			_questDuration.Timeout += OnQuestDurationTimeout;
+		}
+
+		if (true) // type == producer
+		{
+			_cam = GetViewport().GetCamera2D();
+			// selector.Hide(); if there is a visible selector
+		}
+
+		if (GetViewport().GetCamera2D() == null) GD.PrintErr("Camera not found! Please add camera to your scene with a camera manager script attached.");
+
 		_collisionShape2D = GetNode<CollisionShape2D>("CollisionShape2D");
 		_statusLabel = GetNode<Label>("StatusLabel");
 		// Initialize the input inventory from the Input array
 		_inputInventory = new SystemDictionary();
-		
+		_fillSprite2D = GetNode<Sprite2D>("Fill");
+
 		DetectNodeType();
 		ResetInputInventory();
-		
+
 		if (Recource_Input == null || Recource_Input.Count == 0)
 		{
 			GD.Print("This node is a root node " + this.Name);
 			ProduceOutput();
 		}
-		
+
 		if (Paths != null)
 		{
 			foreach (var graphPaths in Paths)
 			{
 				if (graphPaths == null) continue;
 				graphPaths.ParentNode = this;
-				
+
 				PathFinished(graphPaths);
 			}
 		}
-		
+
 		if (_nodeType == NodeType.Producer)
 		{
 			AddChild(_resourceProductionTimer);
@@ -128,11 +130,13 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			return;
 		}
-		
+
 		var path = _pathQueue.Dequeue();
 		path.Transport(_producedResourceBuffer.Resource);
 		_producedResourceBuffer.Amount--;
 		//GD.Print(path.Name + " started transporting " + _producedResourceBuffer.Resource.ToString());
+
+
 	}
 
 	private void DetectNodeType()
@@ -160,17 +164,17 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			_nodeType = NodeType.None;
 		}
-		GD.Print("Node \"" + this.Name + "\" is a " +  _nodeType.ToString());
+		GD.Print("Node \"" + this.Name + "\" is a " + _nodeType.ToString());
 	}
 
 	private void ResetInputInventory()
 	{
 		if (Recource_Input == null || Recource_Input.Count <= 0) return;
-		
+
 		foreach (var resourceAmount in Recource_Input)
 		{
 			if (resourceAmount?.Resource == null || resourceAmount.Resource == ProductionResource.None || resourceAmount.Amount <= 0) continue;
-			
+
 			_inputInventory[resourceAmount.Resource] = resourceAmount.Amount;
 			//GD.Print("Input: " + resourceAmount.Resource + " " + resourceAmount.Amount + "x");
 		}
@@ -181,11 +185,18 @@ public partial class I_GraphNode : CharacterBody2D
 	public void ProduceOutput()
 	{
 		if (Output == null || Output.Count == 0 || Output[0].Resource == ProductionResource.None) return;
-		
+
+		var scale = (float)_producedResourceBuffer.Amount / 2 / Output[0].Amount;
+		GD.Print("scale " + scale);
+		_fillSprite2D.Scale = new Vector2(scale, scale);
+
 		_producedResourceBuffer.Resource = Output[0].Resource;
 		_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + Output[0].Amount, 0, Output[0].Amount * 2);
+
 		//GD.Print($"Produced resource: {_producedResourceBuffer.Resource}, stored amount: {_producedResourceBuffer.Amount}");
-		
+		//
+
+
 		if (_producedResourceBuffer.Amount > 0)
 		{
 			TryConsumeResource();
@@ -199,7 +210,7 @@ public partial class I_GraphNode : CharacterBody2D
 	{
 		return _inputInventory.Values.All(count => count <= 0);
 	}
-	
+
 	public void ReceiveInput(ProductionResource input)
 	{
 		//GD.Print(input.ToString() + " received");
@@ -209,7 +220,7 @@ public partial class I_GraphNode : CharacterBody2D
 			if (IsInputSatisfied())
 			{
 				OnInputSatisfied?.Invoke();
-				
+
 				ResetInputInventory();
 				ProduceOutput();
 			}
@@ -220,9 +231,9 @@ public partial class I_GraphNode : CharacterBody2D
 	{
 		if (!_questDuration.IsStopped())
 		{
-			GD.Print($"Timer is running. Time left: {_questDuration.TimeLeft:F2} seconds" );
+			GD.Print($"Timer is running. Time left: {_questDuration.TimeLeft:F2} seconds");
 		}
-		else 
+		else
 		{
 			GD.Print("Timer not running - starting new timer");
 			_questDuration.Start(length);
@@ -277,7 +288,7 @@ public partial class I_GraphNode : CharacterBody2D
 				if (mouseEvent.Pressed)
 				{
 					_mouseOffset = Position - GetViewport().GetCamera2D().GetGlobalMousePosition();
-					FollowMouse =  true;
+					FollowMouse = true;
 				}
 				else
 				{
@@ -339,7 +350,7 @@ public partial class I_GraphNode : CharacterBody2D
 	{
 		return Math.Clamp(resource.Amount - _inputInventory[resource.Resource], 0, resource.Amount);
 	}
-	
+
 	private void UpdateLabel()
 	{
 		string text = "";
@@ -399,7 +410,7 @@ public partial class I_GraphNode : CharacterBody2D
 		}
 		return true;
 	}
-	
+
 	public override void _PhysicsProcess(double delta)
 	{
 		if (FollowMouse)
@@ -412,6 +423,6 @@ public partial class I_GraphNode : CharacterBody2D
 			MoveAndCollide(Vector2.Zero);
 		}
 	}
-	
-	
+
+
 }
