@@ -183,7 +183,10 @@ public partial class I_GraphNode : CharacterBody2D
 		if (Output == null || Output.Count == 0 || Output[0].Resource == ProductionResource.None) return;
 		
 		_producedResourceBuffer.Resource = Output[0].Resource;
-		_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + 1, 0, Output[0].Amount * 2);
+		if (_nodeType == NodeType.Producer)
+			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + 1, 0, Output[0].Amount * 2);
+		if (_nodeType == NodeType.Factory)
+			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + Output[0].Amount, 0, Output[0].Amount * 2);
 		//GD.Print($"Produced resource: {_producedResourceBuffer.Resource}, stored amount: {_producedResourceBuffer.Amount}");
 		
 		if (_producedResourceBuffer.Amount > 0)
