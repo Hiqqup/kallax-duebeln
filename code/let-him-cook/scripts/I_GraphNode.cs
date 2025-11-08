@@ -310,6 +310,11 @@ public partial class I_GraphNode : CharacterBody2D
 		UpdateLabel();
 	}
 
+	private int GetInputResourceCount(ResourceAmount resource)
+	{
+		return Math.Clamp(resource.Amount - _inputInventory[resource.Resource], 0, resource.Amount);
+	}
+	
 	private void UpdateLabel()
 	{
 		string text = "";
@@ -318,7 +323,7 @@ public partial class I_GraphNode : CharacterBody2D
 			text += "IN: ";
 			foreach (var re in Recource_Input)
 			{
-				text += $"{re.Resource.ToString()}: {_inputInventory[re.Resource] - re.Amount}/{re.Amount}";
+				text += $"{re.Resource.ToString()}: {GetInputResourceCount(re)}/{re.Amount}";
 			}
 		}
 

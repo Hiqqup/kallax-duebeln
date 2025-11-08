@@ -1,15 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://3k5fr8ftc4y7"]
+[gd_scene load_steps=3 format=3 uid="uid://3k5fr8ftc4y7"]
 
 [ext_resource type="Script" uid="uid://trd1yst8og8r" path="res://scripts/PathPreview.cs" id="1_8p5yf"]
+[ext_resource type="Texture2D" uid="uid://cmxfxqni6ieha" path="res://assets/svg/online_dot.svg" id="2_wqr6m"]
 
-[node name="PathPreview" type="Node2D" node_paths=PackedStringArray("_line")]
+[node name="PathPreview" type="Node2D" node_paths=PackedStringArray("_line", "_dot")]
 script = ExtResource("1_8p5yf")
 _line = NodePath("Line2D")
+_dot = NodePath("Sprite2D")
 
 [node name="Line2D" type="Line2D" parent="."]
 z_index = -1
+points = PackedVector2Array(110, 73, 261, 101)
 width = 2.0
 default_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_wqr6m")

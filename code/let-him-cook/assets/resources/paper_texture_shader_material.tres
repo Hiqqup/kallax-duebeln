@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://b8mwcr8b5hsgi"]
 
-[ext_resource type="Shader" uid="uid://ciaepdir5bad7" path="res://scenes/graph_nodes/white_pixle_paper_shader.gdshader" id="1_lej2q"]
+[ext_resource type="Shader" path="res://scenes/graph_nodes/white_pixle_paper_shader.gdshader" id="1_lej2q"]
 [ext_resource type="Texture2D" uid="uid://m73e8k63ac3x" path="res://assets/titlescreen/papertexture.png" id="2_3dtqk"]
 
 [resource]
