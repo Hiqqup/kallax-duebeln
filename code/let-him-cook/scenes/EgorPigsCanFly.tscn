@@ -26,8 +26,8 @@ position = Vector2(538, 1334)
 [node name="Producer2" parent="." instance=ExtResource("5_4ocj8")]
 position = Vector2(581, 1647)
 
-[node name="UnitSelector" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
+[node name="UnitSelector" type="Node2D" parent="."]
 script = ExtResource("4_vsfi0")
-metadata/_edit_use_anchors_ = true
+
+[node name="Producer3" parent="." instance=ExtResource("5_4ocj8")]
+position = Vector2(673, 753)
