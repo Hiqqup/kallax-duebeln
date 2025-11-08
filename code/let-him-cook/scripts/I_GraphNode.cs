@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using global::LetHimCook.scripts.global;
 using Godot.Collections;
 using SystemDictionary = System.Collections.Generic.Dictionary<ProductionResource, int>;
 
@@ -28,6 +29,9 @@ public partial class I_GraphNode : CharacterBody2D
 	public bool Selected = false;
 	public bool FollowMouse = false;
 	private Vector2 _mouseOffset;
+	private bool _isConnecting = false;
+	private PathPreview _preview;
+	private I_GraphNode _lastHovered;
 	private CollisionShape2D  _collisionShape2D;
 	
 	// Called when the node enters the scene tree for the first time.
@@ -138,11 +142,16 @@ public partial class I_GraphNode : CharacterBody2D
 	public void _on_area_2d_mouse_entered()
 	{
 		MouseOver = true;
+		_lastHovered = this;
 	}
 
 	public void _on_area_2d_mouse_exited()
 	{
 		MouseOver = false;
+		if (_lastHovered == this)
+		{
+			_lastHovered = null;
+		}
 	}
 
 	public override void _Input(InputEvent @event)
@@ -162,7 +171,6 @@ public partial class I_GraphNode : CharacterBody2D
 				{
 					FollowMouse = false;
 				}
-				
 			}
 		}
 	}
@@ -174,6 +182,48 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			Position = GetViewport().GetMousePosition() + _mouseOffset;
 		}
+
+		if (Input.IsMouseButtonPressed(MouseButton.Right))
+		{
+			if (!_isConnecting && MouseOver)
+            {
+                //Start Connection
+                _isConnecting = true;
+                var previewScene = GD.Load<PackedScene>(PathLookup.PathPreviewPath);
+                var previewInstance = previewScene.Instantiate() as PathPreview;
+                AddChild(previewInstance);
+                _preview = previewInstance;
+                _preview!.Position = Vector2.Zero;
+            }
+			if (_preview != null)
+			{
+				_preview!.EndPosition = GetViewport().GetMousePosition();
+			}
+		}
+		else
+		{
+			if (_isConnecting)
+			{
+				//End Connection
+				_isConnecting = false;
+				//Try Connection
+				if (_lastHovered != null && _lastHovered != this)
+				{
+					AddConnection(_lastHovered);
+				}
+				//Destroy preview
+				_preview.QueueFree();
+				_preview = null;
+			}
+		}
+	}
+
+	private void AddConnection(I_GraphNode targetNode)
+	{
+		
+		
+		var pathScene = GD.Load<PackedScene>(PathLookup.PathScenePath);
+		
 	}
 	
 	public override void _PhysicsProcess(double delta)
