@@ -258,18 +258,18 @@ public partial class I_GraphNode : CharacterBody2D
 
 		if (Input.IsMouseButtonPressed(MouseButton.Right))
 		{
-			GD.Print(Name);
+			//GD.Print(Name);
 			if (!_isConnecting && MouseOver)
-            {
-                //Start Connection
-                _pathOrigin = this;
-                _isConnecting = true;
-                var previewScene = GD.Load<PackedScene>(PathLookup.PathPreviewPath);
-                var previewInstance = previewScene.Instantiate() as PathPreview;
-                AddChild(previewInstance);
-                _preview = previewInstance;
-                _preview!.Position = Vector2.Zero;
-            }
+			{
+				//Start Connection
+				_pathOrigin = this;
+				_isConnecting = true;
+				var previewScene = GD.Load<PackedScene>(PathLookup.PathPreviewPath);
+				var previewInstance = previewScene.Instantiate() as PathPreview;
+				AddChild(previewInstance);
+				_preview = previewInstance;
+				_preview!.Position = Vector2.Zero;
+			}
 			if (_preview != null)
 			{
 				_preview!.EndPosition = GetViewport().GetMousePosition();

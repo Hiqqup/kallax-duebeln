@@ -13,11 +13,11 @@ radius = 100.04499
 script = ExtResource("1_6r00q")
 Paths = [null, null]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-
 [node name="CircleOutline" type="Sprite2D" parent="."]
 scale = Vector2(0.9875, 0.9875)
 texture = ExtResource("2_dsmoq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
 
 [node name="Area2D" type="Area2D" parent="."]
 
