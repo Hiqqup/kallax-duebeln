@@ -1,12 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://27qxkb7s862q"]
+[gd_scene load_steps=6 format=3 uid="uid://27qxkb7s862q"]
 
 [ext_resource type="PackedScene" uid="uid://sy2xlku1ghrf" path="res://scenes/graph_nodes/consumer.tscn" id="1_buai3"]
+[ext_resource type="Script" uid="uid://bco38vskfst5" path="res://scripts/ResourceAmount.cs" id="2_l5aja"]
 [ext_resource type="PackedScene" uid="uid://dgn84hypmmi6h" path="res://scenes/graph_nodes/producer.tscn" id="2_okbg6"]
+
+[sub_resource type="Resource" id="Resource_okbg6"]
+script = ExtResource("2_l5aja")
+Resource = 2
+Amount = 2
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
+[sub_resource type="Resource" id="Resource_2q5ev"]
+script = ExtResource("2_l5aja")
+Resource = 2
+Amount = 53
+metadata/_custom_type_script = "uid://bco38vskfst5"
 
 [node name="MaxO" type="Node2D"]
 
 [node name="Consumer" parent="." instance=ExtResource("1_buai3")]
 position = Vector2(108, 156)
+Recource_Input = Array[ExtResource("2_l5aja")]([SubResource("Resource_okbg6")])
 
 [node name="Producer" parent="." instance=ExtResource("2_okbg6")]
 position = Vector2(351, 319)
+Output = Array[ExtResource("2_l5aja")]([SubResource("Resource_2q5ev")])
