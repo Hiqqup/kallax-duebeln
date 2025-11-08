@@ -11,5 +11,10 @@ public partial class AudioEmitterTest : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		//test audio
+		if (Input.IsKeyPressed(Key.K))
+		{
+			AudioManager.Instance.PlaySound2D(SOUND_EFFECT_TYPE.Test);
+		}
 	}
 }

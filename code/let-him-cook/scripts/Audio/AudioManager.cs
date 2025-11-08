@@ -1,31 +1,30 @@
 using System;
 using Godot;
 using Godot.Collections;
-using LetHimCook.scripts.Audio;
 
 public partial class AudioManager : Node2D
 {
-	private Dictionary<SOUND_EFFECT_TYPE, SoundEffect> soundEffectDict; // Loads all registered SoundEffects on ready as a reference.
+	 public static AudioManager Instance { get; private set; }
+		
+	[Export] private Dictionary<SOUND_EFFECT_TYPE, SoundEffect> soundEffectDict; // Loads all registered SoundEffects on ready as a reference.
 
 	[Export] private Array<SoundEffect> soundEffects; // Stores all possible SoundEffects that can be played
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		Instance = this;
+		GD.Print("AudioManager Initialized.");
 		foreach (var soundEffect in soundEffects)
 		{
-			soundEffectDict[soundEffect.Type] = soundEffect;
+			soundEffectDict.Add(soundEffect.Type, soundEffect);
 		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if (Input.IsKeyPressed(Key.K))
-		{
-			//test audio
-			PlaySound2D(SOUND_EFFECT_TYPE.Empty);
-		}
+		
 	}
 
 	/// <summary>
@@ -35,7 +34,6 @@ public partial class AudioManager : Node2D
 	/// <param name="type">The Sound effect to be played.</param>
 	public void PlaySound2D(Node2D parent, SOUND_EFFECT_TYPE type)
 	{
-		GD.Print("Playing 2d Sound effect");
 		if (!soundEffectDict.ContainsKey(type))
 		{
 			GD.PushWarning("Audio Manager failed to find setting for type ", type);
@@ -45,6 +43,7 @@ public partial class AudioManager : Node2D
 		SoundEffect sfx = soundEffectDict[type];
 		if (!sfx.hasOpenLimit())
 		{
+			//GD.PushWarning("Sound has reached limit, skipping.");
 			return;
 		}
 

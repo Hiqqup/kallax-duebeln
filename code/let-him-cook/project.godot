@@ -14,14 +14,21 @@ config/name="LetHimCook"
 run/main_scene="uid://vywow137nbyf"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+"<<<<<<<Updatedupstream[display]window/size/viewport_width"=1920
+window/size/viewport_height=1080
 
 [autoload]
 
+SpriteLookup="*res://scripts/global/SpriteLookup.cs"
 AudioManager="*res://scenes/AudioManager.tscn"
 
 [dotnet]
 
 project/assembly_name="LetHimCook"
+
+[filesystem]
+
+import/blender/enabled=false
 
 [input]
 

@@ -1,6 +1,4 @@
-﻿using Godot;
-
-namespace LetHimCook.scripts.Audio;
+using Godot;
 
 public enum SOUND_EFFECT_TYPE {
     Empty,
@@ -10,7 +8,7 @@ public partial class SoundEffect : Resource
 {
     
 
-    [Export(PropertyHint.Range, "0,20,")] public int Limit { get; set; } = 5;
+    [Export(PropertyHint.Range, "0,20,")] public int Limit { get; set; } = 0;
     [Export] public SOUND_EFFECT_TYPE Type;
     [Export] public AudioStreamMP3 AudioStreamMp3;
     [Export(PropertyHint.Range, "-40,20,")] public float Volume { get; set; } = 0;
@@ -29,6 +27,7 @@ public partial class SoundEffect : Resource
     //Checkes whether the audio limit is reached.
     public bool hasOpenLimit()
     {
+        if (Limit == 0) return true;
         return playingCount < Limit;
     }
 
