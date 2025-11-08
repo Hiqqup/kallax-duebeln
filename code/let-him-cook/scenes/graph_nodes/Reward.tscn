@@ -1,0 +1,59 @@
+[gd_scene load_steps=2 format=3 uid="uid://bslbr60mbps4w"]
+
+[ext_resource type="Script" uid="uid://bs0ctxm16vyma" path="res://scripts/Reward.cs" id="1_xx2rk"]
+
+[node name="Reward" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xx2rk")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -141.0
+offset_right = 179.0
+offset_bottom = 154.0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 47
+text = "Reward 1"
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -89.5
+offset_top = -147.5
+offset_right = 89.5
+offset_bottom = 147.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 47
+text = "Reward 2"
+
+[node name="Button3" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -179.0
+offset_top = -147.5
+offset_bottom = 147.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 47
+text = "Reward 3"
+
+[connection signal="pressed" from="Button" to="." method="RewardSelected0"]
+[connection signal="pressed" from="Button2" to="." method="RewardSelected1"]
+[connection signal="pressed" from="Button3" to="." method="RewardSelected2"]
