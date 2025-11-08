@@ -2,5 +2,12 @@
 
 [ext_resource type="Script" uid="uid://brcay7ncr11t" path="res://scripts/GraphPath.cs" id="1_1dods"]
 
-[node name="Path" type="Node2D"]
+[node name="Path" type="Node2D" node_paths=PackedStringArray("_line")]
 script = ExtResource("1_1dods")
+_line = NodePath("Line2D")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(417, 214, 694, 305)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
