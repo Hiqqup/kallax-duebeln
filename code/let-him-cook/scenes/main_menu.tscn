@@ -14,7 +14,7 @@ region = Rect2(159.82751, 698.4776, 871.65283, 1289.3779)
 atlas = ExtResource("4_wu84c")
 region = Rect2(2833.2676, 138.7261, 835.4497, 1812.9265)
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("CreditsLabel", "KallaxVideo")]
 z_index = -1
 layout_mode = 3
 anchors_preset = 15
@@ -24,6 +24,8 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ekxnf")
 script = ExtResource("1_l6cm7")
+CreditsLabel = NodePath("Credits")
+KallaxVideo = NodePath("KallaxVideo")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = ExtResource("3_8ln24")
@@ -36,7 +38,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.77254903, 0.76862746, 0.76862746, 1)
 
-[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+[node name="KallaxVideo" type="VideoStreamPlayer" parent="."]
 material = ExtResource("3_8ln24")
 layout_mode = 0
 offset_left = 478.0
@@ -52,10 +54,10 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 78.0
-offset_top = -337.0
-offset_right = 483.0
-offset_bottom = -97.0
+offset_left = 59.0
+offset_top = -413.0
+offset_right = 464.0
+offset_bottom = -37.0
 grow_vertical = 0
 theme_override_constants/separation = 32
 
@@ -67,12 +69,16 @@ text = "Start Game"
 layout_mode = 2
 text = "Close Game"
 
+[node name="Credits" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Credits"
+
 [node name="LeftGuy" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = 59.0
-offset_top = 23.0
-offset_right = 773.0
-offset_bottom = 708.0
+offset_left = 23.0
+offset_top = -41.0
+offset_right = 737.0
+offset_bottom = 644.0
 texture = SubResource("AtlasTexture_8ln24")
 expand_mode = 2
 stretch_mode = 4
@@ -87,5 +93,21 @@ texture = SubResource("AtlasTexture_rtw2f")
 expand_mode = 2
 stretch_mode = 4
 
+[node name="Credits" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 597.0
+offset_top = 62.0
+offset_right = 1504.0
+offset_bottom = 524.0
+theme_override_font_sizes/font_size = 50
+text = "                 Game by:
+-Egor \"LEVIXTHXN\" Simakov
+-Konstantin \"magerbeton\" Passig 
+-Marc \"Foolish Racoon\" Weingärtner
+-Max \"xXM_BXx\" Burckhard
+-Maximilian \"KatzenFisch\" Oberländer"
+
 [connection signal="pressed" from="VBoxContainer/Start" to="." method="StartGame"]
 [connection signal="pressed" from="VBoxContainer/Close" to="." method="ExitGame"]
+[connection signal="pressed" from="VBoxContainer/Credits" to="." method="ToggleCredits"]
