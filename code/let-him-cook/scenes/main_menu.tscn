@@ -1,9 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://785wfprvqtaw"]
+[gd_scene load_steps=7 format=3 uid="uid://785wfprvqtaw"]
 
-[ext_resource type="Theme" uid="uid://dtbtj70mdjsff" path="res://assets/resources/main_gui_theme.tres" id="1_ekxnf"]
+[ext_resource type="Theme" uid="uid://b8by5uv0gw361" path="res://assets/resources/main_gui_theme.tres" id="1_ekxnf"]
 [ext_resource type="Script" uid="uid://cygyvnlrqc4lm" path="res://scripts/MainMenu.cs" id="1_l6cm7"]
+[ext_resource type="VideoStream" uid="uid://blt2poic40in3" path="res://assets/parts/output.ogv" id="3_bqqt6"]
+[ext_resource type="Texture2D" uid="uid://o3hv6scytafy" path="res://assets/titlescreen/cartoonGuy.png" id="4_wu84c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ln24"]
+atlas = ExtResource("4_wu84c")
+region = Rect2(159.82751, 698.4776, 871.65283, 1289.3779)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rtw2f"]
+atlas = ExtResource("4_wu84c")
+region = Rect2(2833.2676, 138.7261, 835.4497, 1812.9265)
 
 [node name="MainMenu" type="Control"]
+z_index = -1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,19 +24,26 @@ grow_vertical = 2
 theme = ExtResource("1_ekxnf")
 script = ExtResource("1_l6cm7")
 
+[node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+layout_mode = 0
+offset_left = 477.0
+offset_top = 3.0
+offset_right = 1557.0
+offset_bottom = 1083.0
+stream = ExtResource("3_bqqt6")
+autoplay = true
+loop = true
+
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -49.5
-offset_top = -33.0
-offset_right = 49.5
-offset_bottom = 33.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 78.0
+offset_top = -337.0
+offset_right = 483.0
+offset_bottom = -97.0
+grow_vertical = 0
 theme_override_constants/separation = 32
 
 [node name="Start" type="Button" parent="VBoxContainer"]
@@ -35,6 +53,26 @@ text = "Start Game"
 [node name="Close" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Close Game"
+
+[node name="LeftGuy" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 59.0
+offset_top = 23.0
+offset_right = 773.0
+offset_bottom = 708.0
+texture = SubResource("AtlasTexture_8ln24")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="RightGuy" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 1522.0
+offset_top = 118.0
+offset_right = 2548.0
+offset_bottom = 1008.0
+texture = SubResource("AtlasTexture_rtw2f")
+expand_mode = 2
+stretch_mode = 4
 
 [connection signal="pressed" from="VBoxContainer/Start" to="." method="StartGame"]
 [connection signal="pressed" from="VBoxContainer/Close" to="." method="ExitGame"]
