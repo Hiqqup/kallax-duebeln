@@ -20,7 +20,7 @@ window/size/viewport_height=1080
 [autoload]
 
 SpriteLookup="*res://scripts/global/SpriteLookup.cs"
-AudioManager="*res://scenes/AudioManager.tscn"
+AudioManager="*res://scenes/audio/AudioManager.tscn"
 
 [dotnet]
 
