@@ -21,6 +21,10 @@ window/size/viewport_height=1080
 
 SpriteLookup="*res://scripts/global/SpriteLookup.cs"
 
+[autoload]
+
+SpriteLookup="*res://scripts/global/SpriteLookup.cs"
+
 [dotnet]
 
 project/assembly_name="LetHimCook"
