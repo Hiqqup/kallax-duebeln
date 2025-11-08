@@ -1,4 +1,5 @@
-﻿public enum ProductionResource
+﻿using Godot.Collections;
+public enum ProductionResource
 {
     None = 0,
     A = 1,

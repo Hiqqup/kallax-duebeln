@@ -186,7 +186,6 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			_collisionShape2D.Disabled = false;
 			MoveAndCollide(Vector2.Zero);
-			
 		}
 	}
 }
