@@ -1,3 +1,15 @@
-[gd_scene format=3 uid="uid://6lw2vvynurdl"]
+[gd_scene load_steps=3 format=3 uid="uid://df3fscr3rm5ha"]
+
+[ext_resource type="Texture2D" uid="uid://c6ijbhtc6hjtp" path="res://assets/placeholder/breathtaking_illustration_of_s.jpeg" id="1_1wtp1"]
+[ext_resource type="Script" uid="uid://do0xs6j1lh1m0" path="res://scripts/CameraController.cs" id="2_4p2lb"]
 
 [node name="EgorPigsCanFly" type="Node2D"]
+
+[node name="background" type="Sprite2D" parent="."]
+position = Vector2(1213, 1034.5)
+scale = Vector2(4.71875, 4.048828)
+texture = ExtResource("1_1wtp1")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(591, 342)
+script = ExtResource("2_4p2lb")
