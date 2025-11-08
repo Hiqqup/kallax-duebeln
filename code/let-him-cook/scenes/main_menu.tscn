@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://785wfprvqtaw"]
+[gd_scene load_steps=8 format=3 uid="uid://785wfprvqtaw"]
 
 [ext_resource type="Theme" uid="uid://b8by5uv0gw361" path="res://assets/resources/main_gui_theme.tres" id="1_ekxnf"]
 [ext_resource type="Script" uid="uid://cygyvnlrqc4lm" path="res://scripts/MainMenu.cs" id="1_l6cm7"]
+[ext_resource type="Material" uid="uid://b8mwcr8b5hsgi" path="res://assets/resources/paper_texture_shader_material.tres" id="3_8ln24"]
 [ext_resource type="VideoStream" uid="uid://blt2poic40in3" path="res://assets/parts/output.ogv" id="3_bqqt6"]
 [ext_resource type="Texture2D" uid="uid://o3hv6scytafy" path="res://assets/titlescreen/cartoonGuy.png" id="4_wu84c"]
 
@@ -24,11 +25,23 @@ grow_vertical = 2
 theme = ExtResource("1_ekxnf")
 script = ExtResource("1_l6cm7")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+material = ExtResource("3_8ln24")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.77254903, 0.76862746, 0.76862746, 1)
+
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="."]
+material = ExtResource("3_8ln24")
 layout_mode = 0
-offset_left = 477.0
+offset_left = 478.0
 offset_top = 3.0
-offset_right = 1557.0
+offset_right = 1558.0
 offset_bottom = 1083.0
 stream = ExtResource("3_bqqt6")
 autoplay = true
