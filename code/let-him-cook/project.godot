@@ -14,11 +14,9 @@ config/name="LetHimCook"
 run/main_scene="uid://vywow137nbyf"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="res://icon.svg"
-
-[display]
-
-window/size/viewport_width=1920
+"<<<<<<<Updatedupstream[display]window/size/viewport_width"=1920
 window/size/viewport_height=1080
+
 [autoload]
 
 SpriteLookup="*res://scripts/global/SpriteLookup.cs"
@@ -26,6 +24,10 @@ SpriteLookup="*res://scripts/global/SpriteLookup.cs"
 [dotnet]
 
 project/assembly_name="LetHimCook"
+
+[filesystem]
+
+import/blender/enabled=false
 
 [input]
 
@@ -64,7 +66,3 @@ camera_pan={
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":3,"canceled":false,"pressed":false,"double_click":false,"script":null)
 ]
 }
-
-[rendering]
-
-environment/defaults/default_clear_color=Color(0.77254903, 0.77254903, 0.76862746, 1)
