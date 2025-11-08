@@ -27,9 +27,20 @@ public partial class I_GraphNode : Node2D
 	public bool FollowMouse = false;
 	private Vector2 _mouseOffset;
 	
+	private Timer questDuration;
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		 if (false)
+		 {
+			 questDuration = new Timer();
+			 questDuration.OneShot = true;
+			 AddChild(questDuration);
+			 
+			 questDuration.Timeout += OnQuestDurationTimeout;
+		 }
+		 
 		// Initialize the input inventory from the Input array
 		_inputInventory = new SystemDictionary();
 		
@@ -97,6 +108,24 @@ public partial class I_GraphNode : Node2D
 				ResetInputInventory();
 			}
 		}
+	}
+
+	public void CheckTimer(float length)
+	{
+		if (!questDuration.IsStopped())
+		{
+			GD.Print($"Timer is running. Time left: {questDuration.TimeLeft:F2} seconds" );
+		}
+		else 
+		{
+			GD.Print("Timer not running - starting new timer");
+			questDuration.Start(length);
+		}
+	}
+
+	public void OnQuestDurationTimeout()
+	{
+		GD.Print("Timer finished");
 	}
 
 	public void _on_area_2d_mouse_entered()
