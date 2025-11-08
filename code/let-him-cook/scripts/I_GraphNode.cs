@@ -13,19 +13,24 @@ public partial class I_GraphNode : CharacterBody2D
 	public Array<GraphPath> Paths { get; set; }
 	
 	[Export]
-	public Array<ResourceAmount> Recource_Input { get; set; } = new Array<ResourceAmount>();
+	//Input
+	public Array<ResourceAmount> Recource_Input { get; set; } = new Array<ResourceAmount>(); //max
+	
+	private SystemDictionary _inputInventory; //buffer
+	[Export]
+	//Output
+	public Array<ResourceAmount> Output { get; set; } = new Array<ResourceAmount>(); //max
+	private ResourceAmount _producedResourceBuffer = new ResourceAmount(); //buffer
 
 	// Internal dictionary for easy access - maps resource to required amount
-	private SystemDictionary _inputInventory;
-	[Export] 
-	public Array<ResourceAmount> Output { get; set; } = new Array<ResourceAmount>();
+	
 
 	public delegate void InputSatisfiedHandler();
 	public event InputSatisfiedHandler OnInputSatisfied;
 
 	private NodeType _nodeType = NodeType.None;
 	
-	private ResourceAmount _producedResourceBuffer = new ResourceAmount();
+	
 	private Queue<GraphPath> _pathQueue = new Queue<GraphPath>();
 	/**
 	 * Should only be used by producer
@@ -41,11 +46,13 @@ public partial class I_GraphNode : CharacterBody2D
 	private PathPreview _preview;
 	private I_GraphNode _lastHovered;
 	private CollisionShape2D  _collisionShape2D;
+	private Label _statusLabel;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		_collisionShape2D = GetNode<CollisionShape2D>("CollisionShape2D");
+		_statusLabel = GetNode<Label>("StatusLabel");
 		// Initialize the input inventory from the Input array
 		_inputInventory = new SystemDictionary();
 		
@@ -107,27 +114,28 @@ public partial class I_GraphNode : CharacterBody2D
 	{
 		bool hasInput = Recource_Input is { Count: > 0 };
 		bool hasOutput = Output != null && Output.Count > 0 && Output[0].Resource != ProductionResource.None;
-
 		if (hasInput && hasOutput)
 		{
 			//GD.Print("Node " + this.Name + " is a Factory");
 			_nodeType = NodeType.Factory;
-			return;
 		}
 
-		if (hasInput)
+		else if (hasInput)
 		{
 			//GD.Print("Node \"" + this.Name + "\" is a Consumer");
 			_nodeType = NodeType.Consumer;
-			return;
 		}
 
-		if (hasOutput)
+		else if (hasOutput)
 		{
 			//GD.Print("Node \"" + this.Name + "\" is a Producer");
 			_nodeType = NodeType.Producer;
-			return;
 		}
+		else
+		{
+			_nodeType = NodeType.None;
+		}
+		GD.Print("Node \"" + this.Name + "\" is a " +  _nodeType.ToString());
 	}
 
 	private void ResetInputInventory()
@@ -260,6 +268,28 @@ public partial class I_GraphNode : CharacterBody2D
 				_preview = null;
 			}
 		}
+
+		UpdateLabel();
+	}
+
+	private void UpdateLabel()
+	{
+		string text = "";
+		if (_nodeType.Equals(NodeType.Consumer) || _nodeType.Equals(NodeType.Factory))
+		{
+			text += "IN: ";
+			foreach (var re in Recource_Input)
+			{
+				text += $"{re.Resource.ToString()}: {_inputInventory[re.Resource] - re.Amount}/{re.Amount}";
+			}
+		}
+
+		if (_nodeType.Equals(NodeType.Producer) || _nodeType.Equals(NodeType.Factory))
+		{
+			text += "\nOUT: ";
+			text += $"{Output[0].Resource.ToString()}: {_producedResourceBuffer.Amount}/{Output[0].Amount}";
+		}
+		_statusLabel.Text = text;
 	}
 
 	private void AddConnection(I_GraphNode targetNode)
