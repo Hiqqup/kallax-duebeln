@@ -1,3 +1,27 @@
-[gd_scene format=3 uid="uid://df2at473yqewo"]
+[gd_scene load_steps=6 format=3 uid="uid://df2at473yqewo"]
+
+[ext_resource type="PackedScene" uid="uid://dsyi8dy5hr8ro" path="res://scenes/path.tscn" id="1_tx7of"]
+[ext_resource type="PackedScene" uid="uid://dgn84hypmmi6h" path="res://scenes/graph_nodes/producer.tscn" id="2_8w4ag"]
+[ext_resource type="Script" uid="uid://q3ca6au1bu7q" path="res://scripts/ResourceAmount.cs" id="3_8w4ag"]
+[ext_resource type="PackedScene" uid="uid://sy2xlku1ghrf" path="res://scenes/graph_nodes/consumer.tscn" id="3_foijs"]
+
+[sub_resource type="Resource" id="Resource_8w4ag"]
+script = ExtResource("3_8w4ag")
+Resource = 2
+Amount = 4
+metadata/_custom_type_script = "uid://q3ca6au1bu7q"
 
 [node name="Konsti" type="Node2D"]
+
+[node name="Producer" parent="." node_paths=PackedStringArray("Paths") instance=ExtResource("2_8w4ag")]
+position = Vector2(26, 40)
+Paths = [NodePath("../Path")]
+Output = 2
+
+[node name="Path" parent="." node_paths=PackedStringArray("ChildNode") instance=ExtResource("1_tx7of")]
+position = Vector2(76, 96)
+ChildNode = NodePath("../Consumer")
+
+[node name="Consumer" parent="." instance=ExtResource("3_foijs")]
+position = Vector2(129, 134)
+Input = Array[ExtResource("3_8w4ag")]([SubResource("Resource_8w4ag")])

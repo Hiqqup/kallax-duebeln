@@ -1,6 +1,4 @@
-﻿namespace LetHimCook.scripts;
-
-public enum ProductionResource
+﻿public enum ProductionResource
 {
     None = 0,
     A = 1,
