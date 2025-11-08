@@ -63,7 +63,7 @@ public partial class GraphPath : Node2D
         _line.SetPoints(new []{ParentNode.Position, ChildNode.Position});
         var pathVector = ChildNode.Position - ParentNode.Position;
         _collisionShape.Position = ParentNode.Position + pathVector / 2;
-        _collisionShape.Scale = new(pathVector.Length() - 160, 1f);
+        _collisionShape.Scale = new(pathVector.Length() - Constants.NodeDiameter, 1f);
         _collisionShape.Rotation = pathVector.Angle();
     }
     
