@@ -5,7 +5,7 @@ using System.Linq;
 using Godot.Collections;
 using SystemDictionary = System.Collections.Generic.Dictionary<ProductionResource, int>;
 
-public partial class I_GraphNode : Node2D
+public partial class I_GraphNode : CharacterBody2D
 {
 	[Export]
 	public Array<GraphPath> Paths { get; set; }
@@ -137,6 +137,14 @@ public partial class I_GraphNode : Node2D
 		if (FollowMouse)
 		{
 			Position = GetViewport().GetMousePosition() + _mouseOffset;
+		}
+	}
+	
+	public override void _PhysicsProcess(double delta)
+	{
+		if(!FollowMouse)
+		{
+			MoveAndCollide(Vector2.Zero);
 		}
 	}
 }
