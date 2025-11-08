@@ -1,3 +1,20 @@
-[gd_scene format=3 uid="uid://dww4hmu86853q"]
+[gd_scene load_steps=3 format=3 uid="uid://dww4hmu86853q"]
+
+[ext_resource type="Script" uid="uid://mkput3y4o21v" path="res://scripts/Audio/AudioSystem.cs" id="1_8f7yy"]
+[ext_resource type="Script" uid="uid://d1a5ihxv8iy3v" path="res://scripts/Audio/AudioEmitterTest.cs" id="2_wtpq4"]
 
 [node name="Marc" type="Node2D"]
+
+[node name="AudioSystem" type="Node" parent="."]
+script = ExtResource("1_8f7yy")
+
+[node name="SfxListener" type="Node" parent="AudioSystem"]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="AudioSystem/SfxListener"]
+
+[node name="SfxEmitter" type="Node" parent="AudioSystem"]
+script = ExtResource("2_wtpq4")
+
+[node name="Bgm" type="Node" parent="AudioSystem"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="AudioSystem/Bgm"]
