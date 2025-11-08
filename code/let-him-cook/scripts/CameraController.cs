@@ -4,8 +4,14 @@ using System;
 public partial class CameraController : Camera2D
 {
 
-	private Vector2 _zoomTarget;
+	[Export] private float _moveSpeed = 5.0f;
 	[Export] private float _zoomSpeed = 10.0f;
+	
+	private Vector2 _zoomTarget;
+	
+	private bool _isDragging = false;
+	private Vector2 _dragStartMousePos = Vector2.Zero;
+	private Vector2 _dragStartCameraPos = Vector2.Zero;
 	
 	// Unity start
 	public override void _Ready()
@@ -17,7 +23,7 @@ public partial class CameraController : Camera2D
 	public override void _Process(double delta)
 	{
 		Zoomy(delta);
-		SimplePan();
+		SimplePan(delta);
 		ClickAndDrag();
 	}
 
@@ -38,16 +44,63 @@ public partial class CameraController : Camera2D
 		Zoom = Zoom.Slerp(_zoomTarget, (float)(_zoomSpeed * delta));
 	}
 
-	private void SimplePan()
+	private void SimplePan(double delta)
 	{
-		if (Input.IsActionJustPressed("camera_up"))
+		Vector2 moveDirection =  Vector2.Zero;
+		
+		if (Input.IsActionPressed("camera_move_up"))
 		{
+			GD.Print("Move up");
+			moveDirection.Y -= 1.0f;
+		}
+		
+		if (Input.IsActionPressed("camera_move_down"))
+		{
+			GD.Print("Move down");
+			moveDirection.Y += 1.0f;
+		}
+		
+		if (Input.IsActionPressed("camera_move_right"))
+		{
+			GD.Print("Move right");
+			moveDirection.X += 1.0f;
+		}
+		
+		if (Input.IsActionPressed("camera_move_left"))
+		{
+			GD.Print("Move left");
+			moveDirection.X -= 1.0f;
 			
 		}
+
+		if (moveDirection != Vector2.Zero)
+		{
+			moveDirection = moveDirection.Normalized();
+			Position += moveDirection * _moveSpeed * (float)delta * (1/Zoom.X);
+		}
+		
 	}
 
 	private void ClickAndDrag()
 	{
 		
+		
+		if (!_isDragging && Input.IsActionJustPressed("camera_pan"))
+		{
+			_isDragging = true;
+			_dragStartMousePos = GetViewport().GetMousePosition();
+			_dragStartCameraPos = Position;
+		}
+
+		if (_isDragging && Input.IsActionJustReleased("camera_pan"))
+		{
+			_isDragging = false;
+		}
+
+		if (_isDragging)
+		{
+			Vector2 moveVector = GetViewport().GetMousePosition() - _dragStartMousePos;
+			Position = _dragStartCameraPos - moveVector * (1/Zoom.X);
+		}
 	}
 }

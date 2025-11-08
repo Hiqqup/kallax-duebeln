@@ -1,6 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://dsyi8dy5hr8ro"]
+[gd_scene load_steps=3 format=3 uid="uid://dsyi8dy5hr8ro"]
 
 [ext_resource type="Script" uid="uid://brcay7ncr11t" path="res://scripts/GraphPath.cs" id="1_1dods"]
 
-[node name="Path" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1dods"]
+size = Vector2(1, 10)
+
+[node name="Path" type="Node2D" node_paths=PackedStringArray("_line", "_collisionShape")]
 script = ExtResource("1_1dods")
+_line = NodePath("Line2D")
+_collisionShape = NodePath("Area2D/CollisionShape2D")
+
+[node name="Line2D" type="Line2D" parent="."]
+points = PackedVector2Array(379, 171, 695, 103)
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_1dods")
