@@ -11,12 +11,15 @@ position = Vector2(534, 361)
 ChildNode = NodePath("../ConsumerA")
 
 [node name="Producer" parent="." node_paths=PackedStringArray("Paths") instance=ExtResource("2_iyx0m")]
+position = Vector2(304, 241)
 Paths = [NodePath("../Path"), NodePath("../Path2")]
 Output = 2
 
 [node name="ConsumerA" parent="." instance=ExtResource("2_bl13t")]
+position = Vector2(453, 486)
 
 [node name="ConsumerB" parent="." instance=ExtResource("2_bl13t")]
+position = Vector2(688, 232)
 
 [node name="Path2" parent="." node_paths=PackedStringArray("ChildNode") instance=ExtResource("2_74lek")]
 position = Vector2(534, 361)
