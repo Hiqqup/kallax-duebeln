@@ -1,3 +1,12 @@
-[gd_scene load_steps=0 format=3 uid="uid://27qxkb7s862q"]
+[gd_scene load_steps=3 format=3 uid="uid://27qxkb7s862q"]
+
+[ext_resource type="PackedScene" uid="uid://sy2xlku1ghrf" path="res://scenes/graph_nodes/consumer.tscn" id="1_buai3"]
+[ext_resource type="PackedScene" uid="uid://dgn84hypmmi6h" path="res://scenes/graph_nodes/producer.tscn" id="2_okbg6"]
 
 [node name="MaxO" type="Node2D"]
+
+[node name="Consumer" parent="." instance=ExtResource("1_buai3")]
+position = Vector2(108, 156)
+
+[node name="Producer" parent="." instance=ExtResource("2_okbg6")]
+position = Vector2(351, 319)

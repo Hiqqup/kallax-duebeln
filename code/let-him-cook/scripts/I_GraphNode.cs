@@ -21,6 +21,8 @@ public partial class I_GraphNode : Node2D
 	public delegate void InputSatisfiedHandler();
 	public event InputSatisfiedHandler OnInputSatisfied;
 	
+	public bool MouseOver = false;
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -91,6 +93,16 @@ public partial class I_GraphNode : Node2D
 				ResetInputInventory();
 			}
 		}
+	}
+
+	public void _on_area_2d_mouse_entered()
+	{
+		MouseOver = true;
+	}
+
+	public void _on_area_2d_mouse_exited()
+	{
+		MouseOver = false;
 	}
 	
 	
