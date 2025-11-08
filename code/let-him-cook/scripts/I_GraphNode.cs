@@ -9,23 +9,27 @@ using SystemDictionary = System.Collections.Generic.Dictionary<ProductionResourc
 
 public partial class I_GraphNode : CharacterBody2D
 {
-	[Export]
-	public Array<GraphPath> Paths { get; set; }
+	[Export] public Array<GraphPath> Paths { get; private set; } = [];
 	
 	[Export]
-	public Array<ResourceAmount> Recource_Input { get; set; } = new Array<ResourceAmount>();
+	//Input
+	public Array<ResourceAmount> Recource_Input { get; set; } = new Array<ResourceAmount>(); //max
+	
+	private SystemDictionary _inputInventory; //buffer
+	[Export]
+	//Output
+	public Array<ResourceAmount> Output { get; set; } = new Array<ResourceAmount>(); //max
+	private ResourceAmount _producedResourceBuffer = new ResourceAmount(); //buffer
 
 	// Internal dictionary for easy access - maps resource to required amount
-	private SystemDictionary _inputInventory;
-	[Export] 
-	public Array<ResourceAmount> Output { get; set; } = new Array<ResourceAmount>();
+	
 
 	public delegate void InputSatisfiedHandler();
 	public event InputSatisfiedHandler OnInputSatisfied;
 
 	private NodeType _nodeType = NodeType.None;
 	
-	private ResourceAmount _producedResourceBuffer = new ResourceAmount();
+	
 	private Queue<GraphPath> _pathQueue = new Queue<GraphPath>();
 	/**
 	 * Should only be used by producer
@@ -37,10 +41,12 @@ public partial class I_GraphNode : CharacterBody2D
 	public bool Selected = false;
 	public bool FollowMouse = false;
 	private Vector2 _mouseOffset;
-	private bool _isConnecting = false;
-	private PathPreview _preview;
-	private I_GraphNode _lastHovered;
+	private static bool _isConnecting = false;
+	private static PathPreview _preview;
+	private static I_GraphNode _pathOrigin;
+	private static I_GraphNode _lastHovered;
 	private CollisionShape2D  _collisionShape2D;
+	private Label _statusLabel;
 	
 	private Timer questDuration;
 	
@@ -56,6 +62,7 @@ public partial class I_GraphNode : CharacterBody2D
 			 questDuration.Timeout += OnQuestDurationTimeout;
 		 }
 		_collisionShape2D = GetNode<CollisionShape2D>("CollisionShape2D");
+		_statusLabel = GetNode<Label>("StatusLabel");
 		// Initialize the input inventory from the Input array
 		_inputInventory = new SystemDictionary();
 		
@@ -121,27 +128,28 @@ public partial class I_GraphNode : CharacterBody2D
 	{
 		bool hasInput = Recource_Input is { Count: > 0 };
 		bool hasOutput = Output != null && Output.Count > 0 && Output[0].Resource != ProductionResource.None;
-
 		if (hasInput && hasOutput)
 		{
 			//GD.Print("Node " + this.Name + " is a Factory");
 			_nodeType = NodeType.Factory;
-			return;
 		}
 
-		if (hasInput)
+		else if (hasInput)
 		{
 			//GD.Print("Node \"" + this.Name + "\" is a Consumer");
 			_nodeType = NodeType.Consumer;
-			return;
 		}
 
-		if (hasOutput)
+		else if (hasOutput)
 		{
 			//GD.Print("Node \"" + this.Name + "\" is a Producer");
 			_nodeType = NodeType.Producer;
-			return;
 		}
+		else
+		{
+			_nodeType = NodeType.None;
+		}
+		GD.Print("Node \"" + this.Name + "\" is a " +  _nodeType.ToString());
 	}
 
 	private void ResetInputInventory()
@@ -261,16 +269,18 @@ public partial class I_GraphNode : CharacterBody2D
 
 		if (Input.IsMouseButtonPressed(MouseButton.Right))
 		{
+			//GD.Print(Name);
 			if (!_isConnecting && MouseOver)
-            {
-                //Start Connection
-                _isConnecting = true;
-                var previewScene = GD.Load<PackedScene>(PathLookup.PathPreviewPath);
-                var previewInstance = previewScene.Instantiate() as PathPreview;
-                AddChild(previewInstance);
-                _preview = previewInstance;
-                _preview!.Position = Vector2.Zero;
-            }
+			{
+				//Start Connection
+				_pathOrigin = this;
+				_isConnecting = true;
+				var previewScene = GD.Load<PackedScene>(PathLookup.PathPreviewPath);
+				var previewInstance = previewScene.Instantiate() as PathPreview;
+				AddChild(previewInstance);
+				_preview = previewInstance;
+				_preview!.Position = Vector2.Zero;
+			}
 			if (_preview != null)
 			{
 				_preview!.EndPosition = GetViewport().GetMousePosition();
@@ -283,23 +293,78 @@ public partial class I_GraphNode : CharacterBody2D
 				//End Connection
 				_isConnecting = false;
 				//Try Connection
-				if (_lastHovered != null && _lastHovered != this)
+				if (_lastHovered != null && _lastHovered != _pathOrigin)
 				{
 					AddConnection(_lastHovered);
 				}
 				//Destroy preview
 				_preview.QueueFree();
 				_preview = null;
+				_pathOrigin = null;
 			}
 		}
+
+		UpdateLabel();
+	}
+
+	private void UpdateLabel()
+	{
+		string text = "";
+		if (_nodeType.Equals(NodeType.Consumer) || _nodeType.Equals(NodeType.Factory))
+		{
+			text += "IN: ";
+			foreach (var re in Recource_Input)
+			{
+				text += $"{re.Resource.ToString()}: {_inputInventory[re.Resource] - re.Amount}/{re.Amount}";
+			}
+		}
+
+		if (_nodeType.Equals(NodeType.Producer) || _nodeType.Equals(NodeType.Factory))
+		{
+			text += "\nOUT: ";
+			text += $"{Output[0].Resource.ToString()}: {_producedResourceBuffer.Amount}/{Output[0].Amount}";
+		}
+		_statusLabel.Text = text;
 	}
 
 	private void AddConnection(I_GraphNode targetNode)
 	{
-		
-		
-		var pathScene = GD.Load<PackedScene>(PathLookup.PathScenePath);
-		
+		//Check if Connection Allowed
+		if (CanConnect(targetNode))
+		{
+			var pathScene = GD.Load<PackedScene>(PathLookup.PathScenePath);
+			var pathInstance = pathScene.Instantiate() as GraphPath;
+			pathInstance.ChildNode = targetNode;
+			pathInstance.ParentNode = _pathOrigin;
+			_pathOrigin.Paths.Add(pathInstance);
+			GetParent()!.AddChild(pathInstance);
+			_pathOrigin.PathFinished(pathInstance);
+		}
+	}
+
+	private bool CanConnect(I_GraphNode targetNode)
+	{
+		if (targetNode == null || targetNode == _pathOrigin)
+		{
+			return false;
+		}
+		if (targetNode._nodeType == NodeType.Producer)
+		{
+			return false;
+		}
+		if (_pathOrigin._nodeType == NodeType.Consumer)
+		{
+			return false;
+		}
+		if (_pathOrigin.Paths.Select(x => x.ChildNode).Contains(targetNode))
+		{
+			return false;
+		}
+		if (targetNode.Paths.Select(x => x.ChildNode).Contains(_pathOrigin))
+		{
+			return false;
+		}
+		return true;
 	}
 	
 	public override void _PhysicsProcess(double delta)
@@ -314,4 +379,6 @@ public partial class I_GraphNode : CharacterBody2D
 			MoveAndCollide(Vector2.Zero);
 		}
 	}
+	
+	
 }
