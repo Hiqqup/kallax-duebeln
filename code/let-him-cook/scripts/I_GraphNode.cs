@@ -26,10 +26,12 @@ public partial class I_GraphNode : CharacterBody2D
 	public bool Selected = false;
 	public bool FollowMouse = false;
 	private Vector2 _mouseOffset;
+	private CollisionShape2D  _collisionShape2D;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		_collisionShape2D = GetNode<CollisionShape2D>("CollisionShape2D");
 		// Initialize the input inventory from the Input array
 		_inputInventory = new SystemDictionary();
 		
@@ -142,9 +144,15 @@ public partial class I_GraphNode : CharacterBody2D
 	
 	public override void _PhysicsProcess(double delta)
 	{
-		if(!FollowMouse)
+		if (FollowMouse)
 		{
+			_collisionShape2D.Disabled = true;
+		}
+		else
+		{
+			_collisionShape2D.Disabled = false;
 			MoveAndCollide(Vector2.Zero);
+			
 		}
 	}
 }
