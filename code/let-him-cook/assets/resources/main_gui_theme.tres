@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://b8by5uv0gw361"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://b8by5uv0gw361"]
 
 [ext_resource type="FontFile" uid="uid://d6x3b38pmj1x" path="res://assets/font/NotoSans-Regular.ttf" id="1_n8r2e"]
 
@@ -73,6 +73,29 @@ corner_radius_bottom_right = 64
 corner_radius_bottom_left = 64
 corner_detail = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n8r2e"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.75)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7xw7l"]
+
 [resource]
 default_font = ExtResource("1_n8r2e")
 Button/colors/font_color = Color(0.25882354, 0.25882354, 0.25490198, 1)
@@ -99,3 +122,15 @@ Button/styles/focus = SubResource("StyleBoxFlat_527gd")
 Button/styles/hover = SubResource("StyleBoxFlat_qacgl")
 Button/styles/normal = SubResource("StyleBoxFlat_rxexi")
 Button/styles/pressed = SubResource("StyleBoxFlat_yr5qj")
+Label/colors/font_color = Color(0.25882354, 0.25882354, 0.25490198, 1)
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0)
+Label/constants/line_spacing = 3
+Label/constants/outline_size = 0
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/constants/shadow_outline_size = 1
+Label/font_sizes/font_size = 64
+Label/fonts/font = ExtResource("1_n8r2e")
+Label/styles/focus = SubResource("StyleBoxFlat_n8r2e")
+Label/styles/normal = SubResource("StyleBoxEmpty_7xw7l")

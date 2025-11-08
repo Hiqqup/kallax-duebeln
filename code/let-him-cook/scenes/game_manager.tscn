@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://vywow137nbyf"]
 
-[ext_resource type="Script" uid="uid://ce2q1eltm25ec" path="res://scripts/global/GameManager.cs" id="1_hwd4i"]
+[ext_resource type="Script" uid="uid://bm4h8tuqralvs" path="res://scripts/global/GameManager.cs" id="1_hwd4i"]
 
 [sub_resource type="Animation" id="Animation_glms7"]
 length = 0.001
@@ -100,6 +100,7 @@ AnimationPlayer = NodePath("Internal/AnimationPlayer")
 
 [node name="ColorRect" type="ColorRect" parent="Internal"]
 visible = false
+z_index = 2048
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

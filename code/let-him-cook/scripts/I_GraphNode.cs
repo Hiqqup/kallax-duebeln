@@ -48,19 +48,27 @@ public partial class I_GraphNode : CharacterBody2D
 	private CollisionShape2D  _collisionShape2D;
 	private Label _statusLabel;
 	
-	private Timer questDuration;
+	private Timer _questDuration;
+
+	private Camera2D _cam;
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		 if (false) // type == consumer
 		 {
-			 questDuration = new Timer();
-			 questDuration.OneShot = true;
-			 AddChild(questDuration);
+			 _questDuration = new Timer();
+			 _questDuration.OneShot = true;
+			 AddChild(_questDuration);
 			 
-			 questDuration.Timeout += OnQuestDurationTimeout;
+			 _questDuration.Timeout += OnQuestDurationTimeout;
 		 }
+
+		 if (true) // type == producer
+		 {
+			 _cam = GetViewport().GetCamera2D();
+			 // selector.Hide(); if there is a visible selector
+		 } 
 		 
 		 if (GetViewport().GetCamera2D() == null) GD.PrintErr("Camera not found! Please add camera to your scene with a camera manager script attached.");
 		 
@@ -93,7 +101,7 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			AddChild(_resourceProductionTimer);
 			_resourceProductionTimer.OneShot = false;
-			_resourceProductionTimer.Start(1);
+			_resourceProductionTimer.Start(1.0f/Output[0].Amount);
 			_resourceProductionTimer.Timeout += ProduceOutput;
 		}
 
@@ -175,7 +183,10 @@ public partial class I_GraphNode : CharacterBody2D
 		if (Output == null || Output.Count == 0 || Output[0].Resource == ProductionResource.None) return;
 		
 		_producedResourceBuffer.Resource = Output[0].Resource;
-		_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + Output[0].Amount, 0, Output[0].Amount * 2);
+		if (_nodeType == NodeType.Producer)
+			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + 1, 0, Output[0].Amount * 2);
+		if (_nodeType == NodeType.Factory)
+			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + Output[0].Amount, 0, Output[0].Amount * 2);
 		//GD.Print($"Produced resource: {_producedResourceBuffer.Resource}, stored amount: {_producedResourceBuffer.Amount}");
 		
 		if (_producedResourceBuffer.Amount > 0)
@@ -210,20 +221,37 @@ public partial class I_GraphNode : CharacterBody2D
 
 	public void CheckTimer(float length)
 	{
-		if (!questDuration.IsStopped())
+		if (!_questDuration.IsStopped())
 		{
-			GD.Print($"Timer is running. Time left: {questDuration.TimeLeft:F2} seconds" );
+			GD.Print($"Timer is running. Time left: {_questDuration.TimeLeft:F2} seconds" );
 		}
 		else 
 		{
 			GD.Print("Timer not running - starting new timer");
-			questDuration.Start(length);
+			_questDuration.Start(length);
 		}
 	}
 
 	public void OnQuestDurationTimeout()
 	{
 		GD.Print("Timer finished");
+	}
+
+	public bool IsInsideSelectionBox(Rect2 box)
+	{
+		return box.HasPoint(_cam.Position);
+	}
+
+	public void Select()
+	{
+		// selector.Show(); if there is a selector
+		AddToGroup("selected_units");
+	}
+
+	public void Deselect()
+	{
+		// selector.Hide();
+		RemoveFromGroup("selected_units");
 	}
 
 	public void _on_area_2d_mouse_entered()
@@ -310,6 +338,11 @@ public partial class I_GraphNode : CharacterBody2D
 		UpdateLabel();
 	}
 
+	private int GetInputResourceCount(ResourceAmount resource)
+	{
+		return Math.Clamp(resource.Amount - _inputInventory[resource.Resource], 0, resource.Amount);
+	}
+	
 	private void UpdateLabel()
 	{
 		string text = "";
@@ -318,7 +351,7 @@ public partial class I_GraphNode : CharacterBody2D
 			text += "IN: ";
 			foreach (var re in Recource_Input)
 			{
-				text += $"{re.Resource.ToString()}: {_inputInventory[re.Resource] - re.Amount}/{re.Amount}";
+				text += $"{re.Resource.ToString()}: {GetInputResourceCount(re)}/{re.Amount}";
 			}
 		}
 

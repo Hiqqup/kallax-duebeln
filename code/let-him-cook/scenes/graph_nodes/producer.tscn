@@ -10,7 +10,7 @@ Resource = 1
 Amount = 2
 metadata/_custom_type_script = "uid://bco38vskfst5"
 
-[node name="Producer" node_paths=PackedStringArray("Paths") instance=ExtResource("1_f08ra")]
+[node name="Producer" node_paths=PackedStringArray("Paths") groups=["selectable_units"] instance=ExtResource("1_f08ra")]
 Paths = []
 Output = Array[ExtResource("2_7r067")]([SubResource("Resource_3ggug")])
 
