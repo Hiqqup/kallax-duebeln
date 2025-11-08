@@ -4,8 +4,13 @@ using Godot.Collections;
 
 public partial class SpriteLookup : Node
 {
-	public Dictionary lookup = new Godot.Collections.Dictionary
+	public static System.Collections.Generic.Dictionary<ProductionResource, string> lookup = new ()
 	{
-		{(int) ProductionResource.A, "res://assets/placeholder/Bild1-2.png"},
+		{ ProductionResource.A, "res://assets/parts/screw_plug.png"},
 	};
+
+	public static string MapResourceToFile(ProductionResource resource)
+	{
+		return (lookup.TryGetValue(resource, out var value)) ? value : "res://assets/placeholder/breathtaking_illustration_of_s.jpeg";
+	}
 }

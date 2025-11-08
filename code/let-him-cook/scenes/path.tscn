@@ -1,18 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://dsyi8dy5hr8ro"]
+[gd_scene load_steps=6 format=3 uid="uid://dsyi8dy5hr8ro"]
 
 [ext_resource type="Script" uid="uid://brcay7ncr11t" path="res://scripts/GraphPath.cs" id="1_1dods"]
+[ext_resource type="Material" uid="uid://b8mwcr8b5hsgi" path="res://assets/resources/paper_texture_shader_material.tres" id="2_mtoee"]
+[ext_resource type="Texture2D" uid="uid://gadj3ifuwrp4" path="res://assets/svg/online_circle.svg" id="2_sqppf"]
+[ext_resource type="Texture2D" uid="uid://0j18v1u5jyhi" path="res://assets/parts/screw_plug.png" id="3_wvrg6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1dods"]
 size = Vector2(1, 10)
 
-[node name="Path" type="Node2D" node_paths=PackedStringArray("_line", "_collisionShape")]
+[node name="Path" type="Node2D" node_paths=PackedStringArray("_dot", "_dotSymbol", "_line", "_collisionShape")]
+z_index = -1
 script = ExtResource("1_1dods")
+_dot = NodePath("Dot")
+_dotSymbol = NodePath("Dot/Symbol")
 _line = NodePath("Line2D")
 _collisionShape = NodePath("Area2D/CollisionShape2D")
 
 [node name="Line2D" type="Line2D" parent="."]
 z_index = -1
-points = PackedVector2Array(379, 171, 695, 103)
 width = 2.0
 default_color = Color(0.16924527, 0.1692453, 0.16924527, 1)
 joint_mode = 2
@@ -23,6 +28,15 @@ end_cap_mode = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_1dods")
+
+[node name="Dot" type="Sprite2D" parent="."]
+material = ExtResource("2_mtoee")
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_sqppf")
+
+[node name="Symbol" type="Sprite2D" parent="Dot"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_wvrg6")
 
 [connection signal="mouse_entered" from="Area2D" to="." method="OnMouseEntered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="OnMouseExited"]
