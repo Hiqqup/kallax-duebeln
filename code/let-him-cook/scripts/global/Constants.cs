@@ -3,5 +3,6 @@ using System;
 
 public class Constants
 {
-	public const float NodeDiameter = 99.25f * 2;
+	public const float NodeRadius = 99.25f;
+	public const float NodeDiameter = NodeRadius * 2;
 }
