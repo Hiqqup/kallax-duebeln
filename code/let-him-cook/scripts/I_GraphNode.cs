@@ -78,6 +78,12 @@ public partial class I_GraphNode : CharacterBody2D
 		_inputInventory = new SystemDictionary();
 		
 		DetectNodeType();
+
+		if (_nodeType == NodeType.Producer || _nodeType == NodeType.Factory)
+		{
+			AddToGroup("selectable_units");
+		}
+		
 		ResetInputInventory();
 		
 		if (Recource_Input == null || Recource_Input.Count == 0)
@@ -239,7 +245,30 @@ public partial class I_GraphNode : CharacterBody2D
 
 	public bool IsInsideSelectionBox(Rect2 box)
 	{
-		return box.HasPoint(_cam.Position);
+		// copy 
+		var rect = new Rect2();
+		rect.Position = box.Position;
+		rect.Size = box.Size;
+
+		float newX = rect.Position.X;
+		float newSizeX = rect.Size.X;
+		if (rect.Size.X < 0)
+		{
+			newX = rect.Position.X + rect.Size.X;
+			newSizeX = Math.Abs(rect.Size.X);
+		}
+		
+		float newY = rect.Position.Y;
+		float newSizeY = rect.Size.Y;
+		if (rect.Size.Y < 0)
+		{
+			newY = rect.Position.Y + rect.Size.Y;
+			newSizeY = Math.Abs(rect.Size.Y);
+		}
+		
+		rect.Position = new Vector2(newX, newY);
+		rect.Size = new Vector2(newSizeX, newSizeY);
+		return rect.HasPoint(Position);
 	}
 
 	public void Select()
