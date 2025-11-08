@@ -93,7 +93,7 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			AddChild(_resourceProductionTimer);
 			_resourceProductionTimer.OneShot = false;
-			_resourceProductionTimer.Start(1);
+			_resourceProductionTimer.Start(1.0f/Output[0].Amount);
 			_resourceProductionTimer.Timeout += ProduceOutput;
 		}
 
@@ -175,7 +175,7 @@ public partial class I_GraphNode : CharacterBody2D
 		if (Output == null || Output.Count == 0 || Output[0].Resource == ProductionResource.None) return;
 		
 		_producedResourceBuffer.Resource = Output[0].Resource;
-		_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + Output[0].Amount, 0, Output[0].Amount * 2);
+		_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + 1, 0, Output[0].Amount * 2);
 		//GD.Print($"Produced resource: {_producedResourceBuffer.Resource}, stored amount: {_producedResourceBuffer.Amount}");
 		
 		if (_producedResourceBuffer.Amount > 0)

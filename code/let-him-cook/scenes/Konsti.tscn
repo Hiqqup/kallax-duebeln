@@ -56,19 +56,23 @@ metadata/_custom_type_script = "uid://bco38vskfst5"
 [node name="Konsti" type="Node2D"]
 
 [node name="ProducerB" parent="." instance=ExtResource("2_8w4ag")]
+material = null
 position = Vector2(-225, -338)
 Output = Array[ExtResource("3_8w4ag")]([SubResource("Resource_7nkr0")])
 
 [node name="Factory" parent="." instance=ExtResource("3_foijs")]
+material = null
 position = Vector2(226, -124)
 Recource_Input = Array[ExtResource("3_8w4ag")]([SubResource("Resource_8w4ag"), SubResource("Resource_foijs")])
 Output = Array[ExtResource("3_8w4ag")]([SubResource("Resource_mwwd8")])
 
 [node name="Consumer2" parent="." instance=ExtResource("3_foijs")]
+material = null
 position = Vector2(723, -79)
 Recource_Input = Array[ExtResource("3_8w4ag")]([SubResource("Resource_6pkd6")])
 
 [node name="ProducerA" parent="." instance=ExtResource("2_8w4ag")]
+material = null
 position = Vector2(-389, -97)
 Output = Array[ExtResource("3_8w4ag")]([SubResource("Resource_lkjgc")])
 
@@ -76,9 +80,14 @@ Output = Array[ExtResource("3_8w4ag")]([SubResource("Resource_lkjgc")])
 script = ExtResource("5_foijs")
 
 [node name="Producer" parent="." instance=ExtResource("2_8w4ag")]
+material = null
 position = Vector2(-323, 207)
 Output = Array[ExtResource("3_8w4ag")]([SubResource("Resource_6uos2")])
 
 [node name="Consumer" parent="." instance=ExtResource("3_foijs")]
+material = null
 position = Vector2(715, 216)
 Recource_Input = Array[ExtResource("3_8w4ag")]([SubResource("Resource_wrlvv")])
+
+[node name="Consumer3" parent="." instance=ExtResource("3_foijs")]
+position = Vector2(121, 296)
