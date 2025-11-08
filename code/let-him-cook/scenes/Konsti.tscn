@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://df2at473yqewo"]
+[gd_scene load_steps=14 format=3 uid="uid://df2at473yqewo"]
 
 [ext_resource type="PackedScene" uid="uid://dgn84hypmmi6h" path="res://scenes/graph_nodes/producer.tscn" id="2_8w4ag"]
 [ext_resource type="Script" uid="uid://bco38vskfst5" path="res://scripts/ResourceAmount.cs" id="3_8w4ag"]
 [ext_resource type="PackedScene" uid="uid://sy2xlku1ghrf" path="res://scenes/graph_nodes/consumer.tscn" id="3_foijs"]
+[ext_resource type="Script" uid="uid://cbjk2lp10ylqx" path="res://scripts/UnitSelector.cs" id="5_6pkd6"]
 [ext_resource type="Script" uid="uid://kggxkojncmdr" path="res://scripts/CameraController.cs" id="5_foijs"]
 
 [sub_resource type="Resource" id="Resource_7nkr0"]
@@ -91,3 +92,6 @@ Recource_Input = Array[ExtResource("3_8w4ag")]([SubResource("Resource_wrlvv")])
 
 [node name="Consumer3" parent="." instance=ExtResource("3_foijs")]
 position = Vector2(121, 296)
+
+[node name="Selector" type="Node2D" parent="."]
+script = ExtResource("5_6pkd6")

@@ -46,6 +46,7 @@ public partial class I_GraphNode : CharacterBody2D
 	private static I_GraphNode _pathOrigin;
 	private static I_GraphNode _lastHovered;
 	private CollisionShape2D  _collisionShape2D;
+	private Sprite2D _fillSprite2D;
 	private Label _statusLabel;
 	
 	private Timer _questDuration;
@@ -55,29 +56,31 @@ public partial class I_GraphNode : CharacterBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		 if (false) // type == consumer
-		 {
-			 _questDuration = new Timer();
-			 _questDuration.OneShot = true;
-			 AddChild(_questDuration);
-			 
-			 _questDuration.Timeout += OnQuestDurationTimeout;
-		 }
-
-		 if (true) // type == producer
-		 {
-			 _cam = GetViewport().GetCamera2D();
-			 // selector.Hide(); if there is a visible selector
-		 } 
-		 
 		 if (GetViewport().GetCamera2D() == null) GD.PrintErr("Camera not found! Please add camera to your scene with a camera manager script attached.");
 		 
 		_collisionShape2D = GetNode<CollisionShape2D>("CollisionShape2D");
 		_statusLabel = GetNode<Label>("StatusLabel");
 		// Initialize the input inventory from the Input array
 		_inputInventory = new SystemDictionary();
-		
+		_fillSprite2D = GetNode<Sprite2D>("Fill");
+
 		DetectNodeType();
+
+		if (_nodeType == NodeType.Producer || _nodeType == NodeType.Factory)
+		{
+			AddToGroup("selectable_units");
+		}
+
+		if (_nodeType == NodeType.Consumer)
+		{
+			_questDuration = new Timer();
+			_questDuration.OneShot = true;
+			AddChild(_questDuration);
+			 
+			_questDuration.Timeout += OnQuestDurationTimeout;
+			// CheckTimer(float) functions activates the timer for float seconds
+		}
+		
 		ResetInputInventory();
 		
 		if (Recource_Input == null || Recource_Input.Count == 0)
@@ -181,7 +184,11 @@ public partial class I_GraphNode : CharacterBody2D
 	public void ProduceOutput()
 	{
 		if (Output == null || Output.Count == 0 || Output[0].Resource == ProductionResource.None) return;
-		
+
+		var scale = (float)_producedResourceBuffer.Amount / 2 / Output[0].Amount;
+		GD.Print("scale " + scale);
+		_fillSprite2D.Scale = new Vector2(scale, scale);
+
 		_producedResourceBuffer.Resource = Output[0].Resource;
 		if (_nodeType == NodeType.Producer)
 			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + 1, 0, Output[0].Amount * 2);
@@ -202,7 +209,7 @@ public partial class I_GraphNode : CharacterBody2D
 	{
 		return _inputInventory.Values.All(count => count <= 0);
 	}
-	
+
 	public void ReceiveInput(ProductionResource input)
 	{
 		//GD.Print(input.ToString() + " received");
@@ -239,7 +246,30 @@ public partial class I_GraphNode : CharacterBody2D
 
 	public bool IsInsideSelectionBox(Rect2 box)
 	{
-		return box.HasPoint(_cam.Position);
+		// copy 
+		var rect = new Rect2();
+		rect.Position = box.Position;
+		rect.Size = box.Size;
+
+		float newX = rect.Position.X;
+		float newSizeX = rect.Size.X;
+		if (rect.Size.X < 0)
+		{
+			newX = rect.Position.X + rect.Size.X;
+			newSizeX = Math.Abs(rect.Size.X);
+		}
+		
+		float newY = rect.Position.Y;
+		float newSizeY = rect.Size.Y;
+		if (rect.Size.Y < 0)
+		{
+			newY = rect.Position.Y + rect.Size.Y;
+			newSizeY = Math.Abs(rect.Size.Y);
+		}
+		
+		rect.Position = new Vector2(newX, newY);
+		rect.Size = new Vector2(newSizeX, newSizeY);
+		return rect.HasPoint(Position);
 	}
 
 	public void Select()
