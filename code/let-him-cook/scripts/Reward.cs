@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Reward : Node
+public partial class Reward : Control
 {
 	private Action<int> _callback;
 	// Called when the node enters the scene tree for the first time.
@@ -17,6 +17,7 @@ public partial class Reward : Node
 
 	public void StartRewardSelection(Action<int> c)
 	{
+		 Visible = true;
 		_callback = c;
 	}
 
@@ -24,20 +25,23 @@ public partial class Reward : Node
 	{
 		GD.Print($"WARNING: CALLBACK WASN'T SET");
 	}
+	
+	private void StopRewardSelection(int i)
+	{
+		Visible = false;
+		_callback(i);
+	}
 
 	public void RewardSelected0()
 	{
-		_callback(0);
-		GD.Print("0");
+		StopRewardSelection(0);
 	}
 	public void RewardSelected1()
 	{
-		_callback(1);
-		GD.Print("1");
+		StopRewardSelection(1);
 	}
 	public void RewardSelected2()
 	{
-		_callback(2);
-		GD.Print("2");
+		StopRewardSelection(2);
 	}
 }
