@@ -5,12 +5,11 @@
 
 [node name="Node2D" type="Node2D"]
 
+[node name="Consumer" parent="." instance=ExtResource("2_bl13t")]
+position = Vector2(650, 715)
+
+[node name="Consumer2" parent="." instance=ExtResource("2_bl13t")]
+position = Vector2(653, 349)
+
 [node name="Producer" parent="." instance=ExtResource("2_iyx0m")]
-position = Vector2(217, 207)
-Output = 2
-
-[node name="ConsumerA" parent="." instance=ExtResource("2_bl13t")]
-position = Vector2(665, 145)
-
-[node name="ConsumerB" parent="." instance=ExtResource("2_bl13t")]
-position = Vector2(578, 443)
+position = Vector2(186, 390)

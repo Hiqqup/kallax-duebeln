@@ -9,8 +9,7 @@ using SystemDictionary = System.Collections.Generic.Dictionary<ProductionResourc
 
 public partial class I_GraphNode : CharacterBody2D
 {
-	[Export]
-	public Array<GraphPath> Paths { get; set; }
+	[Export] private Array<GraphPath> Paths { get; set; } = [];
 	
 	[Export]
 	public Array<ResourceAmount> Recource_Input { get; set; } = new Array<ResourceAmount>();
@@ -37,9 +36,10 @@ public partial class I_GraphNode : CharacterBody2D
 	public bool Selected = false;
 	public bool FollowMouse = false;
 	private Vector2 _mouseOffset;
-	private bool _isConnecting = false;
-	private PathPreview _preview;
-	private I_GraphNode _lastHovered;
+	private static bool _isConnecting = false;
+	private static PathPreview _preview;
+	private static I_GraphNode _pathOrigin;
+	private static I_GraphNode _lastHovered;
 	private CollisionShape2D  _collisionShape2D;
 	
 	private Timer questDuration;
@@ -258,9 +258,11 @@ public partial class I_GraphNode : CharacterBody2D
 
 		if (Input.IsMouseButtonPressed(MouseButton.Right))
 		{
+			GD.Print(Name);
 			if (!_isConnecting && MouseOver)
             {
                 //Start Connection
+                _pathOrigin = this;
                 _isConnecting = true;
                 var previewScene = GD.Load<PackedScene>(PathLookup.PathPreviewPath);
                 var previewInstance = previewScene.Instantiate() as PathPreview;
@@ -280,23 +282,55 @@ public partial class I_GraphNode : CharacterBody2D
 				//End Connection
 				_isConnecting = false;
 				//Try Connection
-				if (_lastHovered != null && _lastHovered != this)
+				if (_lastHovered != null && _lastHovered != _pathOrigin)
 				{
 					AddConnection(_lastHovered);
 				}
 				//Destroy preview
 				_preview.QueueFree();
 				_preview = null;
+				_pathOrigin = null;
 			}
 		}
 	}
 
 	private void AddConnection(I_GraphNode targetNode)
 	{
-		
-		
-		var pathScene = GD.Load<PackedScene>(PathLookup.PathScenePath);
-		
+		//Check if Connection Allowed
+		if (CanConnect(targetNode))
+		{
+			var pathScene = GD.Load<PackedScene>(PathLookup.PathScenePath);
+			var pathInstance = pathScene.Instantiate() as GraphPath;
+			pathInstance.ChildNode = targetNode;
+			pathInstance.ParentNode = _pathOrigin;
+			_pathOrigin.Paths.Add(pathInstance);
+			GetParent()!.AddChild(pathInstance);
+		}
+	}
+
+	private bool CanConnect(I_GraphNode targetNode)
+	{
+		if (targetNode == null || targetNode == _pathOrigin)
+		{
+			return false;
+		}
+		if (targetNode._nodeType == NodeType.Producer)
+		{
+			return false;
+		}
+		if (_pathOrigin._nodeType == NodeType.Consumer)
+		{
+			return false;
+		}
+		if (_pathOrigin.Paths.Select(x => x.ChildNode).Contains(targetNode))
+		{
+			return false;
+		}
+		if (targetNode.Paths.Select(x => x.ChildNode).Contains(_pathOrigin))
+		{
+			return false;
+		}
+		return true;
 	}
 	
 	public override void _PhysicsProcess(double delta)
@@ -311,4 +345,6 @@ public partial class I_GraphNode : CharacterBody2D
 			MoveAndCollide(Vector2.Zero);
 		}
 	}
+	
+	
 }
