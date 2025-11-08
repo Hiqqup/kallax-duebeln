@@ -3,6 +3,11 @@ using System;
 
 public partial class MainMenu : Control
 {
+	
+	[Export] public Label CreditsLabel;
+	[Export] public VideoStreamPlayer KallaxVideo;
+	
+	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -18,6 +23,13 @@ public partial class MainMenu : Control
 		GameManager.Instance.CloseGame();
 	}
 
+
+	private void ToggleCredits()
+	{
+		KallaxVideo.Visible = !KallaxVideo.Visible;
+		CreditsLabel.Visible = !CreditsLabel.Visible;
+	}
+	
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
