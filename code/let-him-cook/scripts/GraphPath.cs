@@ -60,6 +60,7 @@ public partial class GraphPath : Node2D
     {
         Length = 3;
         Speed = 200;
+        _dot.Visible = false;
     }
 
     public void Transport(ProductionResource input)
