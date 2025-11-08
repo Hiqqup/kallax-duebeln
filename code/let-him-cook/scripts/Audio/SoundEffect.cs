@@ -6,13 +6,14 @@ public enum SOUND_EFFECT_TYPE {
 }
 public partial class SoundEffect : Resource
 {
+    [Export] public string Name = "";
     [Export(PropertyHint.Range, "0,20,")] public int Limit { get; set; } = 0;
     [Export] public SOUND_EFFECT_TYPE Type;
     [Export] public AudioStreamMP3 AudioStreamMp3;
     [Export(PropertyHint.Range, "-40,20,")] public float Volume { get; set; } = 0;
     [Export(PropertyHint.Range, "0.0, 4.0, .01")] public float PitchScale { get; set; } = 1.0f;
     [Export(PropertyHint.Range, "0.0, 1.0, .01")] public float PitchRandomness { get; set; } = 0.0f;
-    [Export] public StringName Bus = "sfx";
+    [Export] public StringName Bus = "SFX";
     
     private int playingCount = 0;
     

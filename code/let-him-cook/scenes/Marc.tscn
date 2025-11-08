@@ -1,8 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://dww4hmu86853q"]
+[gd_scene load_steps=3 format=3 uid="uid://dww4hmu86853q"]
 
 [ext_resource type="Script" uid="uid://b13a4jgjs8485" path="res://scripts/Audio/AudioEmitterTest.cs" id="1_bknty"]
+[ext_resource type="AudioStream" uid="uid://b04s4ftl6xucr" path="res://assets/audio/SoundEffects/sharp-pop-328170.mp3" id="2_8f7yy"]
 
 [node name="Marc" type="Node2D"]
 
-[node name="AudioEmitterTest" type="Node2D" parent="."]
+[node name="AudioEmitterTestScene" type="Node2D" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("1_bknty")
+player = NodePath("SharpPop328170")
+
+[node name="SharpPop328170" type="AudioStreamPlayer" parent="AudioEmitterTestScene"]
+stream = ExtResource("2_8f7yy")
+bus = &"SFX"

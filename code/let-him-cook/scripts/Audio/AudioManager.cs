@@ -2,11 +2,9 @@ using System;
 using Godot;
 using Godot.Collections;
 
-public enum MUSIC_TYPE
+public enum MUSIC_CLIPS
 {
-	None,
-	MainMenu,
-	BackgroundMusic
+	None
 }
 
 public partial class AudioManager : Node2D
@@ -26,6 +24,65 @@ public partial class AudioManager : Node2D
 		{
 			soundEffectDict.Add(soundEffect.Type, soundEffect);
 		}
+	}
+	
+	
+	
+	/// <summary>
+	/// Changes the currently playing audio track to the next clip
+	/// </summary>
+	/// <param name="clipName">The exact string name of the clip that should be played. Needs to be exactly as in the attached AudioStreamPlayer</param>
+	public void changeMusic(string clipName)
+	{
+		AudioStreamPlaybackInteractive playback = musicPlayer.GetStreamPlayback() as AudioStreamPlaybackInteractive;
+		if (!IsInstanceValid(playback))
+		{
+			GD.PushError("cast to AudioStreamPlaybackInteractive returns invalid.");
+			return;
+		}
+		
+		var stream = musicPlayer.GetStream() as AudioStreamInteractive;
+		if (!IsInstanceValid(stream))
+		{
+			GD.PushError("cast to AudioStreamInteractive returns invalid.");
+			return;
+		}
+		var currentClipName = stream.GetClipName(playback.GetCurrentClipIndex());
+		//GD.Print("clip name: ", currentClipName, "/ type name: ", nextClipName); //Debug print
+		if (currentClipName.Equals(clipName))
+		{
+			GD.PushWarning("Tried changing to an already playing clip.");
+			return;
+		}
+		
+		playback.SwitchToClipByName(clipName);
+	}
+
+	public void toggleMusicPlayback()
+	{
+		musicPlayer.StreamPaused = !musicPlayer.StreamPaused;
+	}
+	
+	
+	
+	public void PlaySound(AudioStreamPlayer2D player)
+	{
+		if (!IsInstanceValid(player))
+		{
+			GD.PushError("AudioStreamPlayer is not valid.");
+			return;
+		}
+		player.Play();
+	}
+	
+	public void PlaySound(AudioStreamPlayer player)
+	{
+		if (!IsInstanceValid(player))
+		{
+			GD.PushError("AudioStreamPlayer is not valid.");
+			return;
+		}
+		player.Play();
 	}
 
 
@@ -80,7 +137,7 @@ public partial class AudioManager : Node2D
 		PlaySound2D(this, type);
 	}
 
-	public void PlaySoundGlobal(SOUND_EFFECT_TYPE type)
+	public void PlaySoundGlobally(SOUND_EFFECT_TYPE type)
 	{
 		if (!soundEffectDict.ContainsKey(type))
 		{
@@ -108,38 +165,5 @@ public partial class AudioManager : Node2D
 		newSound.Finished += sfx.onAudioFinished;
 		newSound.Finished += newSound.QueueFree;
 		newSound.Play();
-	}
-
-	public void changeMusic(MUSIC_TYPE type)
-	{
-		AudioStreamPlaybackInteractive playback = musicPlayer.GetStreamPlayback() as AudioStreamPlaybackInteractive;
-		if (!IsInstanceValid(playback))
-		{
-			GD.PushError("cast to AudioStreamPlaybackInteractive returns invalid.");
-			return;
-		}
-		
-		var stream = musicPlayer.GetStream() as AudioStreamInteractive;
-		if (!IsInstanceValid(stream))
-		{
-			GD.PushError("cast to AudioStreamInteractive returns invalid.");
-			return;
-		}
-		
-		var currentClipName = stream.GetClipName(playback.GetCurrentClipIndex());
-		var nextClipName = type.ToString();
-		//GD.Print("clip name: ", currentClipName, "/ type name: ", nextClipName); //Debug print
-		if (currentClipName.Equals(nextClipName))
-		{
-			GD.PushWarning("Change to already playing clip is not allowed.");
-			return;
-		}
-		
-		playback.SwitchToClipByName(type.ToString());
-	}
-
-	public void toggleMusicPlayback()
-	{
-		musicPlayer.StreamPaused = !musicPlayer.StreamPaused;
 	}
 }
