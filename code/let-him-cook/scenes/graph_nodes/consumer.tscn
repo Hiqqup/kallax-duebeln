@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://sy2xlku1ghrf"]
 
 [ext_resource type="PackedScene" uid="uid://bxk16rwk6e0sh" path="res://scenes/graph_nodes/node.tscn" id="1_wb5pj"]
-[ext_resource type="Texture2D" uid="uid://f7m0m0dq2pv4" path="res://assets/parts/screw.png" id="2_82c14"]
+[ext_resource type="Texture2D" uid="uid://f7m0m0dq2pv4" path="res://assets/parts/double_ended_screw.png" id="2_82c14"]
 
 [node name="Consumer" node_paths=PackedStringArray("Paths") instance=ExtResource("1_wb5pj")]
 Paths = []

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://03s0rhrs6g0n"
-path="res://.godot/imported/screw.blend-d22be44523cdcf3c6f1543e3b7c573f8.scn"
+uid="uid://b7joq3rnktv0j"
+path="res://.godot/imported/screw_plug.blend-750b60ac55d4117da45a50b175e0ebea.scn"
 
 [deps]
 
-source_file="res://assets/blender_files/screw.blend"
-dest_files=["res://.godot/imported/screw.blend-d22be44523cdcf3c6f1543e3b7c573f8.scn"]
+source_file="res://assets/blender_files/screw_plug.blend"
+dest_files=["res://.godot/imported/screw_plug.blend-750b60ac55d4117da45a50b175e0ebea.scn"]
 
 [params]
 
