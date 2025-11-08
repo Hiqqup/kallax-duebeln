@@ -1,8 +1,11 @@
+using System;
 using System.Linq;
 using Godot;
 
 public partial class GraphPath : Node2D
 {
+    [Export] private Sprite2D _dot;
+    [Export] private Sprite2D _dotSymbol;
     private I_GraphNode _childNode;
     [Export]
     public I_GraphNode ChildNode { 
@@ -92,6 +95,14 @@ public partial class GraphPath : Node2D
                     ParentNode.PathFinished(this);
                 }
             }
+            
+            //Travel Indicator
+            var startPosition = _line.Points[0];
+            var endPosition = _line.Points[1];
+            var direction = (endPosition - startPosition).Normalized();
+            var length = (endPosition - startPosition).Length();
+            _dot.Position = _line.Points[0] + Math.Clamp(Progress, 0, length)*direction;
+            GD.Print(Progress);
         }
         UpdateLine();
     }
