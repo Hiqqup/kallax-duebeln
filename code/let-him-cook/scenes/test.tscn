@@ -14,13 +14,9 @@ ChildNode = NodePath("../ConsumerA")
 Paths = [NodePath("../Path"), NodePath("../Path2")]
 Output = 2
 
-[node name="ConsumerA" parent="." node_paths=PackedStringArray("Paths") instance=ExtResource("2_bl13t")]
-Paths = []
-Input = 1
+[node name="ConsumerA" parent="." instance=ExtResource("2_bl13t")]
 
 [node name="ConsumerB" parent="." instance=ExtResource("2_bl13t")]
-Input = 0
-Output = 2
 
 [node name="Path2" parent="." node_paths=PackedStringArray("ChildNode") instance=ExtResource("2_74lek")]
 position = Vector2(534, 361)
