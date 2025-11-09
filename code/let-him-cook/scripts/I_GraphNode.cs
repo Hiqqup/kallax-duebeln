@@ -233,6 +233,8 @@ public partial class I_GraphNode : CharacterBody2D
 					_questDuration.Stop();
 					GD.Print($"Consumer {this.Name} task completed successfully!");
 					OnConsumerTaskCompleted?.Invoke();
+
+					SpawnRewardsScreen();
 					
 					RemoveAllIncomingPaths();
 				}
@@ -241,6 +243,32 @@ public partial class I_GraphNode : CharacterBody2D
 				ProduceOutput();
 			}
 		}
+	}
+
+	private void SpawnRewardsScreen()
+	{
+		var rewardScene = GD.Load<PackedScene>("res://scenes/graph_nodes/Reward.tscn");
+		var rewardInstance = rewardScene.Instantiate() as Reward;
+		
+		// Create a CanvasLayer for UI overlay
+		var canvasLayer = new CanvasLayer();
+		canvasLayer.Layer = 100; // High layer number = renders on top
+		canvasLayer.FollowViewportEnabled = true;
+		GetTree().Root.AddChild(canvasLayer);
+		
+		// Add reward to the CanvasLayer
+		canvasLayer.AddChild(rewardInstance);
+		
+		// Start the reward selection
+		rewardInstance.StartRewardSelection((selectedRewardIndex) =>
+		{
+			GD.Print($"Player selected reward {selectedRewardIndex}");
+			// Handle reward logic
+			
+			// Clean up both the reward and the canvas layer
+			canvasLayer.QueueFree();
+			this.QueueFree();
+		});
 	}
 
 	public void StartConsumerTimer()
