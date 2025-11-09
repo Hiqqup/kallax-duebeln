@@ -1,0 +1,94 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcgghjeiwvspj"]
+
+[ext_resource type="Material" uid="uid://b8mwcr8b5hsgi" path="res://assets/resources/paper_texture_shader_material.tres" id="1_tqqia"]
+[ext_resource type="Theme" uid="uid://b8by5uv0gw361" path="res://assets/resources/main_gui_theme.tres" id="2_6b6rt"]
+[ext_resource type="Script" uid="uid://b5nms1b5s0hor" path="res://scripts/NodeStatusLabel.cs" id="3_2wvi4"]
+[ext_resource type="Texture2D" uid="uid://d2i7wauhqmgft" path="res://assets/svg/DownArrow.svg" id="4_qoj3i"]
+
+[node name="StatusLabel" type="PanelContainer" node_paths=PackedStringArray("_inContainer", "_arrowContainer", "_outContainer", "_inLabel", "_outLabel", "_timerLabel")]
+z_index = 2
+material = ExtResource("1_tqqia")
+offset_left = -136.0
+offset_top = -289.0
+offset_right = 4.0
+offset_bottom = -87.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 1
+theme = ExtResource("2_6b6rt")
+script = ExtResource("3_2wvi4")
+_inContainer = NodePath("MarginContainer/VBoxContainer/In")
+_arrowContainer = NodePath("MarginContainer/VBoxContainer/Arrows")
+_outContainer = NodePath("MarginContainer/VBoxContainer/Out")
+_inLabel = NodePath("MarginContainer/VBoxContainer/In/Label")
+_outLabel = NodePath("MarginContainer/VBoxContainer/Out/Label")
+_timerLabel = NodePath("MarginContainer/VBoxContainer/VBoxContainer2/Label")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = -40
+theme_override_constants/margin_top = -40
+theme_override_constants/margin_right = -40
+theme_override_constants/margin_bottom = -20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="In" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="In" type="Label" parent="MarginContainer/VBoxContainer/In"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "IN:"
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/In"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_6b6rt")
+theme_override_font_sizes/font_size = 24
+text = "Test:    2/2222222"
+
+[node name="Arrows" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/Arrows"]
+layout_mode = 2
+texture = ExtResource("4_qoj3i")
+stretch_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/VBoxContainer/Arrows"]
+layout_mode = 2
+texture = ExtResource("4_qoj3i")
+stretch_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="MarginContainer/VBoxContainer/Arrows"]
+layout_mode = 2
+texture = ExtResource("4_qoj3i")
+stretch_mode = 2
+
+[node name="Out" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Out" type="Label" parent="MarginContainer/VBoxContainer/Out"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Out:"
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Out"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 24
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+fit_content = true

@@ -1,6 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://vywow137nbyf"]
+[gd_scene load_steps=9 format=3 uid="uid://vywow137nbyf"]
 
-[ext_resource type="Script" uid="uid://bm4h8tuqralvs" path="res://scripts/global/GameManager.cs" id="1_hwd4i"]
+[ext_resource type="Script" uid="uid://ce2q1eltm25ec" path="res://scripts/global/GameManager.cs" id="1_hwd4i"]
+[ext_resource type="StyleBox" path="res://assets/resources/healthbar_background.tres" id="3_eaq8r"]
+[ext_resource type="StyleBox" path="res://assets/resources/healthbar_fill.tres" id="3_oo155"]
 [ext_resource type="PackedScene" uid="uid://csysbik0bf7tc" path="res://scenes/graph_nodes/Reward.tscn" id="3_udu3i"]
 
 [sub_resource type="Animation" id="Animation_glms7"]
@@ -93,10 +95,11 @@ _data = {
 &"fade_to_black": SubResource("Animation_hwd4i")
 }
 
-[node name="Game" type="Node" node_paths=PackedStringArray("AnimationPlayer", "reward")]
+[node name="Game" type="Node" node_paths=PackedStringArray("AnimationPlayer", "reward", "healthBar")]
 script = ExtResource("1_hwd4i")
 AnimationPlayer = NodePath("Internal/AnimationPlayer")
 reward = NodePath("Internal/CanvasLayer/Reward")
+healthBar = NodePath("Internal/CanvasLayer/HealthBar")
 
 [node name="Internal" type="Node" parent="."]
 
@@ -121,3 +124,11 @@ libraries = {
 
 [node name="Reward" parent="Internal/CanvasLayer" instance=ExtResource("3_udu3i")]
 visible = false
+
+[node name="HealthBar" type="ProgressBar" parent="Internal/CanvasLayer"]
+offset_right = 280.0
+offset_bottom = 27.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_styles/background = ExtResource("3_eaq8r")
+theme_override_styles/fill = ExtResource("3_oo155")
+step = 1.0

@@ -8,19 +8,25 @@ public partial class GameManager : Node
 	[Export]
 	private AnimationPlayer AnimationPlayer { get; set; }
 	public static GameManager Instance { get; private set; }
-
+	
+	public static int playerHealth = 100;
+	
 	[Export] public Reward reward { get; set; }
+
+	[Export] public ProgressBar healthBar;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		Instance = this;
 		base._Ready();
 		LoadMainMenu();
+		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		healthBar.Value = playerHealth;
 	}
 
 	public void LoadScene(string scenePath)
@@ -54,5 +60,25 @@ public partial class GameManager : Node
 	public void CloseGame()
 	{
 		GetTree().Quit();
+	}
+
+	public static void setPlayerHealth(int health)
+	{
+		playerHealth = health;
+	}
+
+	public static void modPlayerHealth(int health)
+	{
+		playerHealth = int.Min(playerHealth + health, 100);
+		if (playerHealth <= 0)
+		{
+			Instance.LoadMainMenu();
+		}
+		
+	}
+
+	public static int GetPlayerHealth()
+	{
+		return playerHealth;
 	}
 }

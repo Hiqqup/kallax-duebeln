@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://dv1g3l4fhodp6"]
 
 [ext_resource type="Theme" uid="uid://b8by5uv0gw361" path="res://assets/resources/main_gui_theme.tres" id="1_ekxnf"]
-[ext_resource type="Script" uid="uid://cygyvnlrqc4lm" path="res://scripts/MainMenu.cs" id="1_l6cm7"]
+[ext_resource type="Script" uid="uid://c52t8t70lf1um" path="res://scripts/MainMenu.cs" id="1_l6cm7"]
 [ext_resource type="Material" uid="uid://b8mwcr8b5hsgi" path="res://assets/resources/paper_texture_shader_material.tres" id="3_8ln24"]
 [ext_resource type="VideoStream" uid="uid://blt2poic40in3" path="res://assets/parts/output.ogv" id="3_bqqt6"]
 [ext_resource type="Texture2D" uid="uid://o3hv6scytafy" path="res://assets/titlescreen/cartoonGuy.png" id="4_wu84c"]
