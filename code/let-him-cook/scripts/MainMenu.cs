@@ -25,7 +25,7 @@ public partial class MainMenu : Control
 			button.Connect("mouse_entered", Callable.From(() => 
 				// add in soud effect here
 				_animationUtil.Call("bounce_tween", button)
-				) );
+				));
 		}
 	}
 

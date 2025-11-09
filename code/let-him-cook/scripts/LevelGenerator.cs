@@ -7,6 +7,11 @@ public partial class LevelGenerator : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		CallDeferred("Init");
+	}
+
+	public void Init()
+	{
 		Position = GetViewport().GetCamera2D().GetGlobalPosition();
 		
 		for (var i = 0; i < 500; i++)
@@ -28,10 +33,10 @@ public partial class LevelGenerator : Node2D
 				var targetPos = Position + spawnDirection * (float)spawnDistance;
 				if (targetPos == GetViewport().GetCamera2D().GetGlobalPosition()) targetPos = Vector2.One;
 				createdNode.SetPosition(targetPos);
-                createdNode.Recource_Input = inputs;
-                createdNode.Output = outputs;
-                
-                GetTree().GetRoot().AddChild(createdNode);
+				createdNode.Recource_Input = inputs;
+				createdNode.Output = outputs;
+	                
+				GameManager.Instance.CurrentWorld.AddChild(createdNode);
 			}
 		}
 		CreateInitialDowelProducer();
@@ -74,7 +79,7 @@ public partial class LevelGenerator : Node2D
 			createdNode.Recource_Input = inputs;
 			createdNode.Output = outputs;
 		    
-			GetTree().GetRoot().AddChild(createdNode);
+			GameManager.Instance.CurrentWorld.AddChild(createdNode);
 		}
 	}
 
