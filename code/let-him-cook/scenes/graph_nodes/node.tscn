@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bxk16rwk6e0sh"]
+[gd_scene load_steps=17 format=3 uid="uid://bxk16rwk6e0sh"]
 
 [ext_resource type="Script" uid="uid://ce5tbu5w4imum" path="res://scripts/I_GraphNode.cs" id="1_6r00q"]
 [ext_resource type="Shader" path="res://scenes/graph_nodes/white_pixle_paper_shader.gdshader" id="1_yjnrr"]
@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://bt621tnjte3rt" path="res://scenes/graph_nodes/status_label.tscn" id="6_8iit0"]
 [ext_resource type="Texture2D" uid="uid://cnpqcyhf0184o" path="res://assets/svg/diamond selected.svg" id="6_nppe8"]
 [ext_resource type="Texture2D" uid="uid://cs6xq02ihhl80" path="res://assets/svg/sqircle selected.svg" id="7_6befq"]
+[ext_resource type="Texture2D" uid="uid://c6pqbllo5med2" path="res://assets/svg/squircle_grey_fill.svg" id="8_s4pal"]
+[ext_resource type="Texture2D" uid="uid://bv0enxo3ewsjg" path="res://assets/svg/diamond_grey_fill.svg" id="9_i472n"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8iit0"]
 shader = ExtResource("1_yjnrr")
@@ -23,9 +25,8 @@ radius = 99.24717
 [sub_resource type="CircleShape2D" id="CircleShape2D_5tsiq"]
 radius = 100.04499
 
-[node name="Node" type="CharacterBody2D" node_paths=PackedStringArray("Paths", "circleSprite")]
-z_index = 2
-y_sort_enabled = true
+[node name="Node" type="CharacterBody2D" node_paths=PackedStringArray("Paths", "circleSprite", "circleFillSprite")]
+z_index = 1
 material = SubResource("ShaderMaterial_8iit0")
 script = ExtResource("1_6r00q")
 Paths = []
@@ -35,20 +36,25 @@ diamondTexture = ExtResource("4_gpv0c")
 circleTexture = ExtResource("5_nppe8")
 diamondTextureSelect = ExtResource("6_nppe8")
 squircleTextureSelect = ExtResource("7_6befq")
-
-[node name="Fill" type="Sprite2D" parent="."]
-modulate = Color(1, 1, 1, 0.5019608)
-z_index = 1
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("5_x18su")
+circleFillSprite = NodePath("Fill")
+squircleFillTexture = ExtResource("8_s4pal")
+diamondFillTexture = ExtResource("9_i472n")
+circleFillTexture = ExtResource("5_x18su")
 
 [node name="CircleOutline" type="Sprite2D" parent="."]
+z_index = 2
 material = ExtResource("3_yjnrr")
 scale = Vector2(0.9875, 0.9875)
 texture = ExtResource("2_dsmoq")
 
+[node name="Fill" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.5019608)
+z_index = 2
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_x18su")
+
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = 1
+z_index = 2
 material = ExtResource("3_yjnrr")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -62,10 +68,9 @@ visible = false
 shape = SubResource("CircleShape2D_5tsiq")
 
 [node name="StatusLabel" parent="." instance=ExtResource("6_8iit0")]
-z_index = 2
-anchors_preset = -1
+z_index = 5
+y_sort_enabled = false
 offset_bottom = -100.0
-mouse_filter = 0
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
