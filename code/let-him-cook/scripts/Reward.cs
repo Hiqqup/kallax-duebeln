@@ -102,7 +102,7 @@ public partial class Reward : Control
 		createdNode.Output = selectedNode.Output;
         	
 		// Now add it to the scene tree - this will trigger _Ready() which will use the data
-		GetTree().Root.AddChild(createdNode);
+		GameManager.Instance.CurrentWorld.AddChild(createdNode);
 		createdNode.SetPosition(GetViewport().GetCamera2D().GetGlobalPosition());
 		
 	}
@@ -116,6 +116,7 @@ public partial class Reward : Control
 	{
 		GenerateRewards();
 		UpdateLabels();
+		GameManager.Instance.CurrenctScore += 1;
 		 Visible = true;
 		_callback = c;
 		AudioManager.Instance.PlayAudio("res://assets/audio/SoundEffects/turn-page.mp3");
