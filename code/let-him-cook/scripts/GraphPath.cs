@@ -48,7 +48,8 @@ public partial class GraphPath : Node2D
         set
         {
             _active = value;
-            _dot.Visible = _active;
+            if (_dot != null)
+                _dot.Visible = _active;
         }
     }
     private ProductionResource TransportedItem { get; set; }

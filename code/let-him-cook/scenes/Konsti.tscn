@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://df2at473yqewo"]
+[gd_scene load_steps=17 format=3 uid="uid://df2at473yqewo"]
 
 [ext_resource type="PackedScene" uid="uid://dgn84hypmmi6h" path="res://scenes/graph_nodes/producer.tscn" id="2_8w4ag"]
 [ext_resource type="Script" uid="uid://bco38vskfst5" path="res://scripts/ResourceAmount.cs" id="3_8w4ag"]
 [ext_resource type="PackedScene" uid="uid://sy2xlku1ghrf" path="res://scenes/graph_nodes/consumer.tscn" id="3_foijs"]
 [ext_resource type="Script" uid="uid://cbjk2lp10ylqx" path="res://scripts/UnitSelector.cs" id="5_6pkd6"]
 [ext_resource type="Script" uid="uid://kggxkojncmdr" path="res://scripts/CameraController.cs" id="5_foijs"]
+[ext_resource type="PackedScene" uid="uid://bxk16rwk6e0sh" path="res://scenes/graph_nodes/node.tscn" id="6_6pkd6"]
 
 [sub_resource type="Resource" id="Resource_7nkr0"]
 script = ExtResource("3_8w4ag")
@@ -54,6 +55,18 @@ Resource = 1
 Amount = 23
 metadata/_custom_type_script = "uid://bco38vskfst5"
 
+[sub_resource type="Resource" id="Resource_3lqth"]
+script = ExtResource("3_8w4ag")
+Resource = 1
+Amount = 4
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
+[sub_resource type="Resource" id="Resource_koxqj"]
+script = ExtResource("3_8w4ag")
+Resource = 2
+Amount = 12
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
 [node name="Konsti" type="Node2D"]
 
 [node name="ProducerB" parent="." instance=ExtResource("2_8w4ag")]
@@ -95,3 +108,11 @@ position = Vector2(121, 296)
 
 [node name="Selector" type="Node2D" parent="."]
 script = ExtResource("5_6pkd6")
+
+[node name="Node" parent="." instance=ExtResource("6_6pkd6")]
+position = Vector2(440, 539)
+Output = Array[ExtResource("3_8w4ag")]([SubResource("Resource_3lqth")])
+
+[node name="Node2" parent="." instance=ExtResource("6_6pkd6")]
+position = Vector2(789, 597)
+Recource_Input = Array[ExtResource("3_8w4ag")]([SubResource("Resource_koxqj")])

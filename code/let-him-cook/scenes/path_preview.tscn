@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://3k5fr8ftc4y7"]
 
-[ext_resource type="Script" uid="uid://trd1yst8og8r" path="res://scripts/PathPreview.cs" id="1_8p5yf"]
+[ext_resource type="Script" path="res://scripts/PathPreview.cs" id="1_8p5yf"]
 [ext_resource type="Texture2D" uid="uid://cmxfxqni6ieha" path="res://assets/svg/online_dot.svg" id="2_wqr6m"]
 
 [node name="PathPreview" type="Node2D" node_paths=PackedStringArray("_line", "_dot")]
