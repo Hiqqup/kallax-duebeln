@@ -59,6 +59,11 @@ public partial class I_GraphNode : CharacterBody2D
 
 	private Camera2D _cam;
 
+	[Export] public Sprite2D circleSprite;
+	[Export] public Texture2D squircleTexture;
+	[Export] public Texture2D diamondTexture;
+	[Export] public Texture2D circleTexture;
+
 	public I_GraphNode()
 	{
 		
@@ -183,23 +188,26 @@ public partial class I_GraphNode : CharacterBody2D
 		if (hasInput && hasOutput)
 		{
 			NodeType = NodeType.Factory;
+			circleSprite.Texture = diamondTexture;
 		}
 
 		else if (hasInput)
 		{
 			NodeType = NodeType.Consumer;
+			circleSprite.Texture = squircleTexture;
 		}
 
 		else if (hasOutput)
 		{
 			NodeType = NodeType.Producer;
+			circleSprite.Texture = circleTexture;
 		}
 		else
 		{
 			NodeType = NodeType.None;
 			GD.PrintErr("This node is a root node " + this.Name);
 		}
-		GD.Print("Node \"" + this.Name + "\" is a " +  NodeType.ToString());
+		//GD.Print("Node \"" + this.Name + "\" is a " +  NodeType.ToString());
 	}
 
 	void SetupResourceTexture()
