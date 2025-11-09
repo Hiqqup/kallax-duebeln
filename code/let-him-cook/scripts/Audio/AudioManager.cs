@@ -7,30 +7,44 @@ public partial class AudioManager : Node2D
 	public static AudioManager Instance { get; private set; }
 
 	[Export] private AudioStreamPlayer _musicPlayer;
-		
-	[Export] private Dictionary<SOUND_EFFECT, SoundEffect> _soundEffectDict = new Dictionary<SOUND_EFFECT, SoundEffect>(); // Loads all registered SoundEffects on ready as a reference.
-	[Export] private Array<SoundEffect> _soundEffects = new Array<SoundEffect>(); // Stores all possible SoundEffects that can be played
-	
 	[Export] private Dictionary<string, AudioStreamMP3> _audioStreamsDict = new Dictionary<string, AudioStreamMP3>();
-	[Export] private Array<AudioStreamMP3> _audioStreams = new Array<AudioStreamMP3>();
+	private const string SfxPath = "res://assets/audio/SoundEffects/";
 	
 	public override void _Ready()
 	{
 		Instance = this;
-		foreach (var soundEffect in _soundEffects)
-		{
-			_soundEffectDict.Add(soundEffect.Type, soundEffect);
-		}
-		
-		foreach (var audioStream in _audioStreams)
-		{
-			_audioStreamsDict.Add(audioStream.GetPath(), audioStream);
-		}
-		GD.Print("AudioManager Initialized.");
+		LoadAudioStreamsFromPath();
 	}
 	
-	
-	
+
+	private void LoadAudioStreamsFromPath()
+	{
+		var dir = DirAccess.Open(SfxPath);
+		if (dir == null)
+		{
+			GD.PrintErr("Could not open folder");
+			return;
+		}
+		dir.ListDirBegin();
+		foreach (var file in dir.GetFiles())
+		{
+			if (file.Contains(".import"))
+			{
+				continue;
+			}
+			var resPath = SfxPath + file;
+			//GD.Print("path: ", resPath);
+			var sound = ResourceLoader.Load(resPath) as AudioStreamMP3;
+			if (!IsInstanceValid(sound))
+			{
+				GD.PrintErr("Sound resource could not be loaded.");
+			}
+			_audioStreamsDict.Add(resPath, sound);
+		}
+		dir.ListDirEnd();
+	}
+
+
 	/// <summary>
 	/// Changes the currently playing audio track to the next clip
 	/// </summary>
@@ -40,21 +54,21 @@ public partial class AudioManager : Node2D
 		AudioStreamPlaybackInteractive playback = _musicPlayer.GetStreamPlayback() as AudioStreamPlaybackInteractive;
 		if (!IsInstanceValid(playback))
 		{
-			GD.PushError("cast to AudioStreamPlaybackInteractive returns invalid.");
+			GD.PrintErr("cast to AudioStreamPlaybackInteractive returns invalid.");
 			return;
 		}
 		
 		var stream = _musicPlayer.GetStream() as AudioStreamInteractive;
 		if (!IsInstanceValid(stream))
 		{
-			GD.PushError("cast to AudioStreamInteractive returns invalid.");
+			GD.PrintErr("cast to AudioStreamInteractive returns invalid.");
 			return;
 		}
 		var currentClipName = stream.GetClipName(playback.GetCurrentClipIndex());
 		//GD.Print("clip name: ", currentClipName, "/ type name: ", nextClipName); //Debug print
 		if (currentClipName.Equals(clipName))
 		{
-			GD.PushWarning("Tried changing to an already playing clip.");
+			GD.Print("WARNING: Tried changing to an already playing clip.");
 			return;
 		}
 		
@@ -66,12 +80,10 @@ public partial class AudioManager : Node2D
 		_musicPlayer.StreamPaused = !_musicPlayer.StreamPaused;
 	}
 
-
-
 	
 	
 	
-	public void PlayByPath(string resPath)
+	public void PlayAudio(string resPath)
 	{
 		var stream = _audioStreamsDict[resPath];
 		var player = new AudioStreamPlayer();
@@ -81,7 +93,7 @@ public partial class AudioManager : Node2D
 		player.Play();
 	}
 	
-	public void PlayByPath2D(string resPath, Node2D parent)
+	public void PlayAudio2D(string resPath, Node2D parent)
 	{
 		var stream = _audioStreamsDict[resPath];
 		var player = new AudioStreamPlayer2D();
@@ -92,38 +104,12 @@ public partial class AudioManager : Node2D
 		player.Play();
 	}
 	
-	
-	
-	
-	
-	
-	public void PlaySound(AudioStreamPlayer2D player)
-	{
-		if (!IsInstanceValid(player))
-		{
-			GD.PushError("AudioStreamPlayer is not valid.");
-			return;
-		}
-		//TODO limit logic here
-		player.Play();
-	}
-	
-	public void PlaySound(AudioStreamPlayer player)
-	{
-		if (!IsInstanceValid(player))
-		{
-			GD.PushError("AudioStreamPlayer is not valid.");
-			return;
-		}
-		//TODO limit logic here
-		player.Play();
-	}
 
 
 	
 	
 	
-	
+	/*		OLD AND DEPRICATED
 	/// <summary>
 	/// Play sound effect on the given parent Node.
 	/// </summary>
@@ -199,5 +185,5 @@ public partial class AudioManager : Node2D
 		newSound.Finished += sfx.onAudioFinished;
 		newSound.Finished += newSound.QueueFree;
 		newSound.Play();
-	}
+	} */
 }

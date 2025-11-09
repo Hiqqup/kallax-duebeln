@@ -6,6 +6,7 @@
 [ext_resource type="Material" uid="uid://b8mwcr8b5hsgi" path="res://assets/resources/paper_texture_shader_material.tres" id="4_74lek"]
 
 [node name="Test" type="Node2D"]
+y_sort_enabled = true
 
 [node name="Procedural" parent="." instance=ExtResource("1_74lek")]
 

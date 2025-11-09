@@ -7,9 +7,11 @@ public partial class GameManager : Node
 {
 	[Export]
 	private AnimationPlayer AnimationPlayer { get; set; }
+	public Node CurrentWorld { get; private set; }
 	public static GameManager Instance { get; private set; }
 	
 	public static int playerHealth = 100;
+	public TechTierTracker CurrentTechTierTracker = new TechTierTracker();
 	
 	[Export] public Reward reward { get; set; }
 
@@ -35,6 +37,7 @@ public partial class GameManager : Node
 		ClearChildren();
 		var scene = GD.Load<PackedScene>(scenePath);
 		var sceneInstance = scene.Instantiate();
+		CurrentWorld = sceneInstance;
 		AddChild(sceneInstance);
 		AnimationPlayer.Play("fade_from_black");
 	}

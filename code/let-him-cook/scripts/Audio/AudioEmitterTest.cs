@@ -14,7 +14,7 @@ public partial class AudioEmitterTest : Node2D
 		//test audio
 		if (Input.IsKeyPressed(Key.K))
 		{
-			AudioManager.Instance.PlaySoundByType2D(this, SOUND_EFFECT.SharpPop);
+			AudioManager.Instance.PlayAudio2D("res://assets/audio/SoundEffects/sharp-pop.mp3", this);
 		}
 		//Preferred Method
 		if (Input.IsKeyPressed(Key.I))
@@ -23,7 +23,7 @@ public partial class AudioEmitterTest : Node2D
 			//AudioManager.Instance.PlaySound(player);
 			
 			//Preferred way
-			AudioManager.Instance.PlayByPath("res://assets/audio/SoundEffects/boing.mp3");
+			AudioManager.Instance.PlayAudio("res://assets/audio/SoundEffects/boing.mp3");
 		}
 		
 		
