@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://785wfprvqtaw"]
 
 [ext_resource type="Theme" uid="uid://b8by5uv0gw361" path="res://assets/resources/main_gui_theme.tres" id="1_ekxnf"]
-[ext_resource type="Script" uid="uid://cygyvnlrqc4lm" path="res://scripts/MainMenu.cs" id="1_l6cm7"]
+[ext_resource type="Script" uid="uid://c52t8t70lf1um" path="res://scripts/MainMenu.cs" id="1_l6cm7"]
 [ext_resource type="Material" uid="uid://b8mwcr8b5hsgi" path="res://assets/resources/paper_texture_shader_material.tres" id="3_8ln24"]
 [ext_resource type="VideoStream" uid="uid://blt2poic40in3" path="res://assets/parts/output.ogv" id="3_bqqt6"]
 [ext_resource type="Texture2D" uid="uid://o3hv6scytafy" path="res://assets/titlescreen/cartoonGuy.png" id="4_wu84c"]
@@ -14,7 +14,7 @@ region = Rect2(159.82751, 698.4776, 871.65283, 1289.3779)
 atlas = ExtResource("4_wu84c")
 region = Rect2(2833.2676, 138.7261, 835.4497, 1812.9265)
 
-[node name="MainMenu" type="Control" node_paths=PackedStringArray("CreditsLabel", "TutorialLabel", "StartButton", "ExitButton", "CreditsButton", "KallaxVideo")]
+[node name="MainMenu" type="Control" node_paths=PackedStringArray("CreditsLabel", "TutorialLabel", "StartButton", "ExitButton", "CreditsButton", "KallaxVideo", "ScoreLabel")]
 z_index = -1
 layout_mode = 3
 anchors_preset = 15
@@ -30,6 +30,7 @@ StartButton = NodePath("VBoxContainer/Start")
 ExitButton = NodePath("VBoxContainer/Close")
 CreditsButton = NodePath("VBoxContainer/Credits")
 KallaxVideo = NodePath("KallaxVideo")
+ScoreLabel = NodePath("VBoxContainer/Highscore")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 material = ExtResource("3_8ln24")
@@ -71,15 +72,21 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 59.0
-offset_top = -413.0
+offset_top = -516.0
 offset_right = 464.0
-offset_bottom = -37.0
+offset_bottom = -20.0
 grow_vertical = 0
 theme_override_constants/separation = 32
 
 [node name="Start" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Start Game"
+
+[node name="Highscore" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_ekxnf")
+theme_override_font_sizes/font_size = 32
+text = "Highscore: 12314224"
 
 [node name="Close" type="Button" parent="VBoxContainer"]
 layout_mode = 2
@@ -93,8 +100,8 @@ text = "Credits"
 layout_mode = 0
 offset_left = 23.0
 offset_top = -41.0
-offset_right = 737.0
-offset_bottom = 644.0
+offset_right = 672.0
+offset_bottom = 565.0
 texture = SubResource("AtlasTexture_8ln24")
 expand_mode = 2
 stretch_mode = 4

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bt621tnjte3rt"]
+[gd_scene load_steps=5 format=3 uid="uid://dfkjviuy6hc8r"]
 
 [ext_resource type="Material" uid="uid://b8mwcr8b5hsgi" path="res://assets/resources/paper_texture_shader_material.tres" id="1_tqqia"]
 [ext_resource type="Theme" uid="uid://b8by5uv0gw361" path="res://assets/resources/main_gui_theme.tres" id="2_6b6rt"]
@@ -47,7 +47,7 @@ size_flags_vertical = 3
 [node name="In" type="Label" parent="MarginContainer/VBoxContainer/In"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "IN:"
+text = "Requires:"
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/In"]
 layout_mode = 2
@@ -83,7 +83,7 @@ size_flags_vertical = 3
 [node name="Out" type="Label" parent="MarginContainer/VBoxContainer/Out"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Out:"
+text = "Producing:"
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Out"]
 layout_mode = 2
