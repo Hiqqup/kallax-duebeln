@@ -31,6 +31,7 @@ public partial class MainMenu : Control
 
 	private void StartGame()
 	{
+		AudioManager.Instance.changeMusic("BackgroundMusic");
 		GameManager.Instance.LoadScene("res://scenes/test.tscn");
 	}
 
