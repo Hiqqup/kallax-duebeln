@@ -117,6 +117,7 @@ public partial class Reward : Control
 	{
 		 Visible = true;
 		_callback = c;
+		AudioManager.Instance.PlayByPath("res://assets/audio/SoundEffects/turn-page.mp3");
 	}
 
 	private void CallbackWasntSetWarning(int i)
@@ -126,6 +127,7 @@ public partial class Reward : Control
 	
 	private void StopRewardSelection(int i)
 	{
+		AudioManager.Instance.PlayByPath("res://assets/audio/SoundEffects/sharp-clap.mp3");
 		Visible = false;
 		InstantiateSelectedReward(i);
 		_callback(i);
