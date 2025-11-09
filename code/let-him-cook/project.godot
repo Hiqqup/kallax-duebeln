@@ -10,10 +10,14 @@ config_version=5
 
 [application]
 
-config/name="LetHimCook"
+config/name="KallaxMaker"
+config/description="Kallax"
+config/version="1.0"
 run/main_scene="uid://vywow137nbyf"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0.77254903, 0.77254903, 0.77254903, 1)
+boot_splash/image="uid://ptsxeitcgmmx"
+config/icon="uid://brdx5864ppeue"
 "<<<<<<<Updatedupstream[display]window/size/viewport_width"=1920
 window/size/viewport_height=1080
 
