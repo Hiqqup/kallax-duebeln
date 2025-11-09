@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://vywow137nbyf"]
+[gd_scene load_steps=8 format=3 uid="uid://vywow137nbyf"]
 
 [ext_resource type="Script" uid="uid://bm4h8tuqralvs" path="res://scripts/global/GameManager.cs" id="1_hwd4i"]
 [ext_resource type="PackedScene" uid="uid://dxnsklpj5li7y" path="res://scenes/cursor.tscn" id="2_glms7"]
+[ext_resource type="PackedScene" uid="uid://csysbik0bf7tc" path="res://scenes/graph_nodes/Reward.tscn" id="3_udu3i"]
 
 [sub_resource type="Animation" id="Animation_glms7"]
 length = 0.001
@@ -93,9 +94,10 @@ _data = {
 &"fade_to_black": SubResource("Animation_hwd4i")
 }
 
-[node name="Game" type="Node" node_paths=PackedStringArray("AnimationPlayer")]
+[node name="Game" type="Node" node_paths=PackedStringArray("AnimationPlayer", "reward")]
 script = ExtResource("1_hwd4i")
 AnimationPlayer = NodePath("Internal/AnimationPlayer")
+reward = NodePath("Internal/CanvasLayer/Reward")
 
 [node name="Internal" type="Node" parent="."]
 
@@ -117,3 +119,8 @@ libraries = {
 }
 
 [node name="Cursor" parent="Internal" instance=ExtResource("2_glms7")]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Internal"]
+
+[node name="Reward" parent="Internal/CanvasLayer" instance=ExtResource("3_udu3i")]
+visible = false
