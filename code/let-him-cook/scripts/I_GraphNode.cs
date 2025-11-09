@@ -60,9 +60,12 @@ public partial class I_GraphNode : CharacterBody2D
 	private Camera2D _cam;
 
 	[Export] public Sprite2D circleSprite;
+	
 	[Export] public Texture2D squircleTexture;
 	[Export] public Texture2D diamondTexture;
 	[Export] public Texture2D circleTexture;
+	[Export] public Texture2D diamondTextureSelect;
+	[Export] public Texture2D squircleTextureSelect;
 	private static bool _anyUnitBeingDragged = false;
 
 	public I_GraphNode()
@@ -197,13 +200,13 @@ public partial class I_GraphNode : CharacterBody2D
 		else if (hasInput)
 		{
 			NodeType = NodeType.Consumer;
-			circleSprite.Texture = squircleTexture;
+			circleSprite.Texture = circleTexture;
 		}
 
 		else if (hasOutput)
 		{
 			NodeType = NodeType.Producer;
-			circleSprite.Texture = circleTexture;
+			circleSprite.Texture = squircleTexture;
 		}
 		else
 		{
@@ -518,12 +521,28 @@ public partial class I_GraphNode : CharacterBody2D
 	public void Select()
 	{
 		// selector.Show(); if there is a selector
+		if (NodeType == NodeType.Producer)
+		{
+			circleSprite.Texture = squircleTextureSelect;
+		}
+		else if (NodeType == NodeType.Factory)
+		{
+			circleSprite.Texture = diamondTextureSelect;
+		}
 		AddToGroup("selected_units");
 	}
 
 	public void Deselect()
 	{
 		// selector.Hide();
+		if (NodeType == NodeType.Producer)
+		{
+			circleSprite.Texture = squircleTexture;
+		}
+		else if (NodeType == NodeType.Factory)
+		{
+			circleSprite.Texture = diamondTexture;
+		}
 		RemoveFromGroup("selected_units");
 	}
 
@@ -546,9 +565,6 @@ public partial class I_GraphNode : CharacterBody2D
 	#endregion
 	
 	
-
-	
-
 	public void _on_area_2d_mouse_entered()
 	{
 		MouseOver = true;
