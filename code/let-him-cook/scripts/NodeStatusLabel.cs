@@ -14,13 +14,6 @@ public partial class NodeStatusLabel : PanelContainer
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if (Input.IsActionJustPressed("show_all_tooltips"))
-		{
-			Show();
-		} else if (Input.IsActionJustReleased("show_all_tooltips"))
-		{
-			Hide();
-		}
 	}
 
 	[Export] private VBoxContainer _inContainer;
@@ -32,6 +25,14 @@ public partial class NodeStatusLabel : PanelContainer
 
 	public void UpdateLabel(I_GraphNode node)
 	{
+		if (node.MouseOver == true || Input.IsActionJustPressed("show_all_tooltips"))
+		{
+			Show();
+		}else if (node.MouseOver == false && (Input.IsActionJustReleased("show_all_tooltips") || !Input.IsActionPressed("show_all_tooltips")))
+		{
+			Hide();
+		}
+		
 		var nodeType = node.NodeType;
 		if (nodeType == NodeType.Factory)
 		{
