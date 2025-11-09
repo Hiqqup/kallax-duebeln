@@ -23,7 +23,8 @@ script = ExtResource("1_6r00q")
 Paths = []
 
 [node name="Fill" type="Sprite2D" parent="."]
-z_index = 1
+modulate = Color(1, 1, 1, 0.5019608)
+z_index = 2
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_x18su")
 
@@ -33,7 +34,7 @@ scale = Vector2(0.9875, 0.9875)
 texture = ExtResource("2_dsmoq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = 2
+z_index = 1
 material = ExtResource("3_yjnrr")
 
 [node name="Area2D" type="Area2D" parent="."]
@@ -47,6 +48,7 @@ visible = false
 shape = SubResource("CircleShape2D_5tsiq")
 
 [node name="StatusLabel" type="Label" parent="."]
+z_index = 4
 offset_left = -80.0
 offset_top = -116.0
 offset_right = 80.0
