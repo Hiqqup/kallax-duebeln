@@ -7,8 +7,10 @@ public partial class NodeStatusLabel : PanelContainer
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		Hide();
 	}
-
+	
+	
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
@@ -23,6 +25,14 @@ public partial class NodeStatusLabel : PanelContainer
 
 	public void UpdateLabel(I_GraphNode node)
 	{
+		if (node.MouseOver == true || Input.IsActionJustPressed("show_all_tooltips"))
+		{
+			Show();
+		}else if (node.MouseOver == false && (Input.IsActionJustReleased("show_all_tooltips") || !Input.IsActionPressed("show_all_tooltips")))
+		{
+			Hide();
+		}
+		
 		var nodeType = node.NodeType;
 		if (nodeType == NodeType.Factory)
 		{

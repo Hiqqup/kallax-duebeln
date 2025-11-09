@@ -26,7 +26,6 @@ public partial class UnitSelector : Node2D
         {
             if (mouseEvent.Pressed)
             {
-                AudioManager.Instance.PlayByPath("res://assets/audio/SoundEffects/single-click.mp3");
                 // Check if we clicked on a unit
                 var mousePos = GetViewport().GetCamera2D().GetGlobalMousePosition();
                 bool clickedOnUnit = false;
@@ -55,7 +54,6 @@ public partial class UnitSelector : Node2D
             }
             else // Released
             {
-                AudioManager.Instance.PlayByPath("res://assets/audio/SoundEffects/single-click.mp3");
                 if (_selecting)
                 {
                     _selecting = false;

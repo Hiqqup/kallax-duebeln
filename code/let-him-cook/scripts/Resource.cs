@@ -15,9 +15,22 @@ public enum ProductionResource
     kallax2x4 = 10,
     END = 11
 }
-
 public static class ProductionResourceExtensions
 {
+    
+    public static Dictionary<ProductionResource, int> TierMap = new Dictionary<ProductionResource, int>()
+    {
+        {ProductionResource.Dowel , 1},
+        {ProductionResource.PointyScrew , 1},
+        {ProductionResource.ScrewPlug, 1},
+        {ProductionResource.DoubleEndedScrew , 2},
+        {ProductionResource.Hinge , 2},
+        {ProductionResource.Plank, 2},
+        {ProductionResource.Kallax1x1 , 3},
+        {ProductionResource.Kallax1x2 , 3},
+        {ProductionResource.Kallax2x2 , 3},
+        {ProductionResource.kallax2x4 , 4},
+    };        
     /**
      * Gets a random item of the Production Resources
      */
@@ -38,9 +51,6 @@ public static class ProductionResourceExtensions
     public static ProductionResource GetRandomT2Resource()
     {
         Array<ProductionResource> productionResources = new Array<ProductionResource>();
-        productionResources.Add(ProductionResource.Dowel);
-        productionResources.Add(ProductionResource.PointyScrew);
-        productionResources.Add(ProductionResource.ScrewPlug);
         productionResources.Add(ProductionResource.DoubleEndedScrew);
         productionResources.Add(ProductionResource.Hinge);
         productionResources.Add(ProductionResource.Plank);
@@ -50,9 +60,6 @@ public static class ProductionResourceExtensions
     public static ProductionResource GetRandomT3Resource()
     {
         Array<ProductionResource> productionResources = new Array<ProductionResource>();
-        productionResources.Add(ProductionResource.DoubleEndedScrew);
-        productionResources.Add(ProductionResource.Hinge);
-        productionResources.Add(ProductionResource.Plank);
         productionResources.Add(ProductionResource.Kallax1x1);
         productionResources.Add(ProductionResource.Kallax1x2);
         productionResources.Add(ProductionResource.Kallax2x2);
@@ -62,9 +69,6 @@ public static class ProductionResourceExtensions
     public static ProductionResource GetRandomT4Resource()
     {
         Array<ProductionResource> productionResources = new Array<ProductionResource>();
-        productionResources.Add(ProductionResource.Kallax1x1);
-        productionResources.Add(ProductionResource.Kallax1x2);
-        productionResources.Add(ProductionResource.Kallax2x2);
         productionResources.Add(ProductionResource.kallax2x4);
         return productionResources[GD.RandRange(0, productionResources.Count-1)];
     }
