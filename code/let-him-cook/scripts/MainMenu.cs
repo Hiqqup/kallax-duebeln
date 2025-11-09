@@ -31,21 +31,21 @@ public partial class MainMenu : Control
 
 	private void StartGame()
 	{
-		AudioManager.Instance.PlaySoundByType(SOUND_EFFECT.SharpPop);
+		AudioManager.Instance.PlayAudio("res://assets/audio/SoundEffects/sharp-pop.mp3");
 		AudioManager.Instance.changeMusic("BackgroundMusic");
 		GameManager.Instance.LoadScene("res://scenes/test.tscn");
 	}
 
 	private void ExitGame()
 	{
-		AudioManager.Instance.PlaySoundByType(SOUND_EFFECT.SharpPop);
+		AudioManager.Instance.PlayAudio("res://assets/audio/SoundEffects/sharp-pop.mp3");
 		GameManager.Instance.CloseGame();
 	}
 
 
 	private void ToggleCredits()
 	{
-		AudioManager.Instance.PlaySoundByType(SOUND_EFFECT.SharpPop);
+		AudioManager.Instance.PlayAudio("res://assets/audio/SoundEffects/sharp-pop.mp3");
 		KallaxVideo.Visible = !KallaxVideo.Visible;
 		CreditsLabel.Visible = !CreditsLabel.Visible;
 	}
