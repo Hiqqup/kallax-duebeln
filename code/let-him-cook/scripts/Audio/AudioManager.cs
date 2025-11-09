@@ -1,13 +1,13 @@
 using System;
+using System.Collections.Generic;
 using Godot;
-using Godot.Collections;
 
 public partial class AudioManager : Node2D
 {
 	public static AudioManager Instance { get; private set; }
 
 	[Export] private AudioStreamPlayer _musicPlayer;
-	[Export] private Dictionary<string, AudioStreamMP3> _audioStreamsDict = new Dictionary<string, AudioStreamMP3>();
+	private Dictionary<string, AudioStreamMP3> _audioStreamsDict = new Dictionary<string, AudioStreamMP3>();
 	private const string SfxPath = "res://assets/audio/SoundEffects/";
 	
 	public override void _Ready()
