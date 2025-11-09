@@ -9,6 +9,11 @@ public partial class UnitSelector : Node2D
     private Rect2 _selectBox = new Rect2();
     private const float MIN_DRAG_DISTANCE = 5f; // Minimum pixels to be considered a drag
 
+    public override void _Ready()
+    {
+        ZIndex = 100;
+    }
+
     public override void _Input(InputEvent @event)
     {
         // Check if any unit is being dragged - if so, don't do box selection
