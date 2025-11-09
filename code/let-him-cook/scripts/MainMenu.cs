@@ -7,6 +7,7 @@ public partial class MainMenu : Control
 {
 	
 	[Export] public Label CreditsLabel;
+	[Export] public Label TutorialLabel;
 	[Export] public Button StartButton;
 	[Export] public Button ExitButton;
 	[Export] public Button CreditsButton;
@@ -48,8 +49,36 @@ public partial class MainMenu : Control
 	private void ToggleCredits()
 	{
 		AudioManager.Instance.PlayAudio("res://assets/audio/SoundEffects/sharp-pop.mp3");
-		KallaxVideo.Visible = !KallaxVideo.Visible;
-		CreditsLabel.Visible = !CreditsLabel.Visible;
+		if (CreditsLabel.Visible)
+		{
+			KallaxVideo.Visible = true;
+			CreditsLabel.Visible = false;
+			TutorialLabel.Visible = false;
+		}
+		else
+		{
+			KallaxVideo.Visible = false;
+			CreditsLabel.Visible = true;
+			TutorialLabel.Visible = false;
+		}
+		
+	}
+
+	private void ToggleTutorial()
+	{
+		AudioManager.Instance.PlayAudio("res://assets/audio/SoundEffects/sharp-pop.mp3");
+		if (TutorialLabel.Visible)
+		{
+			KallaxVideo.Visible = true;
+			CreditsLabel.Visible = false;
+			TutorialLabel.Visible = false;
+		}
+		else
+		{
+			KallaxVideo.Visible = false;
+			CreditsLabel.Visible = false;
+			TutorialLabel.Visible = true;
+		}
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
