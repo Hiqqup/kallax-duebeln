@@ -55,7 +55,7 @@ public partial class I_GraphNode : CharacterBody2D
 
 	private readonly float _taskTimeSeconds = 15.0f;
 	
-	private Timer _questDuration;
+	public Timer QuestDuration;
 
 	private Camera2D _cam;
 
@@ -106,10 +106,10 @@ public partial class I_GraphNode : CharacterBody2D
 
 		if (NodeType.Equals(NodeType.Consumer))
 		{
-			_questDuration = new Timer();
-			_questDuration.OneShot = true;
-			AddChild(_questDuration);
-			_questDuration.Timeout += OnQuestDurationTimeout;
+			QuestDuration = new Timer();
+			QuestDuration.OneShot = true;
+			AddChild(QuestDuration);
+			QuestDuration.Timeout += OnQuestDurationTimeout;
 		}
 		
 		ResetInputInventory();
@@ -151,7 +151,7 @@ public partial class I_GraphNode : CharacterBody2D
 	public void RegisterConsumerFailedAction(Action action)
 	{
 		GD.Print("Registered funciton for consumer failed");
-		_questDuration.Timeout += action;
+		QuestDuration.Timeout += action;
 	}
 
 	public void AddPath(GraphPath path)
@@ -331,9 +331,9 @@ public partial class I_GraphNode : CharacterBody2D
 			{
 				OnInputSatisfied?.Invoke();
 				
-				if (NodeType == NodeType.Consumer && _questDuration != null && !_questDuration.IsStopped())
+				if (NodeType == NodeType.Consumer && QuestDuration != null && !QuestDuration.IsStopped())
 				{
-					_questDuration.Stop();
+					QuestDuration.Stop();
 					GD.Print($"Consumer {this.Name} task completed successfully!");
 					OnConsumerTaskCompleted?.Invoke();
 					
@@ -374,14 +374,14 @@ public partial class I_GraphNode : CharacterBody2D
 	
 	public void CheckTimer(float length)
 	{
-		if (_questDuration.IsStopped())
+		if (QuestDuration.IsStopped())
 		{
 			GD.Print("Timer not running - starting new timer");
-			_questDuration.Start(length);
+			QuestDuration.Start(length);
 		}
 		else 
 		{
-			GD.Print($"Timer is running. Time left: {_questDuration.TimeLeft:F2} seconds" );
+			GD.Print($"Timer is running. Time left: {QuestDuration.TimeLeft:F2} seconds" );
 		}
 	}
 
