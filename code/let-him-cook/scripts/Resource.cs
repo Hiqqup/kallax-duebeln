@@ -1,4 +1,5 @@
-﻿using Godot.Collections;
+﻿using Godot;
+using Godot.Collections;
 public enum ProductionResource
 {
     None = 0,
@@ -12,4 +13,16 @@ public enum ProductionResource
     Kallax1x2 = 8,
     Kallax2x2 = 9,
     kallax2x4 = 10,
+    END = 11
+}
+
+public static class ProductionResourceExtensions
+{
+    /**
+     * Gets a random item of the Production Resources
+     */
+    public static ProductionResource GetRandom()
+    {
+        return (ProductionResource)GD.RandRange((int)ProductionResource.None+1, (int)ProductionResource.END-1);
+    }
 }

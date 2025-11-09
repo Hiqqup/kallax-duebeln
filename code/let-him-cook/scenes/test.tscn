@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b0ussgm4aw1r6"]
 
-[ext_resource type="PackedScene" path="res://scenes/level.tscn" id="1_74lek"]
+[ext_resource type="PackedScene" uid="uid://jl62epl5aqnh" path="res://scenes/level.tscn" id="1_74lek"]
 [ext_resource type="PackedScene" path="res://scenes/selector.tscn" id="2_74lek"]
 [ext_resource type="Script" uid="uid://kggxkojncmdr" path="res://scripts/CameraController.cs" id="3_iyx0m"]
 [ext_resource type="Material" uid="uid://b8mwcr8b5hsgi" path="res://assets/resources/paper_texture_shader_material.tres" id="4_74lek"]
@@ -23,6 +23,7 @@ offset_left = -8.0
 offset_top = -13.0
 offset_right = 1940.0
 offset_bottom = 1084.0
+mouse_filter = 1
 color = Color(0.77254903, 0.76862746, 0.76862746, 1)
 
 [node name="Selector" parent="." instance=ExtResource("2_74lek")]

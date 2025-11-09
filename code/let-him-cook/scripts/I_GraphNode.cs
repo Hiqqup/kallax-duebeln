@@ -52,11 +52,21 @@ public partial class I_GraphNode : CharacterBody2D
 	private Sprite2D _fillSprite2D;
 	private Label _statusLabel;
 
-	private readonly float _taskTimeSeconds = 5.0f;
+	private readonly float _taskTimeSeconds = 30.0f;
 	
 	private Timer _questDuration;
 
 	private Camera2D _cam;
+
+	public I_GraphNode()
+	{
+		
+	}
+	public I_GraphNode(Array<ResourceAmount> inputs, Array<ResourceAmount> outputs)
+	{
+		Recource_Input = inputs;
+		Output = outputs;
+	}
 	
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -264,6 +274,24 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			GD.Print($"Player selected reward {selectedRewardIndex}");
 			// Handle reward logic
+
+			switch (selectedRewardIndex)
+			{
+				case 0:
+				{
+					break;
+				}
+				case 1:
+				{
+					break;
+				}
+				case 2:
+				{
+					break;
+				}
+				default:
+					break;
+			}
 			
 			// Clean up both the reward and the canvas layer
 			canvasLayer.QueueFree();

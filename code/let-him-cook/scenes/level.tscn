@@ -479,5 +479,3 @@ texture = ExtResource("11_pqd0y")
 [node name="ScrewPlug3" type="Sprite2D" parent="Visualize"]
 position = Vector2(601, 684)
 texture = ExtResource("11_pqd0y")
-
-[node name="Node" parent="." instance=ExtResource("12_5k0ak")]
