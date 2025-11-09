@@ -27,7 +27,7 @@ public partial class I_GraphNode : CharacterBody2D
 	public delegate void InputSatisfiedHandler();
 	public event InputSatisfiedHandler OnInputSatisfied;
 
-	private NodeType _nodeType = NodeType.None;
+	public NodeType NodeType { get; set; } = NodeType.None;
 	
 	
 	private Queue<GraphPath> _pathQueue = new Queue<GraphPath>();
@@ -47,6 +47,8 @@ public partial class I_GraphNode : CharacterBody2D
 	private static I_GraphNode _lastHovered;
 	private CollisionShape2D  _collisionShape2D;
 	private Label _statusLabel;
+
+	private readonly float _taskTimeSeconds = 5.0f;
 	
 	private Timer _questDuration;
 
@@ -55,12 +57,12 @@ public partial class I_GraphNode : CharacterBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		 if (false) // type == consumer
+		 if (NodeType.Equals(NodeType.Consumer)) // type == consumer
 		 {
 			 _questDuration = new Timer();
 			 _questDuration.OneShot = true;
 			 AddChild(_questDuration);
-			 
+
 			 _questDuration.Timeout += OnQuestDurationTimeout;
 		 }
 
@@ -79,7 +81,7 @@ public partial class I_GraphNode : CharacterBody2D
 		
 		DetectNodeType();
 
-		if (_nodeType == NodeType.Producer || _nodeType == NodeType.Factory)
+		if (NodeType == NodeType.Producer || NodeType == NodeType.Factory)
 		{
 			AddToGroup("selectable_units");
 		}
@@ -103,7 +105,7 @@ public partial class I_GraphNode : CharacterBody2D
 			}
 		}
 		
-		if (_nodeType == NodeType.Producer)
+		if (NodeType == NodeType.Producer)
 		{
 			AddChild(_resourceProductionTimer);
 			_resourceProductionTimer.OneShot = false;
@@ -116,6 +118,12 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			OnInputSatisfied += () => {};
 		} */
+	}
+
+	public void RegisterConsumerFailedAction(Action action)
+	{
+		GD.Print("Registered funciton for consumer failed");
+		_questDuration.Timeout += action;
 	}
 
 	public void PathFinished(GraphPath path)
@@ -148,25 +156,26 @@ public partial class I_GraphNode : CharacterBody2D
 		if (hasInput && hasOutput)
 		{
 			//GD.Print("Node " + this.Name + " is a Factory");
-			_nodeType = NodeType.Factory;
+			NodeType = NodeType.Factory;
 		}
 
 		else if (hasInput)
 		{
 			//GD.Print("Node \"" + this.Name + "\" is a Consumer");
-			_nodeType = NodeType.Consumer;
+			NodeType = NodeType.Consumer;
 		}
 
 		else if (hasOutput)
 		{
 			//GD.Print("Node \"" + this.Name + "\" is a Producer");
-			_nodeType = NodeType.Producer;
+			NodeType = NodeType.Producer;
 		}
 		else
 		{
-			_nodeType = NodeType.None;
+			NodeType = NodeType.None;
+			GD.PrintErr("This node is a root node " + this.Name);
 		}
-		GD.Print("Node \"" + this.Name + "\" is a " +  _nodeType.ToString());
+		GD.Print("Node \"" + this.Name + "\" is a " +  NodeType.ToString());
 	}
 
 	private void ResetInputInventory()
@@ -189,9 +198,9 @@ public partial class I_GraphNode : CharacterBody2D
 		if (Output == null || Output.Count == 0 || Output[0].Resource == ProductionResource.None) return;
 		
 		_producedResourceBuffer.Resource = Output[0].Resource;
-		if (_nodeType == NodeType.Producer)
+		if (NodeType == NodeType.Producer)
 			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + 1, 0, Output[0].Amount * 2);
-		if (_nodeType == NodeType.Factory)
+		if (NodeType == NodeType.Factory)
 			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + Output[0].Amount, 0, Output[0].Amount * 2);
 		//GD.Print($"Produced resource: {_producedResourceBuffer.Resource}, stored amount: {_producedResourceBuffer.Amount}");
 		
@@ -225,22 +234,35 @@ public partial class I_GraphNode : CharacterBody2D
 		}
 	}
 
+	public void StartConsumerTimer()
+	{
+		GD.Print("Started consumer timer");
+		if (NodeType != NodeType.Consumer)
+		{
+			GD.PrintErr("Tried calling Start Consumer Timer on " + this.Name + " but this node is not a consumer");
+			return;
+		}
+
+		CheckTimer(_taskTimeSeconds);
+	}
+	
 	public void CheckTimer(float length)
 	{
-		if (!_questDuration.IsStopped())
-		{
-			GD.Print($"Timer is running. Time left: {_questDuration.TimeLeft:F2} seconds" );
-		}
-		else 
+		if (_questDuration.IsStopped())
 		{
 			GD.Print("Timer not running - starting new timer");
 			_questDuration.Start(length);
+		}
+		else 
+		{
+			GD.Print($"Timer is running. Time left: {_questDuration.TimeLeft:F2} seconds" );
 		}
 	}
 
 	public void OnQuestDurationTimeout()
 	{
 		GD.Print("Timer finished");
+		ResetInputInventory();
 	}
 
 	public bool IsInsideSelectionBox(Rect2 box)
@@ -375,7 +397,7 @@ public partial class I_GraphNode : CharacterBody2D
 	private void UpdateLabel()
 	{
 		string text = "";
-		if (_nodeType.Equals(NodeType.Consumer) || _nodeType.Equals(NodeType.Factory))
+		if (NodeType.Equals(NodeType.Consumer) || NodeType.Equals(NodeType.Factory))
 		{
 			text += "IN: ";
 			foreach (var re in Recource_Input)
@@ -384,7 +406,7 @@ public partial class I_GraphNode : CharacterBody2D
 			}
 		}
 
-		if (_nodeType.Equals(NodeType.Producer) || _nodeType.Equals(NodeType.Factory))
+		if (NodeType.Equals(NodeType.Producer) || NodeType.Equals(NodeType.Factory))
 		{
 			text += "\nOUT: ";
 			text += $"{Output[0].Resource.ToString()}: {_producedResourceBuffer.Amount}/{Output[0].Amount}";
@@ -413,11 +435,11 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			return false;
 		}
-		if (targetNode._nodeType == NodeType.Producer)
+		if (targetNode.NodeType == NodeType.Producer)
 		{
 			return false;
 		}
-		if (_pathOrigin._nodeType == NodeType.Consumer)
+		if (_pathOrigin.NodeType == NodeType.Consumer)
 		{
 			return false;
 		}
