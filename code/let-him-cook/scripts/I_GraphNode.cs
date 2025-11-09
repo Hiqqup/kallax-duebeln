@@ -50,6 +50,7 @@ public partial class I_GraphNode : CharacterBody2D
 	private static I_GraphNode _lastHovered;
 	private CollisionShape2D  _collisionShape2D;
 	private Sprite2D _fillSprite2D;
+	private Sprite2D _contentSprite2D;
 	private Label _statusLabel;
 
 	private readonly float _taskTimeSeconds = 30.0f;
@@ -84,8 +85,10 @@ public partial class I_GraphNode : CharacterBody2D
 		// Initialize the input inventory from the Input array
 		_inputInventory = new SystemDictionary();
 		_fillSprite2D = GetNode<Sprite2D>("Fill");
+		_contentSprite2D = GetNode<Sprite2D>("Sprite2D");
 
 		DetectNodeType();
+		SetupResourceTexture();
 
 		if (NodeType == NodeType.Producer || NodeType == NodeType.Factory)
 		{
@@ -187,6 +190,29 @@ public partial class I_GraphNode : CharacterBody2D
 			GD.PrintErr("This node is a root node " + this.Name);
 		}
 		GD.Print("Node \"" + this.Name + "\" is a " +  NodeType.ToString());
+	}
+
+	void SetupResourceTexture()
+	{
+		string resourcePath = "";
+		if (NodeType == NodeType.Producer || NodeType == NodeType.Factory)
+		{
+			if (Output.Count > 0)
+				resourcePath = SpriteLookup.MapResourceToFile(Output[0].Resource);
+		}
+
+		if (NodeType == NodeType.Consumer)
+		{
+			if (Recource_Input.Count > 0)
+				resourcePath = SpriteLookup.MapResourceToFile(Recource_Input[0].Resource);
+		}
+
+		if (resourcePath != "")
+		{
+			var texture = GD.Load<Texture2D>(resourcePath);
+			_contentSprite2D.Texture = texture;
+		}
+		
 	}
 
 	private void ResetInputInventory()
