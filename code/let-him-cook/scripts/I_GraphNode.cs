@@ -662,7 +662,6 @@ public partial class I_GraphNode : CharacterBody2D
 				_lastHovered = null; // Clear after connection attempt
 			}
 		}
-
 		UpdateLabel();
 	}
 
