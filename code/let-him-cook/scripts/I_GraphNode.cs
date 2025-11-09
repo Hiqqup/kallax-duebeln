@@ -426,6 +426,7 @@ public partial class I_GraphNode : CharacterBody2D
 		ResetInputInventory();
 		RemoveAllIncomingPaths();
 		GameManager.modPlayerHealth(-10);
+		AudioManager.Instance.PlayAudio("res://assets/audio/SoundEffects/tear-paper.mp3");
 	}
 
 	#region Unit Selection
@@ -490,13 +491,14 @@ public partial class I_GraphNode : CharacterBody2D
 					// Stop dragging
 					FollowMouse = false;
 					_anyUnitBeingDragged = false;
-
+					
 					// Stop all selected units and deselect them
 					foreach (I_GraphNode unit in GetTree().GetNodesInGroup("selected_units").Cast<I_GraphNode>())
 					{
 						unit.StopFollowing();
 						unit.Deselect();
 					}
+					AudioManager.Instance.PlayAudio("res://assets/audio/SoundEffects/thud.mp3");
 				}
 			}
 		}
@@ -532,6 +534,12 @@ public partial class I_GraphNode : CharacterBody2D
 
 	public void Select()
 	{
+		// Check if the sprite still exists and is valid
+		if (circleSprite == null || !IsInstanceValid(circleSprite))
+		{
+			return;
+		}
+		
 		// selector.Show(); if there is a selector
 		if (NodeType == NodeType.Producer)
 		{
@@ -546,6 +554,12 @@ public partial class I_GraphNode : CharacterBody2D
 
 	public void Deselect()
 	{
+		// Check if the sprite still exists and is valid
+		if (circleSprite == null || !IsInstanceValid(circleSprite))
+		{
+			return;
+		}
+		
 		// selector.Hide();
 		if (NodeType == NodeType.Producer)
 		{
@@ -648,7 +662,6 @@ public partial class I_GraphNode : CharacterBody2D
 				_lastHovered = null; // Clear after connection attempt
 			}
 		}
-
 		UpdateLabel();
 	}
 
@@ -682,6 +695,8 @@ public partial class I_GraphNode : CharacterBody2D
 			{
 				targetNode.StartConsumerTimer();
 			}
+			
+			AudioManager.Instance.PlayAudio("res://assets/audio/SoundEffects/sharp-clap.mp3");
 		}
 	}
 

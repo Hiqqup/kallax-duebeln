@@ -128,7 +128,7 @@ public partial class Reward : Control
 	
 	private void StopRewardSelection(int i)
 	{
-		AudioManager.Instance.PlayAudio("res://assets/audio/SoundEffects/sharp-clap.mp3");
+		AudioManager.Instance.PlayAudio("res://assets/audio/SoundEffects/keyboard-click.mp3");
 		Visible = false;
 		InstantiateSelectedReward(i);
 		_callback(i);
