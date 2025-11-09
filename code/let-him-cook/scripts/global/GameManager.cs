@@ -44,6 +44,7 @@ public partial class GameManager : Node
 	
 	public void LoadMainMenu()
 	{
+		healthBar.Hide();
 		AudioManager.Instance.changeMusic("MainMenu");
 		LoadScene(PathLookup.MainMenuPath);
 	}
