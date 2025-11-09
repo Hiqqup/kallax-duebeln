@@ -9,6 +9,8 @@ public partial class UnitSelector : Node2D
     private Rect2 _selectBox = new Rect2();
     private const float MIN_DRAG_DISTANCE = 5f; // Minimum pixels to be considered a drag
 
+    [Export] public Color InnerColor = new Color("#00ff0066");
+    [Export] public Color OuterColor =  new Color("#00ff00");
     public override void _Ready()
     {
         ZIndex = 100;
@@ -87,8 +89,8 @@ public partial class UnitSelector : Node2D
         {
             return;
         }
-        DrawRect(_selectBox, new Color("#00ff0066"));
-        DrawRect(_selectBox, new Color("#00ff00"), false, 2f);
+        DrawRect(_selectBox, InnerColor);
+        DrawRect(_selectBox,OuterColor, false, 2f);
     }
 
     private void UpdateSelectedUnits()

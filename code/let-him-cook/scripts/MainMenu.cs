@@ -12,6 +12,7 @@ public partial class MainMenu : Control
 	[Export] public Button ExitButton;
 	[Export] public Button CreditsButton;
 	[Export] public VideoStreamPlayer KallaxVideo;
+	[Export] public Label ScoreLabel;
 	private Godot.GDScript _animationUtil;
 	
 	
@@ -27,6 +28,15 @@ public partial class MainMenu : Control
 				// add in soud effect here
 				_animationUtil.Call("bounce_tween", button)
 				));
+		}
+		if(GameManager.LoadScore() > 0)
+		{
+			ScoreLabel.Show();
+			ScoreLabel.Text = $"Highscore: {GameManager.LoadScore()}";
+		}
+		else
+		{
+			ScoreLabel.Hide();
 		}
 	}
 
