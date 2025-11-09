@@ -1,14 +1,14 @@
 [gd_scene load_steps=13 format=3 uid="uid://bxk16rwk6e0sh"]
 
-[ext_resource type="Script" uid="uid://ce5tbu5w4imum" path="res://scripts/I_GraphNode.cs" id="1_6r00q"]
-[ext_resource type="Shader" path="res://scenes/graph_nodes/white_pixle_paper_shader.gdshader" id="1_yjnrr"]
+[ext_resource type="Script" path="res://scripts/I_GraphNode.cs" id="1_6r00q"]
+[ext_resource type="Shader" uid="uid://ciaepdir5bad7" path="res://scenes/graph_nodes/white_pixle_paper_shader.gdshader" id="1_yjnrr"]
 [ext_resource type="Texture2D" uid="uid://sapt04gkgg8m" path="res://assets/svg/circle_outline.svg" id="2_dsmoq"]
 [ext_resource type="Texture2D" uid="uid://b1w3k8rntwbgm" path="res://assets/svg/squircle.svg" id="3_rvlrc"]
 [ext_resource type="Material" uid="uid://b8mwcr8b5hsgi" path="res://assets/resources/paper_texture_shader_material.tres" id="3_yjnrr"]
 [ext_resource type="Texture2D" uid="uid://b3yxvap4dmdc6" path="res://assets/svg/diamond.svg" id="4_gpv0c"]
 [ext_resource type="Texture2D" uid="uid://gadj3ifuwrp4" path="res://assets/svg/online_circle.svg" id="5_nppe8"]
 [ext_resource type="Texture2D" uid="uid://jnu673pbvff4" path="res://assets/svg/circle_grey_fill.svg" id="5_x18su"]
-[ext_resource type="PackedScene" uid="uid://bt621tnjte3rt" path="res://scenes/graph_nodes/status_label.tscn" id="6_8iit0"]
+[ext_resource type="PackedScene" path="res://scenes/graph_nodes/status_label.tscn" id="6_8iit0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8iit0"]
 shader = ExtResource("1_yjnrr")
