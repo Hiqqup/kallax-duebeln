@@ -5,13 +5,18 @@
 [ext_resource type="Script" uid="uid://b5nms1b5s0hor" path="res://scripts/NodeStatusLabel.cs" id="3_2wvi4"]
 [ext_resource type="Texture2D" uid="uid://d2i7wauhqmgft" path="res://assets/svg/DownArrow.svg" id="4_qoj3i"]
 
-
-[node name="StatusLabel" type="PanelContainer" node_paths=PackedStringArray("_inContainer", "_arrowContainer", "_outContainer", "_inLabel", "_outLabel")]
+[node name="StatusLabel" type="PanelContainer" node_paths=PackedStringArray("_inContainer", "_arrowContainer", "_outContainer", "_inLabel", "_outLabel", "_timerLabel")]
 material = ExtResource("1_tqqia")
-offset_left = -136.0
-offset_top = -289.0
-offset_right = 4.0
-offset_bottom = -87.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -127.5
+offset_top = -282.0
+offset_right = 127.5
+grow_horizontal = 2
+grow_vertical = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 mouse_filter = 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bxk16rwk6e0sh"]
+[gd_scene load_steps=15 format=3 uid="uid://bxk16rwk6e0sh"]
 
 [ext_resource type="Script" uid="uid://ce5tbu5w4imum" path="res://scripts/I_GraphNode.cs" id="1_6r00q"]
 [ext_resource type="Shader" path="res://scenes/graph_nodes/white_pixle_paper_shader.gdshader" id="1_yjnrr"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://gadj3ifuwrp4" path="res://assets/svg/online_circle.svg" id="5_nppe8"]
 [ext_resource type="Texture2D" uid="uid://jnu673pbvff4" path="res://assets/svg/circle_grey_fill.svg" id="5_x18su"]
 [ext_resource type="PackedScene" uid="uid://bt621tnjte3rt" path="res://scenes/graph_nodes/status_label.tscn" id="6_8iit0"]
+[ext_resource type="Texture2D" uid="uid://cnpqcyhf0184o" path="res://assets/svg/diamond selected.svg" id="6_nppe8"]
+[ext_resource type="Texture2D" uid="uid://cs6xq02ihhl80" path="res://assets/svg/sqircle selected.svg" id="7_6befq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8iit0"]
 shader = ExtResource("1_yjnrr")
@@ -31,6 +33,8 @@ circleSprite = NodePath("CircleOutline")
 squircleTexture = ExtResource("3_rvlrc")
 diamondTexture = ExtResource("4_gpv0c")
 circleTexture = ExtResource("5_nppe8")
+diamondTextureSelect = ExtResource("6_nppe8")
+squircleTextureSelect = ExtResource("7_6befq")
 
 [node name="Fill" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.5019608)
@@ -59,6 +63,9 @@ shape = SubResource("CircleShape2D_5tsiq")
 
 [node name="StatusLabel" parent="." instance=ExtResource("6_8iit0")]
 z_index = 2
+anchors_preset = -1
+offset_bottom = -100.0
+mouse_filter = 0
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
