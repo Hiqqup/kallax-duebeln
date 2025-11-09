@@ -86,8 +86,6 @@ public partial class Reward : Control
 		_rewardButtons.Add(GetNode<Button>("Button2"));
 		_rewardButtons.Add(GetNode<Button>("Button3"));
 		
-		GenerateRewards();
-		UpdateLabels();
 		_callback = CallbackWasntSetWarning;
 	}
 
@@ -115,6 +113,8 @@ public partial class Reward : Control
 
 	public void StartRewardSelection(Action<int> c)
 	{
+		GenerateRewards();
+		UpdateLabels();
 		 Visible = true;
 		_callback = c;
 	}
