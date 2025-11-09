@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://jnu673pbvff4" path="res://assets/svg/circle_grey_fill.svg" id="5_x18su"]
 [ext_resource type="Texture2D" uid="uid://cnpqcyhf0184o" path="res://assets/svg/diamond selected.svg" id="6_nppe8"]
 [ext_resource type="Texture2D" uid="uid://cs6xq02ihhl80" path="res://assets/svg/sqircle selected.svg" id="7_6befq"]
+[ext_resource type="PackedScene" uid="uid://bt621tnjte3rt" path="res://scenes/graph_nodes/status_label.tscn" id="6_8iit0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8iit0"]
 shader = ExtResource("1_yjnrr")
@@ -58,13 +59,7 @@ shape = SubResource("CircleShape2D_dsmoq")
 visible = false
 shape = SubResource("CircleShape2D_5tsiq")
 
-[node name="StatusLabel" type="Label" parent="."]
-z_index = 4
-offset_left = -80.0
-offset_top = -116.0
-offset_right = 80.0
-offset_bottom = -80.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
+[node name="StatusLabel" parent="." instance=ExtResource("6_8iit0")]
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

@@ -15,11 +15,11 @@ public partial class I_GraphNode : CharacterBody2D
 	//Input
 	public Array<ResourceAmount> Recource_Input { get; set; } = new Array<ResourceAmount>(); //max
 	
-	private SystemDictionary _inputInventory; //buffer
+	public SystemDictionary InputInventory { get; private set; } //buffer
 	[Export]
 	//Output
 	public Array<ResourceAmount> Output { get; set; } = new Array<ResourceAmount>(); //max
-	private ResourceAmount _producedResourceBuffer = new ResourceAmount(); //buffer
+	public ResourceAmount ProducedResourceBuffer { get; private set; } = new ResourceAmount(); //buffer
 
 	// Internal dictionary for easy access - maps resource to required amount
 	
@@ -51,7 +51,7 @@ public partial class I_GraphNode : CharacterBody2D
 	private CollisionShape2D  _collisionShape2D;
 	private Sprite2D _fillSprite2D;
 	private Sprite2D _contentSprite2D;
-	private Label _statusLabel;
+	private NodeStatusLabel _statusLabel;
 
 	private readonly float _taskTimeSeconds = 15.0f;
 	
@@ -90,9 +90,9 @@ public partial class I_GraphNode : CharacterBody2D
 		 if (GetViewport().GetCamera2D() == null) GD.PrintErr("Camera not found! Please add camera to your scene with a camera manager script attached.");
 		 
 		_collisionShape2D = GetNode<CollisionShape2D>("CollisionShape2D");
-		_statusLabel = GetNode<Label>("StatusLabel");
+		_statusLabel = GetNode<NodeStatusLabel>("StatusLabel");
 		// Initialize the input inventory from the Input array
-		_inputInventory = new SystemDictionary();
+		InputInventory = new SystemDictionary();
 		_fillSprite2D = GetNode<Sprite2D>("Fill");
 		if (_fillSprite2D == null) GD.Print("Fill sprite is not valid");
 		_contentSprite2D = GetNode<Sprite2D>("Sprite2D");
@@ -166,7 +166,7 @@ public partial class I_GraphNode : CharacterBody2D
 	public void PathFinished(GraphPath path)
 	{
 		AddPath(path);
-		if (_producedResourceBuffer.Amount > 0)
+		if (ProducedResourceBuffer.Amount > 0)
 		{
 			TryConsumeResource();
 		}
@@ -180,8 +180,8 @@ public partial class I_GraphNode : CharacterBody2D
 		}
 		
 		var path = _pathQueue.Dequeue();
-		path.Transport(_producedResourceBuffer.Resource);
-		_producedResourceBuffer.Amount--;
+		path.Transport(ProducedResourceBuffer.Resource);
+		ProducedResourceBuffer.Amount--;
 		
 		UpdateFill();
 		//GD.Print(path.Name + " started transporting " + _producedResourceBuffer.Resource.ToString());
@@ -259,14 +259,14 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			if (resourceAmount?.Resource == null || resourceAmount.Resource == ProductionResource.None || resourceAmount.Amount <= 0) continue;
 			
-			_inputInventory[resourceAmount.Resource] = resourceAmount.Amount;
+			InputInventory[resourceAmount.Resource] = resourceAmount.Amount;
 		}
 		UpdateFill();
 	}
 
 	private int GetRemainingNeededResourceAmount()
 	{
-		return _inputInventory.Keys.Sum(input => Math.Max(_inputInventory[input], 0));
+		return InputInventory.Keys.Sum(input => Math.Max(InputInventory[input], 0));
 	}
 
 	private int GetTotalNeededResourceAmount()
@@ -279,7 +279,7 @@ public partial class I_GraphNode : CharacterBody2D
 		var scale = 1.0f;
 		if (NodeType == NodeType.Producer)
 		{
-			scale = (float)_producedResourceBuffer.Amount / 2 / Output[0].Amount;
+			scale = (float)ProducedResourceBuffer.Amount / 2 / Output[0].Amount;
 		}
 
 		if (NodeType == NodeType.Factory)
@@ -301,15 +301,15 @@ public partial class I_GraphNode : CharacterBody2D
 	{
 		if (Output == null || Output.Count == 0 || Output[0].Resource == ProductionResource.None) return;
 
-		_producedResourceBuffer.Resource = Output[0].Resource;
+		ProducedResourceBuffer.Resource = Output[0].Resource;
 		if (NodeType == NodeType.Producer)
-			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + 1, 0, Output[0].Amount * 2);
+			ProducedResourceBuffer.Amount = Math.Clamp(ProducedResourceBuffer.Amount + 1, 0, Output[0].Amount * 2);
 		if (NodeType == NodeType.Factory)
-			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + Output[0].Amount, 0, Output[0].Amount * 2);
+			ProducedResourceBuffer.Amount = Math.Clamp(ProducedResourceBuffer.Amount + Output[0].Amount, 0, Output[0].Amount * 2);
 		
 		UpdateFill();
 		
-		if (_producedResourceBuffer.Amount > 0)
+		if (ProducedResourceBuffer.Amount > 0)
 		{
 			TryConsumeResource();
 		}
@@ -320,15 +320,15 @@ public partial class I_GraphNode : CharacterBody2D
 	 */
 	private bool IsInputSatisfied()
 	{
-		return _inputInventory.Values.All(count => count <= 0);
+		return InputInventory.Values.All(count => count <= 0);
 	}
 
 	public void ReceiveInput(ProductionResource input)
 	{
 		//GD.Print(input.ToString() + " received");
-		if (_inputInventory.ContainsKey(input))
+		if (InputInventory.ContainsKey(input))
 		{
-			_inputInventory[input]--;
+			InputInventory[input]--;
 			UpdateFill();
 			if (IsInputSatisfied())
 			{
@@ -413,7 +413,7 @@ public partial class I_GraphNode : CharacterBody2D
 		GD.Print($"Consumer {this.Name} timer finished - task failed!");
 		ResetInputInventory();
 		RemoveAllIncomingPaths();
-		
+		GameManager.modPlayerHealth(-10);
 	}
 
 	#region Unit Selection
@@ -642,34 +642,14 @@ public partial class I_GraphNode : CharacterBody2D
 
 	private int GetInputResourceCount(ResourceAmount resource)
 	{
-		if (_inputInventory.ContainsKey(resource.Resource))
-			return Math.Clamp(resource.Amount - _inputInventory[resource.Resource], 0, resource.Amount);
+		if (InputInventory.ContainsKey(resource.Resource))
+			return Math.Clamp(resource.Amount - InputInventory[resource.Resource], 0, resource.Amount);
 		return 0;
 	}
 	
 	private void UpdateLabel()
 	{
-		string text = "";
-		if (NodeType.Equals(NodeType.Consumer) || NodeType.Equals(NodeType.Factory))
-		{
-			text += "IN: ";
-			foreach (var re in Recource_Input)
-			{
-				if (re == null)
-				{
-					continue;
-				}
-
-				text += $"{re.Resource.ToString()}: {GetInputResourceCount(re)}/{re.Amount}";
-			}
-		}
-
-		if (NodeType.Equals(NodeType.Producer) || NodeType.Equals(NodeType.Factory))
-		{
-			text += "\nOUT: ";
-			text += $"{Output[0].Resource.ToString()}: {_producedResourceBuffer.Amount}/{Output[0].Amount}";
-		}
-		_statusLabel.Text = text;
+		_statusLabel.UpdateLabel(this);
 	}
 
 	private void AddConnection(I_GraphNode targetNode)

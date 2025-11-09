@@ -9,7 +9,7 @@ public partial class GameManager : Node
 	private AnimationPlayer AnimationPlayer { get; set; }
 	public static GameManager Instance { get; private set; }
 	
-	private int playerHealth = 100;
+	public static int playerHealth = 100;
 	
 	[Export] public Reward reward { get; set; }
 
@@ -20,11 +20,13 @@ public partial class GameManager : Node
 		Instance = this;
 		base._Ready();
 		LoadMainMenu();
+		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		healthBar.Value = playerHealth;
 	}
 
 	public void LoadScene(string scenePath)
@@ -60,9 +62,23 @@ public partial class GameManager : Node
 		GetTree().Quit();
 	}
 
-	public void setPlayerHealth(int health)
+	public static void setPlayerHealth(int health)
 	{
 		playerHealth = health;
-		healthBar.Value = health;
+	}
+
+	public static void modPlayerHealth(int health)
+	{
+		playerHealth = int.Min(playerHealth + health, 100);
+		if (playerHealth <= 0)
+		{
+			Instance.LoadMainMenu();
+		}
+		
+	}
+
+	public static int GetPlayerHealth()
+	{
+		return playerHealth;
 	}
 }
