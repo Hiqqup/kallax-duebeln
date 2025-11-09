@@ -14,7 +14,7 @@ public partial class AudioEmitterTest : Node2D
 		//test audio
 		if (Input.IsKeyPressed(Key.K))
 		{
-			AudioManager.Instance.PlaySound2D(this, SOUND_EFFECT_TYPE.Test);
+			AudioManager.Instance.PlaySound2D(this, SOUND_EFFECT.SharpPop);
 		}
 		//Preferred Method
 		if (Input.IsKeyPressed(Key.I))

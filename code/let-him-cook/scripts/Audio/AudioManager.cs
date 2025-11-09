@@ -8,7 +8,7 @@ public partial class AudioManager : Node2D
 
 	[Export] private AudioStreamPlayer musicPlayer;
 		
-	[Export] private Dictionary<SOUND_EFFECT_TYPE, SoundEffect> soundEffectDict; // Loads all registered SoundEffects on ready as a reference.
+	[Export] private Dictionary<SOUND_EFFECT, SoundEffect> soundEffectDict; // Loads all registered SoundEffects on ready as a reference.
 	[Export] private Array<SoundEffect> soundEffects; // Stores all possible SoundEffects that can be played
 	
 	public override void _Ready()
@@ -86,7 +86,7 @@ public partial class AudioManager : Node2D
 	/// </summary>
 	/// <param name="parent">Node to play the sound effect on. </param>
 	/// <param name="type">The Sound effect to be played.</param>
-	public void PlaySound2D(Node2D parent, SOUND_EFFECT_TYPE type)
+	public void PlaySound2D(Node2D parent, SOUND_EFFECT type)
 	{
 		if (!soundEffectDict.ContainsKey(type))
 		{
@@ -127,12 +127,12 @@ public partial class AudioManager : Node2D
 		newSound.Play();
 	}
 
-	public void PlaySound2D(SOUND_EFFECT_TYPE type)
+	public void PlaySound2D(SOUND_EFFECT type)
 	{
 		PlaySound2D(this, type);
 	}
 
-	public void PlaySoundGlobally(SOUND_EFFECT_TYPE type)
+	public void PlaySound(SOUND_EFFECT type)
 	{
 		if (!soundEffectDict.ContainsKey(type))
 		{
