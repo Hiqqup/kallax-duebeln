@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dr6orvyyo2cgm"]
+[gd_scene load_steps=19 format=3 uid="uid://dr6orvyyo2cgm"]
 
 [ext_resource type="Script" uid="uid://d0ts110a2dyg5" path="res://scripts/Audio/AudioManager.cs" id="1_r1srg"]
 [ext_resource type="Script" uid="uid://beua27kvn3yo4" path="res://scripts/Audio/SoundEffect.cs" id="2_g1n41"]
@@ -13,7 +13,8 @@
 [ext_resource type="AudioStream" uid="uid://ckynea6kl8i2x" path="res://assets/audio/SoundEffects/sharp-clap.mp3" id="8_exrf6"]
 [ext_resource type="AudioStream" uid="uid://b04s4ftl6xucr" path="res://assets/audio/SoundEffects/sharp-pop.mp3" id="9_hhuud"]
 [ext_resource type="AudioStream" uid="uid://chapbb5kns8th" path="res://assets/audio/SoundEffects/turn-page.mp3" id="10_p71v7"]
-[ext_resource type="AudioStream" uid="uid://cdx5remxjbswh" path="res://assets/audio/SoundEffects/video-game-select.mp3" id="11_digtg"]
+[ext_resource type="AudioStream" uid="uid://73eky4ncf2qu" path="res://assets/audio/SoundEffects/single-click.mp3" id="12_7speq"]
+[ext_resource type="AudioStream" uid="uid://dy8fabhg7u4bc" path="res://assets/audio/SoundEffects/keyboard-click.mp3" id="13_hhuud"]
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_ns8hx"]
 stream_count = 1
@@ -58,7 +59,7 @@ Vector2i(2, 0): {
 script = ExtResource("1_r1srg")
 _musicPlayer = NodePath("MusicPlayer")
 _soundEffects = Array[ExtResource("2_g1n41")]([ExtResource("2_mbly1")])
-_audioStreams = Array[AudioStreamMP3]([ExtResource("3_isk6y"), ExtResource("4_2hebn"), ExtResource("6_7speq"), ExtResource("7_ah1rr"), ExtResource("8_exrf6"), ExtResource("9_hhuud"), ExtResource("10_p71v7"), ExtResource("11_digtg")])
+_audioStreams = Array[AudioStreamMP3]([ExtResource("3_isk6y"), ExtResource("4_2hebn"), ExtResource("6_7speq"), ExtResource("7_ah1rr"), ExtResource("8_exrf6"), ExtResource("9_hhuud"), ExtResource("10_p71v7"), ExtResource("13_hhuud"), ExtResource("12_7speq")])
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamInteractive_b86ia")

@@ -86,8 +86,6 @@ public partial class Reward : Control
 		_rewardButtons.Add(GetNode<Button>("Button2"));
 		_rewardButtons.Add(GetNode<Button>("Button3"));
 		
-		GenerateRewards();
-		UpdateLabels();
 		_callback = CallbackWasntSetWarning;
 	}
 
@@ -115,8 +113,11 @@ public partial class Reward : Control
 
 	public void StartRewardSelection(Action<int> c)
 	{
+		GenerateRewards();
+		UpdateLabels();
 		 Visible = true;
 		_callback = c;
+		AudioManager.Instance.PlayByPath("res://assets/audio/SoundEffects/turn-page.mp3");
 	}
 
 	private void CallbackWasntSetWarning(int i)
@@ -126,6 +127,7 @@ public partial class Reward : Control
 	
 	private void StopRewardSelection(int i)
 	{
+		AudioManager.Instance.PlayByPath("res://assets/audio/SoundEffects/sharp-clap.mp3");
 		Visible = false;
 		InstantiateSelectedReward(i);
 		_callback(i);
