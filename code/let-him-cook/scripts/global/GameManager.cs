@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using global::LetHimCook.scripts.global;
 
+
 public partial class GameManager : Node
 {
 	[Export]
@@ -10,6 +11,7 @@ public partial class GameManager : Node
 	public static GameManager Instance { get; private set; }
 	
 	public static int playerHealth = 100;
+	public TechTierTracker CurrentTechTierTracker = new TechTierTracker();
 	
 	[Export] public Reward reward { get; set; }
 
@@ -20,7 +22,6 @@ public partial class GameManager : Node
 		Instance = this;
 		base._Ready();
 		LoadMainMenu();
-		
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -34,8 +35,12 @@ public partial class GameManager : Node
 		AnimationPlayer.Play("fade_to_black");
 		ClearChildren();
 		var scene = GD.Load<PackedScene>(scenePath);
+		
 		var sceneInstance = scene.Instantiate();
+
 		AddChild(sceneInstance);
+		
+		
 		AnimationPlayer.Play("fade_from_black");
 	}
 	

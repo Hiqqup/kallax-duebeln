@@ -31,6 +31,7 @@ public partial class MainMenu : Control
 
 	private void StartGame()
 	{
+		GameManager.Instance.healthBar.Visible = true;
 		AudioManager.Instance.PlaySoundByType(SOUND_EFFECT.SharpPop);
 		AudioManager.Instance.changeMusic("BackgroundMusic");
 		GameManager.Instance.LoadScene("res://scenes/test.tscn");

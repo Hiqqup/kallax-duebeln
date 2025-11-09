@@ -15,7 +15,12 @@ public partial class LevelGenerator : Node2D
 			var outputs = new Array<ResourceAmount>();
 			// create a producer
 			var randomResource = GetRandomProductionResource(i);
-			inputs.Add(new ResourceAmount(randomResource, GD.RandRange((int)Math.Floor(i*2.5f),(int)Math.Floor(i*4.5f))));
+			var resourceAmount = GD.RandRange((int)Math.Floor(i * 2.5f), (int)Math.Floor(i * 4.5f)) + 1;
+			if (resourceAmount <= 0)
+			{
+				GD.PrintErr("generated node with 0 amoutn");
+			}
+			inputs.Add(new ResourceAmount(randomResource, resourceAmount));
 			
 			var spawnDirection = Vector2.FromAngle(GD.RandRange(0,360));
 			var spawnDistance = 1500 * Math.Sqrt(0.05f * i);
@@ -39,15 +44,16 @@ public partial class LevelGenerator : Node2D
 
 	private ProductionResource GetRandomProductionResource(int index)
 	{
-		if (index < 100)
+		int difficultyFactor = 20;
+		if (index < 1* difficultyFactor)
 		{
 			return ProductionResourceExtensions.GetRandomT1Resource();
 		}
-		else if (index < 200)
+		else if (index < 2* difficultyFactor)
 		{
 			return ProductionResourceExtensions.GetRandomT2Resource();
 		}
-		else if (index < 300)
+		else if (index < 3* difficultyFactor)
 		{
 			return ProductionResourceExtensions.GetRandomT3Resource();
 		}

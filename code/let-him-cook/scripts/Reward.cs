@@ -24,7 +24,7 @@ public partial class Reward : Control
 			}
 			else
 			{
-				var inputMaterialsTier = GD.RandRange(1, Constants.MaterialTierCount - 1); 
+				var inputMaterialsTier = GD.RandRange(1, GameManager.Instance.CurrentTechTierTracker.MaxUnlockedTier ); 
 				
 				var amountOfInputs = GD.RandRange(1, 3);
 				Dictionary<ProductionResource, int> cost = new Dictionary<ProductionResource, int>();
@@ -42,12 +42,13 @@ public partial class Reward : Control
 					}
 				}
 
+				int inputAmounts = 0;
 				foreach (var kvp in cost)
 				{
 					inputs.Add(new ResourceAmount(kvp.Key, kvp.Value));
+					inputAmounts+= kvp.Value;
 				}
-				
-				outputs.Add(new ResourceAmount(ProductionResourceExtensions.GetRandomTierResource(inputMaterialsTier+1), GD.RandRange(1, 5)));
+				outputs.Add(new ResourceAmount(ProductionResourceExtensions.GetRandomTierResource(inputMaterialsTier+1), inputAmounts));
 			}
 			
 			_rewards.Add(new I_GraphNode(inputs, outputs));

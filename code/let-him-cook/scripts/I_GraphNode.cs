@@ -301,8 +301,10 @@ public partial class I_GraphNode : CharacterBody2D
 		ProducedResourceBuffer.Resource = Output[0].Resource;
 		if (NodeType == NodeType.Producer)
 			ProducedResourceBuffer.Amount = Math.Clamp(ProducedResourceBuffer.Amount + 1, 0, Output[0].Amount * 2);
-		if (NodeType == NodeType.Factory)
+		if (NodeType == NodeType.Factory){
 			ProducedResourceBuffer.Amount = Math.Clamp(ProducedResourceBuffer.Amount + Output[0].Amount, 0, Output[0].Amount * 2);
+			GameManager.Instance.CurrentTechTierTracker.updateItemsProduced(Output[0].Resource);
+		}
 		
 		UpdateFill();
 		
