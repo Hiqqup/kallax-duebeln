@@ -491,13 +491,14 @@ public partial class I_GraphNode : CharacterBody2D
 					// Stop dragging
 					FollowMouse = false;
 					_anyUnitBeingDragged = false;
-
+					
 					// Stop all selected units and deselect them
 					foreach (I_GraphNode unit in GetTree().GetNodesInGroup("selected_units").Cast<I_GraphNode>())
 					{
 						unit.StopFollowing();
 						unit.Deselect();
 					}
+					AudioManager.Instance.PlayAudio("res://assets/audio/SoundEffects/thud.mp3");
 				}
 			}
 		}
