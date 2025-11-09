@@ -1,4 +1,9 @@
 [gd_resource type="StyleBoxFlat" format=3 uid="uid://cb1cta5j5gbbx"]
 
 [resource]
-bg_color = Color(0.8170739, 0, 0.024598472, 1)
+bg_color = Color(0.26666668, 0.26666668, 0.26666668, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+corner_detail = 20

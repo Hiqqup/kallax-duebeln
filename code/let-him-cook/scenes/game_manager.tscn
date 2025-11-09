@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://vywow137nbyf"]
+[gd_scene load_steps=10 format=3 uid="uid://vywow137nbyf"]
 
-[ext_resource type="Script" uid="uid://ce2q1eltm25ec" path="res://scripts/global/GameManager.cs" id="1_hwd4i"]
-[ext_resource type="StyleBox" path="res://assets/resources/healthbar_background.tres" id="3_eaq8r"]
-[ext_resource type="StyleBox" path="res://assets/resources/healthbar_fill.tres" id="3_oo155"]
+[ext_resource type="Script" uid="uid://bm4h8tuqralvs" path="res://scripts/global/GameManager.cs" id="1_hwd4i"]
+[ext_resource type="StyleBox" uid="uid://bj07c7nq11h6r" path="res://assets/resources/healthbar_background.tres" id="3_eaq8r"]
+[ext_resource type="StyleBox" uid="uid://cb1cta5j5gbbx" path="res://assets/resources/healthbar_fill.tres" id="3_oo155"]
+[ext_resource type="Theme" uid="uid://b8by5uv0gw361" path="res://assets/resources/main_gui_theme.tres" id="3_ternb"]
 [ext_resource type="PackedScene" uid="uid://csysbik0bf7tc" path="res://scenes/graph_nodes/Reward.tscn" id="3_udu3i"]
 
 [sub_resource type="Animation" id="Animation_glms7"]
@@ -127,9 +128,26 @@ visible = false
 
 [node name="HealthBar" type="ProgressBar" parent="Internal/CanvasLayer"]
 visible = false
-offset_right = 280.0
-offset_bottom = 27.0
+modulate = Color(1, 1, 1, 0.5411765)
+offset_left = 47.0
+offset_top = 35.0
+offset_right = 327.0
+offset_bottom = 70.0
+theme = ExtResource("3_ternb")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_styles/background = ExtResource("3_eaq8r")
 theme_override_styles/fill = ExtResource("3_oo155")
 step = 1.0
+value = 100.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="Internal/CanvasLayer/HealthBar"]
+layout_mode = 0
+offset_left = 94.0
+offset_top = -7.0
+offset_right = 193.0
+offset_bottom = 81.0
+theme = ExtResource("3_ternb")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 32
+text = "Health"
