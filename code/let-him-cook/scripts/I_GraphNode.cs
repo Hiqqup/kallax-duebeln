@@ -159,19 +159,16 @@ public partial class I_GraphNode : CharacterBody2D
 		bool hasOutput = Output != null && Output.Count > 0 && Output[0].Resource != ProductionResource.None;
 		if (hasInput && hasOutput)
 		{
-			//GD.Print("Node " + this.Name + " is a Factory");
 			NodeType = NodeType.Factory;
 		}
 
 		else if (hasInput)
 		{
-			//GD.Print("Node \"" + this.Name + "\" is a Consumer");
 			NodeType = NodeType.Consumer;
 		}
 
 		else if (hasOutput)
 		{
-			//GD.Print("Node \"" + this.Name + "\" is a Producer");
 			NodeType = NodeType.Producer;
 		}
 		else
@@ -191,10 +188,7 @@ public partial class I_GraphNode : CharacterBody2D
 			if (resourceAmount?.Resource == null || resourceAmount.Resource == ProductionResource.None || resourceAmount.Amount <= 0) continue;
 			
 			_inputInventory[resourceAmount.Resource] = resourceAmount.Amount;
-			//GD.Print("Input: " + resourceAmount.Resource + " " + resourceAmount.Amount + "x");
 		}
-
-		//GD.Print("Reset inventory for node " + this.Name);
 	}
 
 	public void ProduceOutput()
@@ -209,7 +203,6 @@ public partial class I_GraphNode : CharacterBody2D
 			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + 1, 0, Output[0].Amount * 2);
 		if (NodeType == NodeType.Factory)
 			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + Output[0].Amount, 0, Output[0].Amount * 2);
-		//GD.Print($"Produced resource: {_producedResourceBuffer.Resource}, stored amount: {_producedResourceBuffer.Amount}");
 		
 		if (_producedResourceBuffer.Amount > 0)
 		{
@@ -240,6 +233,8 @@ public partial class I_GraphNode : CharacterBody2D
 					_questDuration.Stop();
 					GD.Print($"Consumer {this.Name} task completed successfully!");
 					OnConsumerTaskCompleted?.Invoke();
+					
+					RemoveAllIncomingPaths();
 				}
 				
 				ResetInputInventory();
@@ -250,7 +245,6 @@ public partial class I_GraphNode : CharacterBody2D
 
 	public void StartConsumerTimer()
 	{
-		GD.Print("Started consumer timer");
 		if (NodeType != NodeType.Consumer)
 		{
 			GD.PrintErr("Tried calling Start Consumer Timer on " + this.Name + " but this node is not a consumer");
@@ -273,11 +267,8 @@ public partial class I_GraphNode : CharacterBody2D
 		}
 	}
 
-	public void OnQuestDurationTimeout()
+	private void RemoveAllIncomingPaths()
 	{
-		GD.Print($"Consumer {this.Name} timer finished - task failed!");
-		ResetInputInventory();
-		
 		// Destroy all incoming paths to this consumer
 		var allPaths = GetParent()?.GetChildren().OfType<GraphPath>().ToList();
 		if (allPaths != null)
@@ -294,6 +285,13 @@ public partial class I_GraphNode : CharacterBody2D
 				}
 			}
 		}
+	}
+
+	public void OnQuestDurationTimeout()
+	{
+		GD.Print($"Consumer {this.Name} timer finished - task failed!");
+		ResetInputInventory();
+		RemoveAllIncomingPaths();
 	}
 
 	public bool IsInsideSelectionBox(Rect2 box)
@@ -345,7 +343,9 @@ public partial class I_GraphNode : CharacterBody2D
 	public void _on_area_2d_mouse_exited()
 	{
 		MouseOver = false;
-		if (_lastHovered == this)
+		// Don't clear _lastHovered if we're in the middle of a connection - this prevents
+		// the issue where moving a node during connection clears the hover state
+		if (_lastHovered == this && !_isConnecting)
 		{
 			_lastHovered = null;
 		}
@@ -382,7 +382,6 @@ public partial class I_GraphNode : CharacterBody2D
 
 		if (Input.IsMouseButtonPressed(MouseButton.Right))
 		{
-			//GD.Print(Name);
 			if (!_isConnecting && MouseOver)
 			{
 				//Start Connection
@@ -405,15 +404,24 @@ public partial class I_GraphNode : CharacterBody2D
 			{
 				//End Connection
 				_isConnecting = false;
-				//Try Connection
-				if (_lastHovered != null && _lastHovered != _pathOrigin)
+				
+				// Try to find target node - use _lastHovered if available, otherwise do distance check
+				I_GraphNode targetNode = _lastHovered;
+				if (targetNode == null && _pathOrigin != null)
 				{
-					AddConnection(_lastHovered);
+					targetNode = _pathOrigin.FindNodeAtMousePosition();
+				}
+				
+				//Try Connection
+				if (targetNode != null && targetNode != _pathOrigin)
+				{
+					AddConnection(targetNode);
 				}
 				//Destroy preview
 				_preview.QueueFree();
 				_preview = null;
 				_pathOrigin = null;
+				_lastHovered = null; // Clear after connection attempt
 			}
 		}
 
@@ -469,6 +477,32 @@ public partial class I_GraphNode : CharacterBody2D
 				targetNode.StartConsumerTimer();
 			}
 		}
+	}
+
+	private I_GraphNode FindNodeAtMousePosition()
+	{
+		var mousePos = GetViewport().GetCamera2D().GetGlobalMousePosition();
+		
+		// Get all I_GraphNode instances from the parent (Level) node
+		var allNodes = GetParent()?.GetChildren().OfType<I_GraphNode>()
+			.Where(node => node != null && node != this && node != _pathOrigin)
+			.ToList() ?? new List<I_GraphNode>();
+		
+		I_GraphNode closestNode = null;
+		float closestDistance = float.MaxValue;
+		const float maxConnectionDistance = 150.0f; // Match the collision radius
+		
+		foreach (var node in allNodes)
+		{
+			var distance = mousePos.DistanceTo(node.Position);
+			if (distance < closestDistance && distance <= maxConnectionDistance)
+			{
+				closestDistance = distance;
+				closestNode = node;
+			}
+		}
+		
+		return closestNode;
 	}
 
 	private bool CanConnect(I_GraphNode targetNode)

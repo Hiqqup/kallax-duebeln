@@ -1,6 +1,6 @@
-[gd_scene load_steps=28 format=3 uid="uid://c0dfyiq60c1sr"]
+[gd_scene load_steps=28 format=3 uid="uid://jl62epl5aqnh"]
 
-[ext_resource type="Script" uid="uid://bt02ssprcnuck" path="res://scenes/level.gd" id="1_8iemx"]
+[ext_resource type="Script" path="res://scenes/level.gd" id="1_8iemx"]
 [ext_resource type="Texture2D" uid="uid://f7m0m0dq2pv4" path="res://assets/parts/double_ended_screw.png" id="2_64w2a"]
 [ext_resource type="Script" uid="uid://bco38vskfst5" path="res://scripts/ResourceAmount.cs" id="3_64w2a"]
 [ext_resource type="Texture2D" uid="uid://uo78wssewpgx" path="res://assets/parts/dowel.png" id="3_fpun6"]
@@ -102,7 +102,7 @@ metadata/_custom_type_script = "uid://bco38vskfst5"
 script = ExtResource("1_8iemx")
 
 [node name="InitialDowelProducer" parent="." instance=ExtResource("12_5k0ak")]
-position = Vector2(12, 13)
+position = Vector2(838, 448)
 Output = Array[ExtResource("3_64w2a")]([SubResource("Resource_fpun6")])
 
 [node name="DowelConquer" parent="." instance=ExtResource("12_5k0ak")]
@@ -110,7 +110,7 @@ position = Vector2(-586, 356)
 Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_64w2a")])
 
 [node name="DowelConquer2" parent="." instance=ExtResource("12_5k0ak")]
-position = Vector2(863, 232)
+position = Vector2(329, 759)
 Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_64w2a")])
 
 [node name="DowelConquer3" parent="." instance=ExtResource("12_5k0ak")]
@@ -126,7 +126,7 @@ position = Vector2(938, -645)
 Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_wc255")])
 
 [node name="ScrewPlugConquer3" parent="." instance=ExtResource("12_5k0ak")]
-position = Vector2(607, 659)
+position = Vector2(599, -231)
 Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_wc255")])
 
 [node name="PointyScrewConquer" parent="." instance=ExtResource("12_5k0ak")]
@@ -146,7 +146,7 @@ position = Vector2(44, 1080)
 Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_arp2o")])
 
 [node name="DoubleEndedScrewconquer" parent="." instance=ExtResource("12_5k0ak")]
-position = Vector2(1217, 620)
+position = Vector2(1559, 820)
 Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_ux5qa")])
 
 [node name="DoubleEndedScrewconquer2" parent="." instance=ExtResource("12_5k0ak")]
@@ -274,7 +274,7 @@ position = Vector2(1703, 1189)
 Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_3ies3")])
 
 [node name="Kallax2x2conquer7" parent="." instance=ExtResource("12_5k0ak")]
-position = Vector2(159, 1933)
+position = Vector2(241, 1990)
 Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_3ies3")])
 
 [node name="Kallax2x2conquer8" parent="." instance=ExtResource("12_5k0ak")]
@@ -479,3 +479,5 @@ texture = ExtResource("11_pqd0y")
 [node name="ScrewPlug3" type="Sprite2D" parent="Visualize"]
 position = Vector2(601, 684)
 texture = ExtResource("11_pqd0y")
+
+[node name="Node" parent="." instance=ExtResource("12_5k0ak")]
