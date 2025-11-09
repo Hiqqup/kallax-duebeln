@@ -60,11 +60,9 @@ material = ExtResource("3_yjnrr")
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-visible = false
 shape = SubResource("CircleShape2D_dsmoq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CircleShape2D_5tsiq")
 
 [node name="StatusLabel" parent="." instance=ExtResource("6_8iit0")]
