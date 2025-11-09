@@ -8,6 +8,8 @@ public partial class GameManager : Node
 	[Export]
 	private AnimationPlayer AnimationPlayer { get; set; }
 	public static GameManager Instance { get; private set; }
+
+	[Export] public Reward reward { get; set; }
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{

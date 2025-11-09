@@ -59,6 +59,12 @@ public partial class I_GraphNode : CharacterBody2D
 
 	private Camera2D _cam;
 
+	[Export] public Sprite2D circleSprite;
+	[Export] public Texture2D squircleTexture;
+	[Export] public Texture2D diamondTexture;
+	[Export] public Texture2D circleTexture;
+	private static bool _anyUnitBeingDragged = false;
+
 	public I_GraphNode()
 	{
 		
@@ -183,23 +189,26 @@ public partial class I_GraphNode : CharacterBody2D
 		if (hasInput && hasOutput)
 		{
 			NodeType = NodeType.Factory;
+			circleSprite.Texture = diamondTexture;
 		}
 
 		else if (hasInput)
 		{
 			NodeType = NodeType.Consumer;
+			circleSprite.Texture = squircleTexture;
 		}
 
 		else if (hasOutput)
 		{
 			NodeType = NodeType.Producer;
+			circleSprite.Texture = circleTexture;
 		}
 		else
 		{
 			NodeType = NodeType.None;
 			GD.PrintErr("This node is a root node " + this.Name);
 		}
-		GD.Print("Node \"" + this.Name + "\" is a " +  NodeType.ToString());
+		//GD.Print("Node \"" + this.Name + "\" is a " +  NodeType.ToString());
 	}
 
 	void SetupResourceTexture()
@@ -339,26 +348,13 @@ public partial class I_GraphNode : CharacterBody2D
 
 	private void SpawnRewardsScreen()
 	{
-		var rewardScene = GD.Load<PackedScene>("res://scenes/graph_nodes/Reward.tscn");
-		var rewardInstance = rewardScene.Instantiate() as Reward;
-		
-		// Create a CanvasLayer for UI overlay
-		var canvasLayer = new CanvasLayer();
-		canvasLayer.Layer = 100; // High layer number = renders on top
-		canvasLayer.FollowViewportEnabled = true;
-		GetTree().Root.AddChild(canvasLayer);
-		
-		// Add reward to the CanvasLayer
-		canvasLayer.AddChild(rewardInstance);
-		
 		// Start the reward selection
-		rewardInstance.StartRewardSelection((selectedRewardIndex) =>
+		GameManager.Instance.reward.StartRewardSelection((selectedRewardIndex) =>
 		{
 			GD.Print($"Player selected reward {selectedRewardIndex}");
 			// Handle reward logic
 
-			// Clean up both the reward and the canvas layer
-			canvasLayer.QueueFree();
+			// Clean up the reward
 			this.QueueFree();
 		});
 	}
@@ -415,6 +411,75 @@ public partial class I_GraphNode : CharacterBody2D
 		
 	}
 
+	#region Unit Selection
+
+	public override void _Input(InputEvent @event)
+	{
+		if (@event is InputEventMouseButton mouseEvent && MouseOver)
+		{
+			// Only handle individual unit clicks if we're NOT box selecting
+			if (mouseEvent.ButtonIndex == MouseButton.Left && mouseEvent.Pressed)
+			{
+				// Check if this unit is already selected (part of a group)
+				if (IsInGroup("selected_units"))
+				{
+					// Start dragging all selected units
+					_mouseOffset = Position - GetViewport().GetCamera2D().GetGlobalMousePosition();
+					FollowMouse = true;
+					_anyUnitBeingDragged = true;
+                
+					// Make all selected units follow
+					foreach (I_GraphNode unit in GetTree().GetNodesInGroup("selected_units").Cast<I_GraphNode>())
+					{
+						if (unit != this)
+						{
+							unit.StartFollowing(unit.Position - GetViewport().GetCamera2D().GetGlobalMousePosition());
+						}
+					}
+                
+					// Consume the event so UnitSelector doesn't start box selecting
+					GetViewport().SetInputAsHandled();
+				}
+				else
+				{
+					// Unit is not selected - select it and start dragging immediately
+					// First deselect all other units
+					foreach (I_GraphNode unit in GetTree().GetNodesInGroup("selected_units").Cast<I_GraphNode>().ToList())
+					{
+						unit.Deselect();
+					}
+                
+					// Select this unit
+					Select();
+                
+					// Start dragging
+					_mouseOffset = Position - GetViewport().GetCamera2D().GetGlobalMousePosition();
+					FollowMouse = true;
+					_anyUnitBeingDragged = true;
+                
+					// Consume the event so UnitSelector doesn't start box selecting
+					GetViewport().SetInputAsHandled();
+				}
+			}
+			else if (mouseEvent.ButtonIndex == MouseButton.Left && !mouseEvent.Pressed)
+			{
+				if (FollowMouse)
+				{
+					// Stop dragging
+					FollowMouse = false;
+					_anyUnitBeingDragged = false;
+                
+					// Stop all selected units and deselect them
+					foreach (I_GraphNode unit in GetTree().GetNodesInGroup("selected_units").Cast<I_GraphNode>())
+					{
+						unit.StopFollowing();
+						unit.Deselect();
+					}
+				}
+			}
+		}
+	}
+	
 	public bool IsInsideSelectionBox(Rect2 box)
 	{
 		// copy 
@@ -442,7 +507,7 @@ public partial class I_GraphNode : CharacterBody2D
 		rect.Size = new Vector2(newSizeX, newSizeY);
 		return rect.HasPoint(Position);
 	}
-
+	
 	public void Select()
 	{
 		// selector.Show(); if there is a selector
@@ -454,6 +519,28 @@ public partial class I_GraphNode : CharacterBody2D
 		// selector.Hide();
 		RemoveFromGroup("selected_units");
 	}
+
+	public void StartFollowing(Vector2 offset)
+	{
+		_mouseOffset = offset;
+		FollowMouse = true;
+	}
+
+	public void StopFollowing()
+	{
+		FollowMouse = false;
+	}
+
+	public static bool IsAnyUnitBeingDragged()
+	{
+		return _anyUnitBeingDragged;
+	}
+	
+	#endregion
+	
+	
+
+	
 
 	public void _on_area_2d_mouse_entered()
 	{
@@ -472,26 +559,7 @@ public partial class I_GraphNode : CharacterBody2D
 		}
 	}
 
-	public override void _Input(InputEvent @event)
-	{
-		if (@event is InputEventMouseButton mouseEvent && MouseOver)
-		{
-			// mouse left
-			if (mouseEvent.ButtonIndex == MouseButton.Left)
-			{
-				Selected = !Selected;
-				if (mouseEvent.Pressed)
-				{
-					_mouseOffset = Position - GetViewport().GetCamera2D().GetGlobalMousePosition();
-					FollowMouse =  true;
-				}
-				else
-				{
-					FollowMouse = false;
-				}
-			}
-		}
-	}
+
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
