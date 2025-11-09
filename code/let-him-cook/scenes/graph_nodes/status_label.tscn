@@ -1,19 +1,26 @@
-[gd_scene load_steps=5 format=3 uid="uid://1tayj7dc0iqs"]
+[gd_scene load_steps=5 format=3 uid="uid://bt621tnjte3rt"]
 
 [ext_resource type="Material" uid="uid://b8mwcr8b5hsgi" path="res://assets/resources/paper_texture_shader_material.tres" id="1_tqqia"]
 [ext_resource type="Theme" uid="uid://b8by5uv0gw361" path="res://assets/resources/main_gui_theme.tres" id="2_6b6rt"]
-[ext_resource type="Script" uid="uid://c6snoqspycg08" path="res://scripts/NodeStatusLabel.cs" id="3_2wvi4"]
+[ext_resource type="Script" uid="uid://b5nms1b5s0hor" path="res://scripts/NodeStatusLabel.cs" id="3_2wvi4"]
 [ext_resource type="Texture2D" uid="uid://d2i7wauhqmgft" path="res://assets/svg/DownArrow.svg" id="4_qoj3i"]
 
-[node name="StatusLabel" type="PanelContainer" node_paths=PackedStringArray("_inContainer", "_arrowContainer", "_outContainer", "_inLabel", "_outLabel")]
-z_index = 2
+[node name="StatusLabel" type="PanelContainer" node_paths=PackedStringArray("_inContainer", "_arrowContainer", "_outContainer", "_inLabel", "_outLabel", "_timerLabel")]
+y_sort_enabled = true
 material = ExtResource("1_tqqia")
-offset_left = -136.0
-offset_top = -289.0
-offset_right = 4.0
-offset_bottom = -87.0
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -127.5
+offset_top = -282.0
+offset_right = 127.5
+grow_horizontal = 2
+grow_vertical = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 1
 theme = ExtResource("2_6b6rt")
 script = ExtResource("3_2wvi4")
 _inContainer = NodePath("MarginContainer/VBoxContainer/In")
@@ -21,6 +28,7 @@ _arrowContainer = NodePath("MarginContainer/VBoxContainer/Arrows")
 _outContainer = NodePath("MarginContainer/VBoxContainer/Out")
 _inLabel = NodePath("MarginContainer/VBoxContainer/In/Label")
 _outLabel = NodePath("MarginContainer/VBoxContainer/Out/Label")
+_timerLabel = NodePath("MarginContainer/VBoxContainer/VBoxContainer2/Label")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -81,3 +89,12 @@ text = "Out:"
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 24
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="RichTextLabel" parent="MarginContainer/VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+fit_content = true

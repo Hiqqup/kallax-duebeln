@@ -7,11 +7,20 @@ public partial class NodeStatusLabel : PanelContainer
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+		Hide();
 	}
-
+	
+	
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
+		if (Input.IsActionJustPressed("show_all_tooltips"))
+		{
+			Show();
+		} else if (Input.IsActionJustReleased("show_all_tooltips"))
+		{
+			Hide();
+		}
 	}
 
 	[Export] private VBoxContainer _inContainer;
@@ -19,6 +28,7 @@ public partial class NodeStatusLabel : PanelContainer
 	[Export] private VBoxContainer _outContainer;
 	[Export] private Label _inLabel;
 	[Export] private Label _outLabel;
+	[Export] private RichTextLabel _timerLabel;
 
 	public void UpdateLabel(I_GraphNode node)
 	{
@@ -49,6 +59,24 @@ public partial class NodeStatusLabel : PanelContainer
 		{
 			_inContainer.Visible = true;
 		}
+
+		if (node.QuestDuration != null)
+		{
+			if (!node.QuestDuration.IsStopped())
+			{
+				_timerLabel.Visible = true;
+				_timerLabel.Text = $"Time left: [color=red]{(int) node.QuestDuration.TimeLeft+ 1}[/color]";
+			}
+			else
+			{
+				_timerLabel.Visible = false;
+			}
+		}
+		else
+		{
+			_timerLabel.Visible = false;
+		}
+		
 
 		string inText = "";
 		foreach (ResourceAmount resource in node.Recource_Input)

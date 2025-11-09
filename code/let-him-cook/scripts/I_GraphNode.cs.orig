@@ -14,8 +14,13 @@ public partial class I_GraphNode : CharacterBody2D
 	[Export]
 	//Input
 	public Array<ResourceAmount> Recource_Input { get; set; } = new Array<ResourceAmount>(); //max
+<<<<<<< HEAD
+
+	private SystemDictionary _inputInventory; //buffer
+=======
 	
 	public SystemDictionary InputInventory { get; private set; } //buffer
+>>>>>>> 34dce8e584cea66bf990d0f6de78c81dcedc06f3
 	[Export]
 	//Output
 	public Array<ResourceAmount> Output { get; set; } = new Array<ResourceAmount>(); //max
@@ -54,8 +59,13 @@ public partial class I_GraphNode : CharacterBody2D
 	private NodeStatusLabel _statusLabel;
 
 	private readonly float _taskTimeSeconds = 15.0f;
+<<<<<<< HEAD
+
+	private Timer _questDuration;
+=======
 	
 	public Timer QuestDuration;
+>>>>>>> 34dce8e584cea66bf990d0f6de78c81dcedc06f3
 
 	private Camera2D _cam;
 
@@ -64,8 +74,7 @@ public partial class I_GraphNode : CharacterBody2D
 	[Export] public Texture2D squircleTexture;
 	[Export] public Texture2D diamondTexture;
 	[Export] public Texture2D circleTexture;
-	[Export] public Texture2D diamondTextureSelect;
-	[Export] public Texture2D squircleTextureSelect;
+<<<<<<< HEAD
 
 
 	[Export] public Sprite2D circleFillSprite;
@@ -73,6 +82,10 @@ public partial class I_GraphNode : CharacterBody2D
 	[Export] public Texture2D diamondFillTexture;
 	[Export] public Texture2D circleFillTexture;
 
+=======
+	[Export] public Texture2D diamondTextureSelect;
+	[Export] public Texture2D squircleTextureSelect;
+>>>>>>> 34dce8e584cea66bf990d0f6de78c81dcedc06f3
 	private static bool _anyUnitBeingDragged = false;
 
 	public I_GraphNode()
@@ -187,9 +200,15 @@ public partial class I_GraphNode : CharacterBody2D
 		}
 
 		var path = _pathQueue.Dequeue();
+<<<<<<< HEAD
+		path.Transport(_producedResourceBuffer.Resource);
+		_producedResourceBuffer.Amount--;
+
+=======
 		path.Transport(ProducedResourceBuffer.Resource);
 		ProducedResourceBuffer.Amount--;
 		
+>>>>>>> 34dce8e584cea66bf990d0f6de78c81dcedc06f3
 		UpdateFill();
 		//GD.Print(path.Name + " started transporting " + _producedResourceBuffer.Resource.ToString());
 	}
@@ -202,21 +221,29 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			NodeType = NodeType.Factory;
 			circleSprite.Texture = diamondTexture;
-	  circleFillSprite.Texture = diamondFillTexture;
+			circleFillSprite.Texture = diamondFillTexture;
 		}
 
 		else if (hasInput)
 		{
 			NodeType = NodeType.Consumer;
+<<<<<<< HEAD
+			circleSprite.Texture = squircleTexture;
+			circleFillSprite.Texture = squircleFillTexture;
+=======
 			circleSprite.Texture = circleTexture;
-	  circleFillSprite.Texture = circleFillTexture;
+>>>>>>> 34dce8e584cea66bf990d0f6de78c81dcedc06f3
 		}
 
 		else if (hasOutput)
 		{
 			NodeType = NodeType.Producer;
+<<<<<<< HEAD
+			circleSprite.Texture = circleTexture;
+			circleFillSprite.Texture = circleFillTexture;
+=======
 			circleSprite.Texture = squircleTexture;
-	  circleFillSprite.Texture = squircleFillTexture;
+>>>>>>> 34dce8e584cea66bf990d0f6de78c81dcedc06f3
 		}
 		else
 		{
@@ -268,8 +295,13 @@ public partial class I_GraphNode : CharacterBody2D
 		foreach (var resourceAmount in Recource_Input)
 		{
 			if (resourceAmount?.Resource == null || resourceAmount.Resource == ProductionResource.None || resourceAmount.Amount <= 0) continue;
+<<<<<<< HEAD
+
+			_inputInventory[resourceAmount.Resource] = resourceAmount.Amount;
+=======
 			
 			InputInventory[resourceAmount.Resource] = resourceAmount.Amount;
+>>>>>>> 34dce8e584cea66bf990d0f6de78c81dcedc06f3
 		}
 		UpdateFill();
 	}
@@ -314,14 +346,20 @@ public partial class I_GraphNode : CharacterBody2D
 		ProducedResourceBuffer.Resource = Output[0].Resource;
 		if (NodeType == NodeType.Producer)
 			ProducedResourceBuffer.Amount = Math.Clamp(ProducedResourceBuffer.Amount + 1, 0, Output[0].Amount * 2);
-		if (NodeType == NodeType.Factory){
+		if (NodeType == NodeType.Factory)
+<<<<<<< HEAD
+			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + Output[0].Amount, 0, Output[0].Amount * 2);
+
+		UpdateFill();
+
+		if (_producedResourceBuffer.Amount > 0)
+=======
 			ProducedResourceBuffer.Amount = Math.Clamp(ProducedResourceBuffer.Amount + Output[0].Amount, 0, Output[0].Amount * 2);
-			GameManager.Instance.CurrentTechTierTracker.updateItemsProduced(Output[0].Resource);
-		}
 		
 		UpdateFill();
 		
 		if (ProducedResourceBuffer.Amount > 0)
+>>>>>>> 34dce8e584cea66bf990d0f6de78c81dcedc06f3
 		{
 			TryConsumeResource();
 		}
@@ -345,8 +383,13 @@ public partial class I_GraphNode : CharacterBody2D
 			if (IsInputSatisfied())
 			{
 				OnInputSatisfied?.Invoke();
+<<<<<<< HEAD
+
+				if (NodeType == NodeType.Consumer && _questDuration != null && !_questDuration.IsStopped())
+=======
 				
 				if (NodeType == NodeType.Consumer && QuestDuration != null && !QuestDuration.IsStopped())
+>>>>>>> 34dce8e584cea66bf990d0f6de78c81dcedc06f3
 				{
 					QuestDuration.Stop();
 					GD.Print($"Consumer {this.Name} task completed successfully!");
@@ -396,7 +439,11 @@ public partial class I_GraphNode : CharacterBody2D
 		}
 		else
 		{
+<<<<<<< HEAD
+			GD.Print($"Timer is running. Time left: {_questDuration.TimeLeft:F2} seconds");
+=======
 			GD.Print($"Timer is running. Time left: {QuestDuration.TimeLeft:F2} seconds" );
+>>>>>>> 34dce8e584cea66bf990d0f6de78c81dcedc06f3
 		}
 	}
 
@@ -425,7 +472,11 @@ public partial class I_GraphNode : CharacterBody2D
 		GD.Print($"Consumer {this.Name} timer finished - task failed!");
 		ResetInputInventory();
 		RemoveAllIncomingPaths();
+<<<<<<< HEAD
+
+=======
 		GameManager.modPlayerHealth(-10);
+>>>>>>> 34dce8e584cea66bf990d0f6de78c81dcedc06f3
 	}
 
 	#region Unit Selection
@@ -573,10 +624,20 @@ public partial class I_GraphNode : CharacterBody2D
 	{
 		return _anyUnitBeingDragged;
 	}
+<<<<<<< HEAD
 
+	#endregion
+
+
+
+
+
+=======
+	
 	#endregion
 	
 	
+>>>>>>> 34dce8e584cea66bf990d0f6de78c81dcedc06f3
 	public void _on_area_2d_mouse_entered()
 	{
 		MouseOver = true;

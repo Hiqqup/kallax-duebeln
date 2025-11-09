@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://vywow137nbyf"]
 
-[ext_resource type="Script" uid="uid://bm4h8tuqralvs" path="res://scripts/global/GameManager.cs" id="1_hwd4i"]
-[ext_resource type="StyleBox" uid="uid://bj07c7nq11h6r" path="res://assets/resources/healthbar_background.tres" id="3_eaq8r"]
-[ext_resource type="StyleBox" uid="uid://cb1cta5j5gbbx" path="res://assets/resources/healthbar_fill.tres" id="3_oo155"]
+[ext_resource type="Script" uid="uid://ce2q1eltm25ec" path="res://scripts/global/GameManager.cs" id="1_hwd4i"]
+[ext_resource type="StyleBox" path="res://assets/resources/healthbar_background.tres" id="3_eaq8r"]
+[ext_resource type="StyleBox" path="res://assets/resources/healthbar_fill.tres" id="3_oo155"]
 [ext_resource type="PackedScene" uid="uid://csysbik0bf7tc" path="res://scenes/graph_nodes/Reward.tscn" id="3_udu3i"]
 
 [sub_resource type="Animation" id="Animation_glms7"]
