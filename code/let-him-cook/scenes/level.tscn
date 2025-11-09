@@ -17,7 +17,7 @@
 [sub_resource type="Resource" id="Resource_fpun6"]
 script = ExtResource("3_64w2a")
 Resource = 1
-Amount = 40
+Amount = 2
 metadata/_custom_type_script = "uid://bco38vskfst5"
 
 [sub_resource type="Resource" id="Resource_64w2a"]
@@ -179,23 +179,23 @@ Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_h6wmr")])
 
 [node name="Plankconquer" parent="." instance=ExtResource("12_5k0ak")]
 position = Vector2(1066, -1375)
-Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_pqd0y"), null])
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_pqd0y")])
 
 [node name="Plankconquer2" parent="." instance=ExtResource("12_5k0ak")]
 position = Vector2(-1525, -977)
-Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_pqd0y"), null])
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_pqd0y")])
 
 [node name="Plankconquer3" parent="." instance=ExtResource("12_5k0ak")]
 position = Vector2(-1007, 1054)
-Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_pqd0y"), null])
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_pqd0y")])
 
 [node name="Plankconquer4" parent="." instance=ExtResource("12_5k0ak")]
 position = Vector2(1686, -300)
-Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_pqd0y"), null])
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_pqd0y")])
 
 [node name="Plankconquer5" parent="." instance=ExtResource("12_5k0ak")]
 position = Vector2(-1451, 117)
-Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_pqd0y"), null])
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_pqd0y")])
 
 [node name="Kallax1x1Conquer" parent="." instance=ExtResource("12_5k0ak")]
 position = Vector2(-1920, -404)

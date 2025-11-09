@@ -146,12 +146,15 @@ public partial class I_GraphNode : CharacterBody2D
 		_questDuration.Timeout += action;
 	}
 
-	public void PathFinished(GraphPath path)
+	public void AddPath(GraphPath path)
 	{
 		_pathQueue.Enqueue(path);
-
+        
 		UpdateFill();
-		
+	}
+	public void PathFinished(GraphPath path)
+	{
+		AddPath(path);
 		if (_producedResourceBuffer.Amount > 0)
 		{
 			TryConsumeResource();
@@ -218,6 +221,18 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			var texture = GD.Load<Texture2D>(resourcePath);
 			_contentSprite2D.Texture = texture;
+
+			if (texture != null)
+			{
+				Vector2 textureResolution = texture.GetSize();
+				float nodeSize = Constants.NodeDiameter;
+
+				float padding = 0.9f;
+				float scaleX = nodeSize / textureResolution.X;
+                float scaleY = nodeSize / textureResolution.Y;
+                float scaleFactor = Math.Min(scaleX, scaleY) * padding;
+                _contentSprite2D.Scale = new Vector2(scaleFactor, scaleFactor);
+			}
 		}
 		
 	}
@@ -232,6 +247,7 @@ public partial class I_GraphNode : CharacterBody2D
 			
 			_inputInventory[resourceAmount.Resource] = resourceAmount.Amount;
 		}
+		UpdateFill();
 	}
 
 	private int GetRemainingNeededResourceAmount()
@@ -341,24 +357,6 @@ public partial class I_GraphNode : CharacterBody2D
 			GD.Print($"Player selected reward {selectedRewardIndex}");
 			// Handle reward logic
 
-			switch (selectedRewardIndex)
-			{
-				case 0:
-				{
-					break;
-				}
-				case 1:
-				{
-					break;
-				}
-				case 2:
-				{
-					break;
-				}
-				default:
-					break;
-			}
-			
 			// Clean up both the reward and the canvas layer
 			canvasLayer.QueueFree();
 			this.QueueFree();
@@ -414,6 +412,7 @@ public partial class I_GraphNode : CharacterBody2D
 		GD.Print($"Consumer {this.Name} timer finished - task failed!");
 		ResetInputInventory();
 		RemoveAllIncomingPaths();
+		
 	}
 
 	public bool IsInsideSelectionBox(Rect2 box)
@@ -591,7 +590,7 @@ public partial class I_GraphNode : CharacterBody2D
 			pathInstance.ParentNode = _pathOrigin;
 			_pathOrigin.Paths.Add(pathInstance);
 			GetParent()!.AddChild(pathInstance);
-			_pathOrigin.PathFinished(pathInstance);
+			_pathOrigin.AddPath(pathInstance);
 			
 			// Start consumer timer on first connection
 			if (targetNode.NodeType == NodeType.Consumer)
