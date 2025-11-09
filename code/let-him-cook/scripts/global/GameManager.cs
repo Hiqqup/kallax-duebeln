@@ -73,6 +73,7 @@ public partial class GameManager : Node
 		if (playerHealth <= 0)
 		{
 			Instance.LoadMainMenu();
+			playerHealth = 100;
 		}
 		
 	}
