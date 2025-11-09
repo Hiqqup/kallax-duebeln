@@ -1,6 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://bxk16rwk6e0sh"]
+[gd_scene load_steps=17 format=3 uid="uid://bxk16rwk6e0sh"]
 
-[ext_resource type="Script" path="res://scripts/I_GraphNode.cs" id="1_6r00q"]
+[ext_resource type="Script" uid="uid://ce5tbu5w4imum" path="res://scripts/I_GraphNode.cs" id="1_6r00q"]
 [ext_resource type="Shader" uid="uid://ciaepdir5bad7" path="res://scenes/graph_nodes/white_pixle_paper_shader.gdshader" id="1_yjnrr"]
 [ext_resource type="Texture2D" uid="uid://sapt04gkgg8m" path="res://assets/svg/circle_outline.svg" id="2_dsmoq"]
 [ext_resource type="Texture2D" uid="uid://b1w3k8rntwbgm" path="res://assets/svg/squircle.svg" id="3_rvlrc"]
@@ -8,10 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://b3yxvap4dmdc6" path="res://assets/svg/diamond.svg" id="4_gpv0c"]
 [ext_resource type="Texture2D" uid="uid://gadj3ifuwrp4" path="res://assets/svg/online_circle.svg" id="5_nppe8"]
 [ext_resource type="Texture2D" uid="uid://jnu673pbvff4" path="res://assets/svg/circle_grey_fill.svg" id="5_x18su"]
+[ext_resource type="PackedScene" uid="uid://bcgghjeiwvspj" path="res://scenes/graph_nodes/status_label.tscn" id="6_8iit0"]
 [ext_resource type="Texture2D" uid="uid://cnpqcyhf0184o" path="res://assets/svg/diamond selected.svg" id="6_nppe8"]
 [ext_resource type="Texture2D" uid="uid://cs6xq02ihhl80" path="res://assets/svg/sqircle selected.svg" id="7_6befq"]
-[ext_resource type="PackedScene" uid="uid://bt621tnjte3rt" path="res://scenes/graph_nodes/status_label.tscn" id="6_8iit0"]
-[ext_resource type="PackedScene" path="res://scenes/graph_nodes/status_label.tscn" id="6_8iit0"]
+[ext_resource type="Texture2D" uid="uid://c6pqbllo5med2" path="res://assets/svg/squircle_grey_fill.svg" id="8_s4pal"]
+[ext_resource type="Texture2D" uid="uid://bv0enxo3ewsjg" path="res://assets/svg/diamond_grey_fill.svg" id="9_i472n"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8iit0"]
 shader = ExtResource("1_yjnrr")
@@ -24,7 +25,7 @@ radius = 99.24717
 [sub_resource type="CircleShape2D" id="CircleShape2D_5tsiq"]
 radius = 100.04499
 
-[node name="Node" type="CharacterBody2D" node_paths=PackedStringArray("Paths", "circleSprite")]
+[node name="Node" type="CharacterBody2D" node_paths=PackedStringArray("Paths", "circleSprite", "circleFillSprite")]
 material = SubResource("ShaderMaterial_8iit0")
 script = ExtResource("1_6r00q")
 Paths = []
@@ -34,6 +35,10 @@ diamondTexture = ExtResource("4_gpv0c")
 circleTexture = ExtResource("5_nppe8")
 diamondTextureSelect = ExtResource("6_nppe8")
 squircleTextureSelect = ExtResource("7_6befq")
+circleFillSprite = NodePath("Fill")
+squircleFillTexture = ExtResource("8_s4pal")
+diamondFillTexture = ExtResource("9_i472n")
+circleFillTexture = ExtResource("5_x18su")
 
 [node name="Fill" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.5019608)

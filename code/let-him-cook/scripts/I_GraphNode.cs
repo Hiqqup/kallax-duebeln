@@ -202,18 +202,21 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			NodeType = NodeType.Factory;
 			circleSprite.Texture = diamondTexture;
+	  circleFillSprite.Texture = diamondFillTexture;
 		}
 
 		else if (hasInput)
 		{
 			NodeType = NodeType.Consumer;
 			circleSprite.Texture = circleTexture;
+	  circleFillSprite.Texture = circleFillTexture;
 		}
 
 		else if (hasOutput)
 		{
 			NodeType = NodeType.Producer;
 			circleSprite.Texture = squircleTexture;
+	  circleFillSprite.Texture = squircleFillTexture;
 		}
 		else
 		{
