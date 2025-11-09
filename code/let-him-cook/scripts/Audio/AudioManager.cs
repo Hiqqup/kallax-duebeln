@@ -1,6 +1,7 @@
 using System;
-using System.Collections.Generic;
+using System.Text.Json;
 using Godot;
+using Godot.Collections;
 
 public partial class AudioManager : Node2D
 {
@@ -8,12 +9,19 @@ public partial class AudioManager : Node2D
 
 	[Export] private AudioStreamPlayer _musicPlayer;
 	private Dictionary<string, AudioStreamMP3> _audioStreamsDict = new Dictionary<string, AudioStreamMP3>();
+	[Export] private Array<AudioStreamMP3> _audioStreams = new Array<AudioStreamMP3>();
 	private const string SfxPath = "res://assets/audio/SoundEffects/";
 	
 	public override void _Ready()
 	{
 		Instance = this;
-		LoadAudioStreamsFromPath();
+		//LoadAudioStreamsFromPath();
+
+		foreach (var audStream in _audioStreams)
+		{
+			GD.Print(audStream.ResourcePath);
+			_audioStreamsDict.Add(audStream.ResourcePath, audStream);
+		}
 	}
 	
 
@@ -28,12 +36,13 @@ public partial class AudioManager : Node2D
 		dir.ListDirBegin();
 		foreach (var file in dir.GetFiles())
 		{
+			GD.Print(file);
 			if (file.Contains(".import"))
 			{
 				continue;
 			}
 			var resPath = SfxPath + file;
-			//GD.Print("path: ", resPath);
+			GD.Print("path: ", resPath);
 			var sound = ResourceLoader.Load(resPath) as AudioStreamMP3;
 			if (!IsInstanceValid(sound))
 			{
@@ -41,6 +50,9 @@ public partial class AudioManager : Node2D
 			}
 			_audioStreamsDict.Add(resPath, sound);
 		}
+
+		GD.Print(JsonSerializer.Serialize(_audioStreamsDict));
+		GD.Print(_audioStreamsDict.Count);
 		dir.ListDirEnd();
 	}
 

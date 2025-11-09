@@ -1,6 +1,6 @@
 [gd_scene load_steps=28 format=3 uid="uid://jl62epl5aqnh"]
 
-[ext_resource type="Script" path="res://scenes/level.gd" id="1_8iemx"]
+[ext_resource type="Script" uid="uid://bt02ssprcnuck" path="res://scenes/level.gd" id="1_8iemx"]
 [ext_resource type="Texture2D" uid="uid://f7m0m0dq2pv4" path="res://assets/parts/double_ended_screw.png" id="2_64w2a"]
 [ext_resource type="Script" uid="uid://bco38vskfst5" path="res://scripts/ResourceAmount.cs" id="3_64w2a"]
 [ext_resource type="Texture2D" uid="uid://uo78wssewpgx" path="res://assets/parts/dowel.png" id="3_fpun6"]
@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://bxnx7dqkdxb3m" path="res://assets/parts/kallax_1x2.png" id="6_ux5qa"]
 [ext_resource type="Texture2D" uid="uid://brdx5864ppeue" path="res://assets/parts/kallax_2x2.png" id="7_82cfe"]
 [ext_resource type="Texture2D" uid="uid://bu3ugp2tl53mf" path="res://assets/parts/kallax_2x4.png" id="8_gunhw"]
-[ext_resource type="Texture2D" uid="uid://devk8y1rvfiv7" path="res://assets/parts/plank.png" id="9_8gofh"]
+[ext_resource type="Texture2D" uid="uid://devk8y1rvfiv7" path="res://assets/parts/Plank.png" id="9_8gofh"]
 [ext_resource type="Texture2D" uid="uid://b1no80duuvqe7" path="res://assets/parts/pointy_screw.png" id="10_h6wmr"]
 [ext_resource type="Texture2D" uid="uid://0j18v1u5jyhi" path="res://assets/parts/screw_plug.png" id="11_pqd0y"]
 [ext_resource type="PackedScene" uid="uid://bxk16rwk6e0sh" path="res://scenes/graph_nodes/node.tscn" id="12_5k0ak"]

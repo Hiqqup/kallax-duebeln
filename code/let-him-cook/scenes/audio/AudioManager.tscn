@@ -1,13 +1,25 @@
-[gd_scene load_steps=12 format=3 uid="uid://dr6orvyyo2cgm"]
+[gd_scene load_steps=24 format=3 uid="uid://dr6orvyyo2cgm"]
 
-[ext_resource type="Script" uid="uid://d0ts110a2dyg5" path="res://scripts/Audio/AudioManager.cs" id="1_r1srg"]
+[ext_resource type="Script" uid="uid://chsnlefuedtnt" path="res://scripts/Audio/AudioManager.cs" id="1_r1srg"]
+[ext_resource type="AudioStream" uid="uid://bwu7eteumiq3v" path="res://assets/audio/SoundEffects/boing.mp3" id="2_digtg"]
 [ext_resource type="AudioStream" uid="uid://b5f8dexvefghm" path="res://assets/audio/Music/acoustic-blues.mp3" id="3_2hebn"]
 [ext_resource type="AudioStream" uid="uid://chun5ykh8shrx" path="res://assets/audio/Music/main_menu_track.mp3" id="3_mbly1"]
 [ext_resource type="AudioStream" uid="uid://bb3yrdeeai7fu" path="res://assets/audio/Music/background_track1.mp3" id="3_qw11x"]
+[ext_resource type="AudioStream" uid="uid://d4ak7njonqa57" path="res://assets/audio/SoundEffects/hover1.mp3" id="3_ymfr7"]
+[ext_resource type="AudioStream" uid="uid://dy8fabhg7u4bc" path="res://assets/audio/SoundEffects/keyboard-click.mp3" id="4_h2t8c"]
+[ext_resource type="AudioStream" uid="uid://cmermsjgnqol5" path="res://assets/audio/SoundEffects/obtain.mp3" id="5_fxdbt"]
 [ext_resource type="AudioStream" uid="uid://qqjk8e7qievw" path="res://assets/audio/Music/background_track2.mp3" id="5_isk6y"]
 [ext_resource type="AudioStream" uid="uid://777jtdmrt1m8" path="res://assets/audio/Music/jazz-lounge-elevator-music.mp3" id="6_ns8hx"]
+[ext_resource type="AudioStream" uid="uid://ww2skn056wmy" path="res://assets/audio/SoundEffects/pop-cartoon.mp3" id="6_qfswg"]
 [ext_resource type="AudioStream" uid="uid://cqjdj64txwkok" path="res://assets/audio/Music/kansas-blues-blues-rock-instrumental.mp3" id="7_b86ia"]
+[ext_resource type="AudioStream" uid="uid://ckynea6kl8i2x" path="res://assets/audio/SoundEffects/sharp-clap.mp3" id="7_wupwt"]
+[ext_resource type="AudioStream" uid="uid://b04s4ftl6xucr" path="res://assets/audio/SoundEffects/sharp-pop.mp3" id="8_0sn53"]
 [ext_resource type="AudioStream" uid="uid://djqtdvd33kldn" path="res://assets/audio/Music/upbeat-country-blues.mp3" id="8_sly4s"]
+[ext_resource type="AudioStream" uid="uid://73eky4ncf2qu" path="res://assets/audio/SoundEffects/single-click.mp3" id="9_m2b2p"]
+[ext_resource type="AudioStream" uid="uid://c33hu8rx4m8ia" path="res://assets/audio/SoundEffects/subtle-click.mp3" id="10_x10sl"]
+[ext_resource type="AudioStream" uid="uid://boj5ynsc48j36" path="res://assets/audio/SoundEffects/tear-paper.mp3" id="11_wfvcn"]
+[ext_resource type="AudioStream" uid="uid://3dvg15st85ve" path="res://assets/audio/SoundEffects/thud.mp3" id="12_borkb"]
+[ext_resource type="AudioStream" uid="uid://chapbb5kns8th" path="res://assets/audio/SoundEffects/turn-page.mp3" id="13_2jhnr"]
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_ns8hx"]
 stream_count = 1
@@ -43,6 +55,7 @@ Vector2i(-1, 0): {
 [node name="AudioManager" type="Node2D" node_paths=PackedStringArray("_musicPlayer")]
 script = ExtResource("1_r1srg")
 _musicPlayer = NodePath("MusicPlayer")
+_audioStreams = Array[AudioStreamMP3]([ExtResource("2_digtg"), ExtResource("3_ymfr7"), ExtResource("4_h2t8c"), ExtResource("5_fxdbt"), ExtResource("6_qfswg"), ExtResource("7_wupwt"), ExtResource("8_0sn53"), ExtResource("9_m2b2p"), ExtResource("10_x10sl"), ExtResource("11_wfvcn"), ExtResource("12_borkb"), ExtResource("13_2jhnr")])
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamInteractive_b86ia")

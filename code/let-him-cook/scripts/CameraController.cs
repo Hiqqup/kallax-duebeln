@@ -43,13 +43,13 @@ public partial class CameraController : Camera2D
 	{
 		if (Input.IsActionJustPressed("camera_zoom_in"))
 		{
-			GD.Print("Zoom in");
+			//GD.Print("Zoom in");
 			_zoomTarget *= 1.1f;
 		}
 
 		if (Input.IsActionJustPressed("camera_zoom_out"))
 		{
-			GD.Print("Zoom out");
+			//GD.Print("Zoom out");
 			_zoomTarget *= 0.9f;
 		}
 		
@@ -62,25 +62,25 @@ public partial class CameraController : Camera2D
 		
 		if (Input.IsActionPressed("camera_move_up"))
 		{
-			GD.Print("Move up");
+			//GD.Print("Move up");
 			moveDirection.Y -= 1.0f;
 		}
 		
 		if (Input.IsActionPressed("camera_move_down"))
 		{
-			GD.Print("Move down");
+			//GD.Print("Move down");
 			moveDirection.Y += 1.0f;
 		}
 		
 		if (Input.IsActionPressed("camera_move_right"))
 		{
-			GD.Print("Move right");
+			//GD.Print("Move right");
 			moveDirection.X += 1.0f;
 		}
 		
 		if (Input.IsActionPressed("camera_move_left"))
 		{
-			GD.Print("Move left");
+			//GD.Print("Move left");
 			moveDirection.X -= 1.0f;
 			
 		}
