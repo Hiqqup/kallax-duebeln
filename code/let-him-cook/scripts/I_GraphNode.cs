@@ -408,7 +408,7 @@ public partial class I_GraphNode : CharacterBody2D
 		GD.Print($"Consumer {this.Name} timer finished - task failed!");
 		ResetInputInventory();
 		RemoveAllIncomingPaths();
-		
+		GameManager.modPlayerHealth(-10);
 	}
 
 	#region Unit Selection
