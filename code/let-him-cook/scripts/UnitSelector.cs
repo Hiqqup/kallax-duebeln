@@ -9,6 +9,11 @@ public partial class UnitSelector : Node2D
     private Rect2 _selectBox = new Rect2();
     private const float MIN_DRAG_DISTANCE = 5f; // Minimum pixels to be considered a drag
 
+    public override void _Ready()
+    {
+        ZIndex = 100;
+    }
+
     public override void _Input(InputEvent @event)
     {
         // Check if any unit is being dragged - if so, don't do box selection
@@ -21,6 +26,7 @@ public partial class UnitSelector : Node2D
         {
             if (mouseEvent.Pressed)
             {
+                AudioManager.Instance.PlayByPath("res://assets/audio/SoundEffects/single-click.mp3");
                 // Check if we clicked on a unit
                 var mousePos = GetViewport().GetCamera2D().GetGlobalMousePosition();
                 bool clickedOnUnit = false;
@@ -49,6 +55,7 @@ public partial class UnitSelector : Node2D
             }
             else // Released
             {
+                AudioManager.Instance.PlayByPath("res://assets/audio/SoundEffects/single-click.mp3");
                 if (_selecting)
                 {
                     _selecting = false;

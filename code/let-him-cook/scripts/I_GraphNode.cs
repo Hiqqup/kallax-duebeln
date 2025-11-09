@@ -101,6 +101,8 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			AddToGroup("selectable_units");
 		}
+		
+		
 
 		if (NodeType.Equals(NodeType.Consumer))
 		{
@@ -415,6 +417,11 @@ public partial class I_GraphNode : CharacterBody2D
 
 	public override void _Input(InputEvent @event)
 	{
+		if (!IsInGroup("selectable_units"))
+		{
+			return;
+		}
+		
 		if (@event is InputEventMouseButton mouseEvent && MouseOver)
 		{
 			// Only handle individual unit clicks if we're NOT box selecting
