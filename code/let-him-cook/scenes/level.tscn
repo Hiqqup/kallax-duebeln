@@ -1,0 +1,481 @@
+[gd_scene load_steps=28 format=3 uid="uid://c0dfyiq60c1sr"]
+
+[ext_resource type="Script" uid="uid://bt02ssprcnuck" path="res://scenes/level.gd" id="1_8iemx"]
+[ext_resource type="Texture2D" uid="uid://f7m0m0dq2pv4" path="res://assets/parts/double_ended_screw.png" id="2_64w2a"]
+[ext_resource type="Script" uid="uid://bco38vskfst5" path="res://scripts/ResourceAmount.cs" id="3_64w2a"]
+[ext_resource type="Texture2D" uid="uid://uo78wssewpgx" path="res://assets/parts/dowel.png" id="3_fpun6"]
+[ext_resource type="Texture2D" uid="uid://b76hyqws4y8vy" path="res://assets/parts/hinge.png" id="4_wc255"]
+[ext_resource type="Texture2D" uid="uid://x35c6200ifyc" path="res://assets/parts/kallax_1x1.png" id="5_arp2o"]
+[ext_resource type="Texture2D" uid="uid://bxnx7dqkdxb3m" path="res://assets/parts/kallax_1x2.png" id="6_ux5qa"]
+[ext_resource type="Texture2D" uid="uid://brdx5864ppeue" path="res://assets/parts/kallax_2x2.png" id="7_82cfe"]
+[ext_resource type="Texture2D" uid="uid://bu3ugp2tl53mf" path="res://assets/parts/kallax_2x4.png" id="8_gunhw"]
+[ext_resource type="Texture2D" uid="uid://devk8y1rvfiv7" path="res://assets/parts/plank.png" id="9_8gofh"]
+[ext_resource type="Texture2D" uid="uid://b1no80duuvqe7" path="res://assets/parts/pointy_screw.png" id="10_h6wmr"]
+[ext_resource type="Texture2D" uid="uid://0j18v1u5jyhi" path="res://assets/parts/screw_plug.png" id="11_pqd0y"]
+[ext_resource type="PackedScene" uid="uid://bxk16rwk6e0sh" path="res://scenes/graph_nodes/node.tscn" id="12_5k0ak"]
+
+[sub_resource type="Resource" id="Resource_fpun6"]
+script = ExtResource("3_64w2a")
+Resource = 1
+Amount = 40
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
+[sub_resource type="Resource" id="Resource_64w2a"]
+script = ExtResource("3_64w2a")
+Resource = 1
+Amount = 20
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
+[sub_resource type="Resource" id="Resource_wc255"]
+script = ExtResource("3_64w2a")
+Resource = 3
+Amount = 40
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
+[sub_resource type="Resource" id="Resource_arp2o"]
+script = ExtResource("3_64w2a")
+Resource = 2
+Amount = 90
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
+[sub_resource type="Resource" id="Resource_ux5qa"]
+script = ExtResource("3_64w2a")
+Resource = 4
+Amount = 90
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
+[sub_resource type="Resource" id="Resource_82cfe"]
+script = ExtResource("3_64w2a")
+Resource = 5
+Amount = 120
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
+[sub_resource type="Resource" id="Resource_gunhw"]
+script = ExtResource("3_64w2a")
+Resource = 5
+Amount = 120
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
+[sub_resource type="Resource" id="Resource_8gofh"]
+script = ExtResource("3_64w2a")
+Resource = 5
+Amount = 120
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
+[sub_resource type="Resource" id="Resource_h6wmr"]
+script = ExtResource("3_64w2a")
+Resource = 5
+Amount = 120
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
+[sub_resource type="Resource" id="Resource_pqd0y"]
+script = ExtResource("3_64w2a")
+Resource = 6
+Amount = 150
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
+[sub_resource type="Resource" id="Resource_5k0ak"]
+script = ExtResource("3_64w2a")
+Resource = 7
+Amount = 210
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
+[sub_resource type="Resource" id="Resource_wu01b"]
+script = ExtResource("3_64w2a")
+Resource = 8
+Amount = 250
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
+[sub_resource type="Resource" id="Resource_3ies3"]
+script = ExtResource("3_64w2a")
+Resource = 9
+Amount = 290
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
+[sub_resource type="Resource" id="Resource_xy2fk"]
+script = ExtResource("3_64w2a")
+Resource = 10
+Amount = 4080
+metadata/_custom_type_script = "uid://bco38vskfst5"
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_8iemx")
+
+[node name="InitialDowelProducer" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(12, 13)
+Output = Array[ExtResource("3_64w2a")]([SubResource("Resource_fpun6")])
+
+[node name="DowelConquer" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-586, 356)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_64w2a")])
+
+[node name="DowelConquer2" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(863, 232)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_64w2a")])
+
+[node name="DowelConquer3" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(334, -573)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_64w2a")])
+
+[node name="ScrewPlugConquer" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-179, -649)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_wc255")])
+
+[node name="ScrewPlugConquer2" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(938, -645)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_wc255")])
+
+[node name="ScrewPlugConquer3" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(607, 659)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_wc255")])
+
+[node name="PointyScrewConquer" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-1053, -632)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_arp2o")])
+
+[node name="PointyScrewConquer2" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(209, -1042)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_arp2o")])
+
+[node name="PointyScrewConquer3" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(1331, 19)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_arp2o")])
+
+[node name="PointyScrewConquer4" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(44, 1080)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_arp2o")])
+
+[node name="DoubleEndedScrewconquer" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(1217, 620)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_ux5qa")])
+
+[node name="DoubleEndedScrewconquer2" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(640, -1079)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_ux5qa")])
+
+[node name="DoubleEndedScrewconquer3" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-585, -940)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_ux5qa")])
+
+[node name="DoubleEndedScrewconquer4" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-535, 862)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_ux5qa")])
+
+[node name="HingeConquer" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(1546, -843)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_82cfe")])
+
+[node name="HingeConquer2" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-178, -1656)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_gunhw")])
+
+[node name="HingeConquer3" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-1434, 569)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_8gofh")])
+
+[node name="HingeConquer4" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(1019, 1237)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_h6wmr")])
+
+[node name="Plankconquer" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(1066, -1375)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_pqd0y"), null])
+
+[node name="Plankconquer2" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-1525, -977)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_pqd0y"), null])
+
+[node name="Plankconquer3" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-1007, 1054)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_pqd0y"), null])
+
+[node name="Plankconquer4" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(1686, -300)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_pqd0y"), null])
+
+[node name="Plankconquer5" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-1451, 117)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_pqd0y"), null])
+
+[node name="Kallax1x1Conquer" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-1920, -404)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_5k0ak")])
+
+[node name="Kallax1x1Conquer2" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-993, -1494)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_5k0ak")])
+
+[node name="Kallax1x1Conquer3" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(497, -1854)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_5k0ak")])
+
+[node name="Kallax1x1Conquer4" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(1709, 233)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_5k0ak")])
+
+[node name="Kallax1x1Conquer5" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-415, 1497)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_5k0ak")])
+
+[node name="Kallax1x2conquer" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-1699, 991)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_wu01b")])
+
+[node name="Kallax1x2conquer2" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(499, 1578)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_wu01b")])
+
+[node name="Kallax1x2conquer3" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(1987, 677)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_wu01b")])
+
+[node name="Kallax1x2conquer4" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(2117, -1337)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_wu01b")])
+
+[node name="Kallax1x2conquer5" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(931, -2267)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_wu01b")])
+
+[node name="Kallax1x2conquer6" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-720, -2259)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_wu01b")])
+
+[node name="Kallax1x2conquer7" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-2049, -1382)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_wu01b")])
+
+[node name="Kallax1x2conquer8" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-2289, 99)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_wu01b")])
+
+[node name="Kallax2x2conquer" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-2681, -670)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_3ies3")])
+
+[node name="Kallax2x2conquer2" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-1639, -2033)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_3ies3")])
+
+[node name="Kallax2x2conquer3" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(46, -2557)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_3ies3")])
+
+[node name="Kallax2x2conquer4" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(1685, -1852)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_3ies3")])
+
+[node name="Kallax2x2conquer5" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(2316, -765)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_3ies3")])
+
+[node name="Kallax2x2conquer6" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(1703, 1189)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_3ies3")])
+
+[node name="Kallax2x2conquer7" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(159, 1933)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_3ies3")])
+
+[node name="Kallax2x2conquer8" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-1250, 1590)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_3ies3")])
+
+[node name="Kallax2x2conquer9" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-2434, 657)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_3ies3")])
+
+[node name="Kallax4x2conquer" parent="." instance=ExtResource("12_5k0ak")]
+position = Vector2(-3675, -75)
+Recource_Input = Array[ExtResource("3_64w2a")]([SubResource("Resource_xy2fk")])
+
+[node name="Visualize" type="Node2D" parent="."]
+visible = false
+
+[node name="DoubleEndedScrew" type="Sprite2D" parent="Visualize"]
+position = Vector2(1228, 610)
+texture = ExtResource("2_64w2a")
+
+[node name="DoubleEndedScrew2" type="Sprite2D" parent="Visualize"]
+position = Vector2(651, -1089)
+texture = ExtResource("2_64w2a")
+
+[node name="DoubleEndedScrew3" type="Sprite2D" parent="Visualize"]
+position = Vector2(-574, -950)
+texture = ExtResource("2_64w2a")
+
+[node name="DoubleEndedScrew4" type="Sprite2D" parent="Visualize"]
+position = Vector2(-524, 852)
+texture = ExtResource("2_64w2a")
+
+[node name="Dowel" type="Sprite2D" parent="Visualize"]
+position = Vector2(29, 16)
+texture = ExtResource("3_fpun6")
+
+[node name="Dowel2" type="Sprite2D" parent="Visualize"]
+position = Vector2(-586, 345)
+texture = ExtResource("3_fpun6")
+
+[node name="Dowel3" type="Sprite2D" parent="Visualize"]
+position = Vector2(863, 221)
+texture = ExtResource("3_fpun6")
+
+[node name="Dowel4" type="Sprite2D" parent="Visualize"]
+position = Vector2(334, -584)
+texture = ExtResource("3_fpun6")
+
+[node name="Hinge" type="Sprite2D" parent="Visualize"]
+position = Vector2(1527, -848)
+texture = ExtResource("4_wc255")
+
+[node name="Hinge2" type="Sprite2D" parent="Visualize"]
+position = Vector2(-197, -1661)
+texture = ExtResource("4_wc255")
+
+[node name="Hinge3" type="Sprite2D" parent="Visualize"]
+position = Vector2(-1453, 564)
+texture = ExtResource("4_wc255")
+
+[node name="Hinge4" type="Sprite2D" parent="Visualize"]
+position = Vector2(1000, 1232)
+texture = ExtResource("4_wc255")
+
+[node name="Kallax1x1" type="Sprite2D" parent="Visualize"]
+position = Vector2(-1920, -404)
+texture = ExtResource("5_arp2o")
+
+[node name="Kallax1x3" type="Sprite2D" parent="Visualize"]
+position = Vector2(-993, -1494)
+texture = ExtResource("5_arp2o")
+
+[node name="Kallax1x4" type="Sprite2D" parent="Visualize"]
+position = Vector2(497, -1854)
+texture = ExtResource("5_arp2o")
+
+[node name="Kallax1x5" type="Sprite2D" parent="Visualize"]
+position = Vector2(1709, 233)
+texture = ExtResource("5_arp2o")
+
+[node name="Kallax1x6" type="Sprite2D" parent="Visualize"]
+position = Vector2(-415, 1497)
+texture = ExtResource("5_arp2o")
+
+[node name="Kallax1x2" type="Sprite2D" parent="Visualize"]
+position = Vector2(-1683, 1009)
+texture = ExtResource("6_ux5qa")
+
+[node name="Kallax1x7" type="Sprite2D" parent="Visualize"]
+position = Vector2(515, 1596)
+texture = ExtResource("6_ux5qa")
+
+[node name="Kallax1x8" type="Sprite2D" parent="Visualize"]
+position = Vector2(2003, 695)
+texture = ExtResource("6_ux5qa")
+
+[node name="Kallax1x9" type="Sprite2D" parent="Visualize"]
+position = Vector2(2133, -1319)
+texture = ExtResource("6_ux5qa")
+
+[node name="Kallax1x10" type="Sprite2D" parent="Visualize"]
+position = Vector2(947, -2249)
+texture = ExtResource("6_ux5qa")
+
+[node name="Kallax1x11" type="Sprite2D" parent="Visualize"]
+position = Vector2(-704, -2241)
+texture = ExtResource("6_ux5qa")
+
+[node name="Kallax1x12" type="Sprite2D" parent="Visualize"]
+position = Vector2(-2033, -1364)
+texture = ExtResource("6_ux5qa")
+
+[node name="Kallax1x13" type="Sprite2D" parent="Visualize"]
+position = Vector2(-2273, 117)
+texture = ExtResource("6_ux5qa")
+
+[node name="Kallax2x2" type="Sprite2D" parent="Visualize"]
+position = Vector2(-2688, -680)
+texture = ExtResource("7_82cfe")
+
+[node name="Kallax2x3" type="Sprite2D" parent="Visualize"]
+position = Vector2(-1646, -2043)
+texture = ExtResource("7_82cfe")
+
+[node name="Kallax2x5" type="Sprite2D" parent="Visualize"]
+position = Vector2(39, -2567)
+texture = ExtResource("7_82cfe")
+
+[node name="Kallax2x6" type="Sprite2D" parent="Visualize"]
+position = Vector2(1678, -1862)
+texture = ExtResource("7_82cfe")
+
+[node name="Kallax2x7" type="Sprite2D" parent="Visualize"]
+position = Vector2(2309, -775)
+texture = ExtResource("7_82cfe")
+
+[node name="Kallax2x8" type="Sprite2D" parent="Visualize"]
+position = Vector2(1696, 1179)
+texture = ExtResource("7_82cfe")
+
+[node name="Kallax2x9" type="Sprite2D" parent="Visualize"]
+position = Vector2(152, 1923)
+texture = ExtResource("7_82cfe")
+
+[node name="Kallax2x10" type="Sprite2D" parent="Visualize"]
+position = Vector2(-1257, 1580)
+texture = ExtResource("7_82cfe")
+
+[node name="Kallax2x11" type="Sprite2D" parent="Visualize"]
+position = Vector2(-2441, 647)
+texture = ExtResource("7_82cfe")
+
+[node name="Kallax2x4" type="Sprite2D" parent="Visualize"]
+position = Vector2(-3689, -46)
+texture = ExtResource("8_gunhw")
+
+[node name="Plank" type="Sprite2D" parent="Visualize"]
+position = Vector2(1063, -1390)
+texture = ExtResource("9_8gofh")
+
+[node name="Plank2" type="Sprite2D" parent="Visualize"]
+position = Vector2(-1528, -992)
+texture = ExtResource("9_8gofh")
+
+[node name="Plank3" type="Sprite2D" parent="Visualize"]
+position = Vector2(-1010, 1039)
+texture = ExtResource("9_8gofh")
+
+[node name="Plank4" type="Sprite2D" parent="Visualize"]
+position = Vector2(1683, -315)
+texture = ExtResource("9_8gofh")
+
+[node name="Plank5" type="Sprite2D" parent="Visualize"]
+position = Vector2(-1454, 102)
+texture = ExtResource("9_8gofh")
+
+[node name="PointyScrew" type="Sprite2D" parent="Visualize"]
+position = Vector2(-1049, -637)
+texture = ExtResource("10_h6wmr")
+
+[node name="PointyScrew2" type="Sprite2D" parent="Visualize"]
+position = Vector2(213, -1047)
+texture = ExtResource("10_h6wmr")
+
+[node name="PointyScrew3" type="Sprite2D" parent="Visualize"]
+position = Vector2(1335, 14)
+texture = ExtResource("10_h6wmr")
+
+[node name="PointyScrew4" type="Sprite2D" parent="Visualize"]
+position = Vector2(48, 1075)
+texture = ExtResource("10_h6wmr")
+
+[node name="ScrewPlug" type="Sprite2D" parent="Visualize"]
+position = Vector2(-185, -624)
+texture = ExtResource("11_pqd0y")
+
+[node name="ScrewPlug2" type="Sprite2D" parent="Visualize"]
+position = Vector2(932, -620)
+texture = ExtResource("11_pqd0y")
+
+[node name="ScrewPlug3" type="Sprite2D" parent="Visualize"]
+position = Vector2(601, 684)
+texture = ExtResource("11_pqd0y")

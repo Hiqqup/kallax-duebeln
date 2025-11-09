@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://kiokosm6vu48"]
+
+[ext_resource type="Script" uid="uid://cbjk2lp10ylqx" path="res://scripts/UnitSelector.cs" id="1_g5dyd"]
+
+[node name="Selector" type="Node2D"]
+script = ExtResource("1_g5dyd")

@@ -1,35 +1,20 @@
-[gd_scene load_steps=7 format=3 uid="uid://cgsnpqr80q2f8"]
+[gd_scene load_steps=9 format=3 uid="uid://b0ussgm4aw1r6"]
 
-[ext_resource type="PackedScene" uid="uid://sy2xlku1ghrf" path="res://scenes/graph_nodes/consumer.tscn" id="2_bl13t"]
+[ext_resource type="PackedScene" uid="uid://bxk16rwk6e0sh" path="res://scenes/graph_nodes/node.tscn" id="1_j5jx5"]
+[ext_resource type="PackedScene" uid="uid://kiokosm6vu48" path="res://scenes/selector.tscn" id="2_74lek"]
 [ext_resource type="PackedScene" uid="uid://dgn84hypmmi6h" path="res://scenes/graph_nodes/producer.tscn" id="2_iyx0m"]
+[ext_resource type="Script" uid="uid://bco38vskfst5" path="res://scripts/ResourceAmount.cs" id="2_lpvoh"]
 [ext_resource type="Script" uid="uid://da58rbm6p2x3x" path="res://scripts/CameraController.cs" id="3_iyx0m"]
-[ext_resource type="Script" uid="uid://bco38vskfst5" path="res://scripts/ResourceAmount.cs" id="3_j5jx5"]
 [ext_resource type="Material" uid="uid://b8mwcr8b5hsgi" path="res://assets/resources/paper_texture_shader_material.tres" id="4_74lek"]
+[ext_resource type="PackedScene" uid="uid://sy2xlku1ghrf" path="res://scenes/graph_nodes/consumer.tscn" id="5_j5jx5"]
 
-[sub_resource type="Resource" id="Resource_lpvoh"]
-script = ExtResource("3_j5jx5")
-Resource = 2
-Amount = 1
+[sub_resource type="Resource" id="Resource_at5dv"]
+script = ExtResource("2_lpvoh")
+Resource = 1
+Amount = 5
 metadata/_custom_type_script = "uid://bco38vskfst5"
 
-[node name="Node2D" type="Node2D"]
-
-[node name="Consumer" parent="." instance=ExtResource("2_bl13t")]
-material = null
-position = Vector2(650, 715)
-
-[node name="Consumer2" parent="." instance=ExtResource("2_bl13t")]
-material = null
-position = Vector2(653, 349)
-
-[node name="Producer" parent="." instance=ExtResource("2_iyx0m")]
-material = null
-position = Vector2(186, 390)
-
-[node name="Producer2" parent="." instance=ExtResource("2_iyx0m")]
-material = null
-position = Vector2(372, 780)
-Output = Array[ExtResource("3_j5jx5")]([SubResource("Resource_lpvoh")])
+[node name="Test" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(960, 540)
@@ -46,3 +31,16 @@ offset_top = -13.0
 offset_right = 1940.0
 offset_bottom = 1084.0
 color = Color(0.77254903, 0.76862746, 0.76862746, 1)
+
+[node name="Selector" parent="." instance=ExtResource("2_74lek")]
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Producer" parent="Node2D" instance=ExtResource("2_iyx0m")]
+position = Vector2(113, 223)
+
+[node name="Consumer" parent="Node2D" instance=ExtResource("5_j5jx5")]
+position = Vector2(503, 205)
+
+[node name="Node" parent="Node2D" instance=ExtResource("1_j5jx5")]
+Output = Array[ExtResource("2_lpvoh")]([SubResource("Resource_at5dv")])

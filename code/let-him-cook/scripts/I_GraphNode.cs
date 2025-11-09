@@ -381,6 +381,11 @@ public partial class I_GraphNode : CharacterBody2D
 			text += "IN: ";
 			foreach (var re in Recource_Input)
 			{
+				if (re == null)
+				{
+					continue;
+				}
+
 				text += $"{re.Resource.ToString()}: {GetInputResourceCount(re)}/{re.Amount}";
 			}
 		}

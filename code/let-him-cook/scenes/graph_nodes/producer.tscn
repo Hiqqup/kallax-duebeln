@@ -1,11 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://dgn84hypmmi6h"]
+[gd_scene load_steps=5 format=3 uid="uid://dgn84hypmmi6h"]
 
 [ext_resource type="PackedScene" uid="uid://bxk16rwk6e0sh" path="res://scenes/graph_nodes/node.tscn" id="1_f08ra"]
 [ext_resource type="Script" uid="uid://bco38vskfst5" path="res://scripts/ResourceAmount.cs" id="2_7r067"]
 [ext_resource type="Texture2D" uid="uid://bu3ugp2tl53mf" path="res://assets/parts/kallax_2x4.png" id="2_s5jox"]
-[ext_resource type="Texture2D" uid="uid://jnu673pbvff4" path="res://assets/svg/circle_grey_fill.svg" id="3_3ggug"]
 
-[sub_resource type="Resource" id="Resource_3ggug"]
+[sub_resource type="Resource" id="Resource_7r067"]
 script = ExtResource("2_7r067")
 Resource = 1
 Amount = 2
@@ -13,11 +12,7 @@ metadata/_custom_type_script = "uid://bco38vskfst5"
 
 [node name="Producer" node_paths=PackedStringArray("Paths") groups=["selectable_units"] instance=ExtResource("1_f08ra")]
 Paths = []
-Output = Array[ExtResource("2_7r067")]([SubResource("Resource_3ggug")])
-
-[node name="Fill" type="Sprite2D" parent="." index="1"]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("3_3ggug")
+Output = Array[ExtResource("2_7r067")]([SubResource("Resource_7r067")])
 
 [node name="Sprite2D" parent="." index="2"]
 position = Vector2(-5.722046e-06, -5.722046e-06)
