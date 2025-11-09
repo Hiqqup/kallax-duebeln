@@ -31,17 +31,21 @@ public partial class MainMenu : Control
 
 	private void StartGame()
 	{
+		AudioManager.Instance.PlaySound(SOUND_EFFECT.SharpPop);
+		AudioManager.Instance.changeMusic("BackgroundMusic");
 		GameManager.Instance.LoadScene("res://scenes/test.tscn");
 	}
 
 	private void ExitGame()
 	{
+		AudioManager.Instance.PlaySound(SOUND_EFFECT.SharpPop);
 		GameManager.Instance.CloseGame();
 	}
 
 
 	private void ToggleCredits()
 	{
+		AudioManager.Instance.PlaySound(SOUND_EFFECT.SharpPop);
 		KallaxVideo.Visible = !KallaxVideo.Visible;
 		CreditsLabel.Visible = !CreditsLabel.Visible;
 	}
