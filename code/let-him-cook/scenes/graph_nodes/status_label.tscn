@@ -1,8 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bt621tnjte3rt"]
+[gd_scene load_steps=5 format=3 uid="uid://1tayj7dc0iqs"]
 
 [ext_resource type="Material" uid="uid://b8mwcr8b5hsgi" path="res://assets/resources/paper_texture_shader_material.tres" id="1_tqqia"]
 [ext_resource type="Theme" uid="uid://b8by5uv0gw361" path="res://assets/resources/main_gui_theme.tres" id="2_6b6rt"]
-[ext_resource type="Script" path="res://scripts/NodeStatusLabel.cs" id="3_2wvi4"]
+[ext_resource type="Script" uid="uid://c6snoqspycg08" path="res://scripts/NodeStatusLabel.cs" id="3_2wvi4"]
 [ext_resource type="Texture2D" uid="uid://d2i7wauhqmgft" path="res://assets/svg/DownArrow.svg" id="4_qoj3i"]
 
 [node name="StatusLabel" type="PanelContainer" node_paths=PackedStringArray("_inContainer", "_arrowContainer", "_outContainer", "_inLabel", "_outLabel")]
