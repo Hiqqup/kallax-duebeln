@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://vywow137nbyf"]
+[gd_scene load_steps=7 format=3 uid="uid://vywow137nbyf"]
 
-[ext_resource type="Script" uid="uid://ce2q1eltm25ec" path="res://scripts/global/GameManager.cs" id="1_hwd4i"]
+[ext_resource type="Script" uid="uid://bm4h8tuqralvs" path="res://scripts/global/GameManager.cs" id="1_hwd4i"]
+[ext_resource type="PackedScene" uid="uid://csysbik0bf7tc" path="res://scenes/graph_nodes/Reward.tscn" id="3_udu3i"]
 
 [sub_resource type="Animation" id="Animation_glms7"]
 length = 0.001
@@ -115,3 +116,8 @@ root_node = NodePath("../..")
 libraries = {
 &"": SubResource("AnimationLibrary_udu3i")
 }
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Internal"]
+
+[node name="Reward" parent="Internal/CanvasLayer" instance=ExtResource("3_udu3i")]
+visible = false

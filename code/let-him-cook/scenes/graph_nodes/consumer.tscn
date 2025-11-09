@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://sy2xlku1ghrf"]
+[gd_scene load_steps=6 format=3 uid="uid://sy2xlku1ghrf"]
 
 [ext_resource type="PackedScene" uid="uid://bxk16rwk6e0sh" path="res://scenes/graph_nodes/node.tscn" id="1_wb5pj"]
 [ext_resource type="Texture2D" uid="uid://f7m0m0dq2pv4" path="res://assets/parts/double_ended_screw.png" id="2_82c14"]
 [ext_resource type="Script" uid="uid://bco38vskfst5" path="res://scripts/ResourceAmount.cs" id="2_srwto"]
+[ext_resource type="Texture2D" uid="uid://b3yxvap4dmdc6" path="res://assets/svg/diamond.svg" id="3_tudpc"]
 
 [sub_resource type="Resource" id="Resource_srwto"]
 script = ExtResource("2_srwto")
@@ -10,11 +11,14 @@ Resource = 1
 Amount = 2
 metadata/_custom_type_script = "uid://bco38vskfst5"
 
-[node name="Consumer" node_paths=PackedStringArray("Paths") instance=ExtResource("1_wb5pj")]
-Paths = []
+[node name="Consumer" instance=ExtResource("1_wb5pj")]
 Recource_Input = Array[ExtResource("2_srwto")]([SubResource("Resource_srwto")])
 
-[node name="Sprite2D" parent="." index="1"]
+[node name="CircleOutline" parent="." index="1"]
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("3_tudpc")
+
+[node name="Sprite2D" parent="." index="2"]
 position = Vector2(-1.9073486e-06, -1.9073486e-06)
 scale = Vector2(0.44444445, 0.44444445)
 texture = ExtResource("2_82c14")
