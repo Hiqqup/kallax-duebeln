@@ -426,6 +426,7 @@ public partial class I_GraphNode : CharacterBody2D
 		ResetInputInventory();
 		RemoveAllIncomingPaths();
 		GameManager.modPlayerHealth(-10);
+		AudioManager.Instance.PlayAudio("res://assets/audio/SoundEffects/tear-paper.mp3");
 	}
 
 	#region Unit Selection
@@ -682,6 +683,8 @@ public partial class I_GraphNode : CharacterBody2D
 			{
 				targetNode.StartConsumerTimer();
 			}
+			
+			AudioManager.Instance.PlayAudio("res://assets/audio/SoundEffects/sharp-clap.mp3");
 		}
 	}
 
@@ -746,6 +749,7 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			_collisionShape2D.Disabled = false;
 			MoveAndCollide(Vector2.Zero);
+			AudioManager.Instance.PlayAudio("");
 		}
 	}
 
