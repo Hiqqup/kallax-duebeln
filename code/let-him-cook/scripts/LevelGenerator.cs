@@ -19,8 +19,10 @@ public partial class LevelGenerator : Node2D
 			var inputs = new Array<ResourceAmount>();
 			var outputs = new Array<ResourceAmount>();
 			// create a producer
-			var randomResource = GetRandomProductionResource(i);
-			var resourceAmount = GD.RandRange((int)Math.Floor(i * 2.5f), (int)Math.Floor(i * 4.5f)) + 1;
+			var spawnDistance = 1500 * Math.Sqrt(0.05f * i);
+			var randomResource = GetRandomProductionResource((int)spawnDistance);
+			float amoutSpread = 0.3f;
+			var resourceAmount = GD.RandRange((int)Math.Floor(i * 2.5f*amoutSpread), (int)Math.Floor(i * 4.5f*amoutSpread)) + 1;
 			if (resourceAmount <= 0)
 			{
 				GD.PrintErr("generated node with 0 amoutn");
@@ -28,7 +30,6 @@ public partial class LevelGenerator : Node2D
 			inputs.Add(new ResourceAmount(randomResource, resourceAmount));
 			
 			var spawnDirection = Vector2.FromAngle(GD.RandRange(0,360));
-			var spawnDistance = 1500 * Math.Sqrt(0.05f * i);
 			
 			var rewardNode = GD.Load<PackedScene>("res://scenes/graph_nodes/node.tscn");
 			var createdNode = rewardNode.Instantiate() as I_GraphNode;
@@ -49,16 +50,16 @@ public partial class LevelGenerator : Node2D
 
 	private ProductionResource GetRandomProductionResource(int index)
 	{
-		int difficultyFactor = 20;
-		if (index < 1* difficultyFactor)
+		int distanceFactor = 30;
+		if (index < 30* distanceFactor)
 		{
 			return ProductionResourceExtensions.GetRandomT1Resource();
 		}
-		else if (index < 2* difficultyFactor)
+		else if (index  <200 * distanceFactor)
 		{
 			return ProductionResourceExtensions.GetRandomT2Resource();
 		}
-		else if (index < 3* difficultyFactor)
+		else if (index < 300 * distanceFactor)
 		{
 			return ProductionResourceExtensions.GetRandomT3Resource();
 		}
