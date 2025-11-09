@@ -27,6 +27,9 @@ public partial class I_GraphNode : CharacterBody2D
 	public delegate void InputSatisfiedHandler();
 	public event InputSatisfiedHandler OnInputSatisfied;
 
+	public delegate void ConsumerTaskCompletedHandler();
+	public event ConsumerTaskCompletedHandler OnConsumerTaskCompleted;
+
 	public NodeType NodeType { get; set; } = NodeType.None;
 	
 	
@@ -57,15 +60,6 @@ public partial class I_GraphNode : CharacterBody2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		 if (NodeType.Equals(NodeType.Consumer)) // type == consumer
-		 {
-			 _questDuration = new Timer();
-			 _questDuration.OneShot = true;
-			 AddChild(_questDuration);
-
-			 _questDuration.Timeout += OnQuestDurationTimeout;
-		 }
-
 		 if (true) // type == producer
 		 {
 			 _cam = GetViewport().GetCamera2D();
@@ -84,6 +78,14 @@ public partial class I_GraphNode : CharacterBody2D
 		if (NodeType == NodeType.Producer || NodeType == NodeType.Factory)
 		{
 			AddToGroup("selectable_units");
+		}
+		
+		if (NodeType.Equals(NodeType.Consumer))
+		{
+			_questDuration = new Timer();
+			_questDuration.OneShot = true;
+			AddChild(_questDuration);
+			_questDuration.Timeout += OnQuestDurationTimeout;
 		}
 		
 		ResetInputInventory();
@@ -228,6 +230,13 @@ public partial class I_GraphNode : CharacterBody2D
 			{
 				OnInputSatisfied?.Invoke();
 				
+				if (NodeType == NodeType.Consumer && _questDuration != null && !_questDuration.IsStopped())
+				{
+					_questDuration.Stop();
+					GD.Print($"Consumer {this.Name} task completed successfully!");
+					OnConsumerTaskCompleted?.Invoke();
+				}
+				
 				ResetInputInventory();
 				ProduceOutput();
 			}
@@ -261,8 +270,25 @@ public partial class I_GraphNode : CharacterBody2D
 
 	public void OnQuestDurationTimeout()
 	{
-		GD.Print("Timer finished");
+		GD.Print($"Consumer {this.Name} timer finished - task failed!");
 		ResetInputInventory();
+		
+		// Destroy all incoming paths to this consumer
+		var allPaths = GetParent()?.GetChildren().OfType<GraphPath>().ToList();
+		if (allPaths != null)
+		{
+			foreach (var path in allPaths)
+			{
+				if (path.ChildNode == this)
+				{
+					if (path.ParentNode != null && path.ParentNode.Paths.Contains(path))
+					{
+						path.ParentNode.Paths.Remove(path);
+					}
+					path.QueueFree();
+				}
+			}
+		}
 	}
 
 	public bool IsInsideSelectionBox(Rect2 box)
@@ -426,6 +452,12 @@ public partial class I_GraphNode : CharacterBody2D
 			_pathOrigin.Paths.Add(pathInstance);
 			GetParent()!.AddChild(pathInstance);
 			_pathOrigin.PathFinished(pathInstance);
+			
+			// Start consumer timer on first connection
+			if (targetNode.NodeType == NodeType.Consumer)
+			{
+				targetNode.StartConsumerTimer();
+			}
 		}
 	}
 
