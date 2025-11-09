@@ -85,6 +85,7 @@ public partial class I_GraphNode : CharacterBody2D
 		// Initialize the input inventory from the Input array
 		_inputInventory = new SystemDictionary();
 		_fillSprite2D = GetNode<Sprite2D>("Fill");
+		if (_fillSprite2D == null) GD.Print("Fill sprite is not valid");
 		_contentSprite2D = GetNode<Sprite2D>("Sprite2D");
 
 		DetectNodeType();
@@ -121,6 +122,8 @@ public partial class I_GraphNode : CharacterBody2D
 				PathFinished(graphPaths);
 			}
 		}
+
+		UpdateFill();
 		
 		if (NodeType == NodeType.Producer)
 		{
@@ -147,6 +150,8 @@ public partial class I_GraphNode : CharacterBody2D
 	{
 		_pathQueue.Enqueue(path);
 
+		UpdateFill();
+		
 		if (_producedResourceBuffer.Amount > 0)
 		{
 			TryConsumeResource();
@@ -163,6 +168,8 @@ public partial class I_GraphNode : CharacterBody2D
 		var path = _pathQueue.Dequeue();
 		path.Transport(_producedResourceBuffer.Resource);
 		_producedResourceBuffer.Amount--;
+		
+		UpdateFill();
 		//GD.Print(path.Name + " started transporting " + _producedResourceBuffer.Resource.ToString());
 	}
 
@@ -227,18 +234,50 @@ public partial class I_GraphNode : CharacterBody2D
 		}
 	}
 
+	private int GetRemainingNeededResourceAmount()
+	{
+		return _inputInventory.Keys.Sum(input => Math.Max(_inputInventory[input], 0));
+	}
+
+	private int GetTotalNeededResourceAmount()
+	{
+		return Recource_Input.Sum(resource => resource.Amount);
+	}
+
+	private void UpdateFill()
+	{
+		var scale = 1.0f;
+		if (NodeType == NodeType.Producer)
+		{
+			scale = (float)_producedResourceBuffer.Amount / 2 / Output[0].Amount;
+		}
+
+		if (NodeType == NodeType.Factory)
+		{
+			scale = 0.0f;
+		}
+
+		if (NodeType == NodeType.Consumer)
+		{
+			GD.Print("Remaining needed amount " + GetRemainingNeededResourceAmount() + " total needed amount " + GetTotalNeededResourceAmount());
+			scale = 1.0f - ((float)GetRemainingNeededResourceAmount() /
+			         GetTotalNeededResourceAmount());
+		}
+		_fillSprite2D.Scale = new Vector2(scale, scale);	
+		
+	}
+
 	public void ProduceOutput()
 	{
 		if (Output == null || Output.Count == 0 || Output[0].Resource == ProductionResource.None) return;
-
-		var scale = (float)_producedResourceBuffer.Amount / 2 / Output[0].Amount;
-		_fillSprite2D.Scale = new Vector2(scale, scale);
 
 		_producedResourceBuffer.Resource = Output[0].Resource;
 		if (NodeType == NodeType.Producer)
 			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + 1, 0, Output[0].Amount * 2);
 		if (NodeType == NodeType.Factory)
 			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + Output[0].Amount, 0, Output[0].Amount * 2);
+		
+		UpdateFill();
 		
 		if (_producedResourceBuffer.Amount > 0)
 		{
@@ -260,6 +299,7 @@ public partial class I_GraphNode : CharacterBody2D
 		if (_inputInventory.ContainsKey(input))
 		{
 			_inputInventory[input]--;
+			UpdateFill();
 			if (IsInputSatisfied())
 			{
 				OnInputSatisfied?.Invoke();
@@ -269,7 +309,7 @@ public partial class I_GraphNode : CharacterBody2D
 					_questDuration.Stop();
 					GD.Print($"Consumer {this.Name} task completed successfully!");
 					OnConsumerTaskCompleted?.Invoke();
-
+					
 					SpawnRewardsScreen();
 					
 					RemoveAllIncomingPaths();
