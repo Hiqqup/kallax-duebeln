@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://dr6orvyyo2cgm"]
 
 [ext_resource type="Script" uid="uid://d0ts110a2dyg5" path="res://scripts/Audio/AudioManager.cs" id="1_r1srg"]
-[ext_resource type="Resource" uid="uid://w5nw83s6m0ok" path="res://assets/audio/SoundEffects/SharpPop.tres" id="2_mbly1"]
+[ext_resource type="Resource" uid="uid://w5nw83s6m0ok" path="res://assets/audio/SoundEffects/resources/SharpPop.tres" id="2_mbly1"]
 [ext_resource type="AudioStream" uid="uid://chun5ykh8shrx" path="res://assets/audio/Music/main_menu_track.mp3" id="3_mbly1"]
 [ext_resource type="AudioStream" uid="uid://bb3yrdeeai7fu" path="res://assets/audio/Music/background_track1.mp3" id="3_qw11x"]
 [ext_resource type="AudioStream" uid="uid://qqjk8e7qievw" path="res://assets/audio/Music/background_track2.mp3" id="5_isk6y"]
@@ -45,11 +45,10 @@ Vector2i(2, 0): {
 }
 }
 
-[node name="AudioManager" type="Node2D" node_paths=PackedStringArray("musicPlayer")]
+[node name="AudioManager" type="Node2D" node_paths=PackedStringArray("_musicPlayer")]
 script = ExtResource("1_r1srg")
-musicPlayer = NodePath("MusicPlayer")
-soundEffectDict = Dictionary[int, Resource]({})
-soundEffects = Array[Resource]([ExtResource("2_mbly1")])
+_musicPlayer = NodePath("MusicPlayer")
+_soundEffects = Array[Resource]([ExtResource("2_mbly1")])
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamInteractive_b86ia")
