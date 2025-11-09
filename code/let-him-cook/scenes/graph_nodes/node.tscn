@@ -1,11 +1,14 @@
+[gd_scene load_steps=13 format=3 uid="uid://bxk16rwk6e0sh"]
+
 [ext_resource type="Script" uid="uid://ce5tbu5w4imum" path="res://scripts/I_GraphNode.cs" id="1_6r00q"]
 [ext_resource type="Shader" path="res://scenes/graph_nodes/white_pixle_paper_shader.gdshader" id="1_yjnrr"]
 [ext_resource type="Texture2D" uid="uid://sapt04gkgg8m" path="res://assets/svg/circle_outline.svg" id="2_dsmoq"]
 [ext_resource type="Texture2D" uid="uid://b1w3k8rntwbgm" path="res://assets/svg/squircle.svg" id="3_rvlrc"]
 [ext_resource type="Material" uid="uid://b8mwcr8b5hsgi" path="res://assets/resources/paper_texture_shader_material.tres" id="3_yjnrr"]
 [ext_resource type="Texture2D" uid="uid://b3yxvap4dmdc6" path="res://assets/svg/diamond.svg" id="4_gpv0c"]
+[ext_resource type="Texture2D" uid="uid://gadj3ifuwrp4" path="res://assets/svg/online_circle.svg" id="5_nppe8"]
 [ext_resource type="Texture2D" uid="uid://jnu673pbvff4" path="res://assets/svg/circle_grey_fill.svg" id="5_x18su"]
-[ext_resource type="PackedScene" uid="uid://1tayj7dc0iqs" path="res://scenes/graph_nodes/status_label.tscn" id="6_8iit0"]
+[ext_resource type="PackedScene" uid="uid://bt621tnjte3rt" path="res://scenes/graph_nodes/status_label.tscn" id="6_8iit0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8iit0"]
 shader = ExtResource("1_yjnrr")
@@ -18,17 +21,18 @@ radius = 99.24717
 [sub_resource type="CircleShape2D" id="CircleShape2D_5tsiq"]
 radius = 100.04499
 
-[node name="Node" type="CharacterBody2D" node_paths=PackedStringArray("Paths")]
+[node name="Node" type="CharacterBody2D" node_paths=PackedStringArray("Paths", "circleSprite")]
 material = SubResource("ShaderMaterial_8iit0")
 script = ExtResource("1_6r00q")
 Paths = []
+circleSprite = NodePath("CircleOutline")
 squircleTexture = ExtResource("3_rvlrc")
 diamondTexture = ExtResource("4_gpv0c")
-circleTexture = ExtResource("2_dsmoq")
+circleTexture = ExtResource("5_nppe8")
 
 [node name="Fill" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.5019608)
-z_index = 1
+z_index = 2
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("5_x18su")
 
@@ -51,64 +55,7 @@ shape = SubResource("CircleShape2D_dsmoq")
 visible = false
 shape = SubResource("CircleShape2D_5tsiq")
 
-[node name="NewStatusLabel" type="PanelContainer" parent="."]
-z_index = 2
-material = ExtResource("3_yjnrr")
-offset_left = -136.0
-offset_top = -289.0
-offset_right = 4.0
-offset_bottom = -87.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme = ExtResource("6_8ux4r")
-
-[node name="MarginContainer" type="MarginContainer" parent="NewStatusLabel"]
-layout_mode = 2
-theme_override_constants/margin_left = -40
-theme_override_constants/margin_top = -40
-theme_override_constants/margin_right = -40
-theme_override_constants/margin_bottom = -20
-
-[node name="VBoxContainer" type="VBoxContainer" parent="NewStatusLabel/MarginContainer"]
-layout_mode = 2
-
-[node name="In" type="VBoxContainer" parent="NewStatusLabel/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="In" type="Label" parent="NewStatusLabel/MarginContainer/VBoxContainer/In"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "IN:"
-
-[node name="Arrows" type="HBoxContainer" parent="NewStatusLabel/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="NewStatusLabel/MarginContainer/VBoxContainer/Arrows"]
-layout_mode = 2
-texture = ExtResource("6_8iit0")
-stretch_mode = 2
-
-[node name="TextureRect2" type="TextureRect" parent="NewStatusLabel/MarginContainer/VBoxContainer/Arrows"]
-layout_mode = 2
-texture = ExtResource("6_8iit0")
-stretch_mode = 2
-
-[node name="TextureRect3" type="TextureRect" parent="NewStatusLabel/MarginContainer/VBoxContainer/Arrows"]
-layout_mode = 2
-texture = ExtResource("6_8iit0")
-stretch_mode = 2
-
-[node name="Out" type="VBoxContainer" parent="NewStatusLabel/MarginContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="Out" type="Label" parent="NewStatusLabel/MarginContainer/VBoxContainer/Out"]
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Out:"
+[node name="StatusLabel" parent="." instance=ExtResource("6_8iit0")]
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
