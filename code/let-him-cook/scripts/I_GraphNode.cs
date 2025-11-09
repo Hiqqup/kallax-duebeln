@@ -533,6 +533,12 @@ public partial class I_GraphNode : CharacterBody2D
 
 	public void Select()
 	{
+		// Check if the sprite still exists and is valid
+		if (circleSprite == null || !IsInstanceValid(circleSprite))
+		{
+			return;
+		}
+		
 		// selector.Show(); if there is a selector
 		if (NodeType == NodeType.Producer)
 		{
@@ -547,6 +553,12 @@ public partial class I_GraphNode : CharacterBody2D
 
 	public void Deselect()
 	{
+		// Check if the sprite still exists and is valid
+		if (circleSprite == null || !IsInstanceValid(circleSprite))
+		{
+			return;
+		}
+		
 		// selector.Hide();
 		if (NodeType == NodeType.Producer)
 		{
