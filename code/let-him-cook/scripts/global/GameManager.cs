@@ -8,8 +8,12 @@ public partial class GameManager : Node
 	[Export]
 	private AnimationPlayer AnimationPlayer { get; set; }
 	public static GameManager Instance { get; private set; }
-
+	
+	private int playerHealth = 100;
+	
 	[Export] public Reward reward { get; set; }
+
+	[Export] public ProgressBar healthBar;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -54,5 +58,11 @@ public partial class GameManager : Node
 	public void CloseGame()
 	{
 		GetTree().Quit();
+	}
+
+	public void setPlayerHealth(int health)
+	{
+		playerHealth = health;
+		healthBar.Value = health;
 	}
 }
