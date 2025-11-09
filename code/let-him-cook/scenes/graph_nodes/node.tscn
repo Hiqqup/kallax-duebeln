@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bxk16rwk6e0sh"]
+[gd_scene load_steps=14 format=3 uid="uid://bxk16rwk6e0sh"]
 
 [ext_resource type="Script" uid="uid://ce5tbu5w4imum" path="res://scripts/I_GraphNode.cs" id="1_6r00q"]
 [ext_resource type="Shader" uid="uid://ciaepdir5bad7" path="res://scenes/graph_nodes/white_pixle_paper_shader.gdshader" id="1_yjnrr"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://b3yxvap4dmdc6" path="res://assets/svg/diamond.svg" id="4_gpv0c"]
 [ext_resource type="Texture2D" uid="uid://gadj3ifuwrp4" path="res://assets/svg/online_circle.svg" id="5_nppe8"]
 [ext_resource type="Texture2D" uid="uid://jnu673pbvff4" path="res://assets/svg/circle_grey_fill.svg" id="5_x18su"]
+[ext_resource type="Texture2D" uid="uid://c6pqbllo5med2" path="res://assets/svg/squircle_grey_fill.svg" id="6_nppe8"]
+[ext_resource type="Texture2D" uid="uid://bv0enxo3ewsjg" path="res://assets/svg/diamond_grey_fill.svg" id="7_6befq"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8iit0"]
 shader = ExtResource("1_yjnrr")
@@ -20,7 +22,7 @@ radius = 99.24717
 [sub_resource type="CircleShape2D" id="CircleShape2D_5tsiq"]
 radius = 100.04499
 
-[node name="Node" type="CharacterBody2D" node_paths=PackedStringArray("Paths", "circleSprite")]
+[node name="Node" type="CharacterBody2D" node_paths=PackedStringArray("Paths", "circleSprite", "circleFillSprite")]
 material = SubResource("ShaderMaterial_8iit0")
 script = ExtResource("1_6r00q")
 Paths = []
@@ -28,6 +30,10 @@ circleSprite = NodePath("CircleOutline")
 squircleTexture = ExtResource("3_rvlrc")
 diamondTexture = ExtResource("4_gpv0c")
 circleTexture = ExtResource("5_nppe8")
+circleFillSprite = NodePath("Fill")
+squircleFillTexture = ExtResource("6_nppe8")
+diamondFillTexture = ExtResource("7_6befq")
+circleFillTexture = ExtResource("5_x18su")
 
 [node name="Fill" type="Sprite2D" parent="."]
 modulate = Color(1, 1, 1, 0.5019608)

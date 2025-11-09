@@ -10,11 +10,11 @@ using SystemDictionary = System.Collections.Generic.Dictionary<ProductionResourc
 public partial class I_GraphNode : CharacterBody2D
 {
 	[Export] public Array<GraphPath> Paths { get; private set; } = [];
-	
+
 	[Export]
 	//Input
 	public Array<ResourceAmount> Recource_Input { get; set; } = new Array<ResourceAmount>(); //max
-	
+
 	private SystemDictionary _inputInventory; //buffer
 	[Export]
 	//Output
@@ -22,7 +22,7 @@ public partial class I_GraphNode : CharacterBody2D
 	private ResourceAmount _producedResourceBuffer = new ResourceAmount(); //buffer
 
 	// Internal dictionary for easy access - maps resource to required amount
-	
+
 
 	public delegate void InputSatisfiedHandler();
 	public event InputSatisfiedHandler OnInputSatisfied;
@@ -31,8 +31,8 @@ public partial class I_GraphNode : CharacterBody2D
 	public event ConsumerTaskCompletedHandler OnConsumerTaskCompleted;
 
 	public NodeType NodeType { get; set; } = NodeType.None;
-	
-	
+
+
 	private Queue<GraphPath> _pathQueue = new Queue<GraphPath>();
 	/**
 	 * Should only be used by producer
@@ -48,13 +48,13 @@ public partial class I_GraphNode : CharacterBody2D
 	private static PathPreview _preview;
 	private static I_GraphNode _pathOrigin;
 	private static I_GraphNode _lastHovered;
-	private CollisionShape2D  _collisionShape2D;
+	private CollisionShape2D _collisionShape2D;
 	private Sprite2D _fillSprite2D;
 	private Sprite2D _contentSprite2D;
 	private Label _statusLabel;
 
 	private readonly float _taskTimeSeconds = 15.0f;
-	
+
 	private Timer _questDuration;
 
 	private Camera2D _cam;
@@ -63,29 +63,36 @@ public partial class I_GraphNode : CharacterBody2D
 	[Export] public Texture2D squircleTexture;
 	[Export] public Texture2D diamondTexture;
 	[Export] public Texture2D circleTexture;
+
+
+	[Export] public Sprite2D circleFillSprite;
+	[Export] public Texture2D squircleFillTexture;
+	[Export] public Texture2D diamondFillTexture;
+	[Export] public Texture2D circleFillTexture;
+
 	private static bool _anyUnitBeingDragged = false;
 
 	public I_GraphNode()
 	{
-		
+
 	}
 	public I_GraphNode(Array<ResourceAmount> inputs, Array<ResourceAmount> outputs)
 	{
 		Recource_Input = inputs;
 		Output = outputs;
 	}
-	
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		 if (true) // type == producer
-		 {
-			 _cam = GetViewport().GetCamera2D();
-			 // selector.Hide(); if there is a visible selector
-		 } 
-		 
-		 if (GetViewport().GetCamera2D() == null) GD.PrintErr("Camera not found! Please add camera to your scene with a camera manager script attached.");
-		 
+		if (true) // type == producer
+		{
+			_cam = GetViewport().GetCamera2D();
+			// selector.Hide(); if there is a visible selector
+		}
+
+		if (GetViewport().GetCamera2D() == null) GD.PrintErr("Camera not found! Please add camera to your scene with a camera manager script attached.");
+
 		_collisionShape2D = GetNode<CollisionShape2D>("CollisionShape2D");
 		_statusLabel = GetNode<Label>("StatusLabel");
 		// Initialize the input inventory from the Input array
@@ -109,33 +116,33 @@ public partial class I_GraphNode : CharacterBody2D
 			AddChild(_questDuration);
 			_questDuration.Timeout += OnQuestDurationTimeout;
 		}
-		
+
 		ResetInputInventory();
-		
+
 		if (Recource_Input == null || Recource_Input.Count == 0)
 		{
 			GD.Print("This node is a root node " + this.Name);
 			ProduceOutput();
 		}
-		
+
 		if (Paths != null)
 		{
 			foreach (var graphPaths in Paths)
 			{
 				if (graphPaths == null) continue;
 				graphPaths.ParentNode = this;
-				
+
 				PathFinished(graphPaths);
 			}
 		}
 
 		UpdateFill();
-		
+
 		if (NodeType == NodeType.Producer)
 		{
 			AddChild(_resourceProductionTimer);
 			_resourceProductionTimer.OneShot = false;
-			_resourceProductionTimer.Start(1.0f/Output[0].Amount);
+			_resourceProductionTimer.Start(1.0f / Output[0].Amount);
 			_resourceProductionTimer.Timeout += ProduceOutput;
 		}
 
@@ -155,7 +162,7 @@ public partial class I_GraphNode : CharacterBody2D
 	public void AddPath(GraphPath path)
 	{
 		_pathQueue.Enqueue(path);
-        
+
 		UpdateFill();
 	}
 	public void PathFinished(GraphPath path)
@@ -173,11 +180,11 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			return;
 		}
-		
+
 		var path = _pathQueue.Dequeue();
 		path.Transport(_producedResourceBuffer.Resource);
 		_producedResourceBuffer.Amount--;
-		
+
 		UpdateFill();
 		//GD.Print(path.Name + " started transporting " + _producedResourceBuffer.Resource.ToString());
 	}
@@ -190,18 +197,21 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			NodeType = NodeType.Factory;
 			circleSprite.Texture = diamondTexture;
+			circleFillSprite.Texture = diamondFillTexture;
 		}
 
 		else if (hasInput)
 		{
 			NodeType = NodeType.Consumer;
 			circleSprite.Texture = squircleTexture;
+			circleFillSprite.Texture = squircleFillTexture;
 		}
 
 		else if (hasOutput)
 		{
 			NodeType = NodeType.Producer;
 			circleSprite.Texture = circleTexture;
+			circleFillSprite.Texture = circleFillTexture;
 		}
 		else
 		{
@@ -238,22 +248,22 @@ public partial class I_GraphNode : CharacterBody2D
 
 				float padding = 0.9f;
 				float scaleX = nodeSize / textureResolution.X;
-                float scaleY = nodeSize / textureResolution.Y;
-                float scaleFactor = Math.Min(scaleX, scaleY) * padding;
-                _contentSprite2D.Scale = new Vector2(scaleFactor, scaleFactor);
+				float scaleY = nodeSize / textureResolution.Y;
+				float scaleFactor = Math.Min(scaleX, scaleY) * padding;
+				_contentSprite2D.Scale = new Vector2(scaleFactor, scaleFactor);
 			}
 		}
-		
+
 	}
 
 	private void ResetInputInventory()
 	{
 		if (Recource_Input == null || Recource_Input.Count <= 0) return;
-		
+
 		foreach (var resourceAmount in Recource_Input)
 		{
 			if (resourceAmount?.Resource == null || resourceAmount.Resource == ProductionResource.None || resourceAmount.Amount <= 0) continue;
-			
+
 			_inputInventory[resourceAmount.Resource] = resourceAmount.Amount;
 		}
 		UpdateFill();
@@ -286,10 +296,10 @@ public partial class I_GraphNode : CharacterBody2D
 		{
 			//GD.Print("Remaining needed amount " + GetRemainingNeededResourceAmount() + " total needed amount " + GetTotalNeededResourceAmount());
 			scale = 1.0f - ((float)GetRemainingNeededResourceAmount() /
-			         GetTotalNeededResourceAmount());
+					 GetTotalNeededResourceAmount());
 		}
-		_fillSprite2D.Scale = new Vector2(scale, scale);	
-		
+		_fillSprite2D.Scale = new Vector2(scale, scale);
+
 	}
 
 	public void ProduceOutput()
@@ -301,9 +311,9 @@ public partial class I_GraphNode : CharacterBody2D
 			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + 1, 0, Output[0].Amount * 2);
 		if (NodeType == NodeType.Factory)
 			_producedResourceBuffer.Amount = Math.Clamp(_producedResourceBuffer.Amount + Output[0].Amount, 0, Output[0].Amount * 2);
-		
+
 		UpdateFill();
-		
+
 		if (_producedResourceBuffer.Amount > 0)
 		{
 			TryConsumeResource();
@@ -328,18 +338,18 @@ public partial class I_GraphNode : CharacterBody2D
 			if (IsInputSatisfied())
 			{
 				OnInputSatisfied?.Invoke();
-				
+
 				if (NodeType == NodeType.Consumer && _questDuration != null && !_questDuration.IsStopped())
 				{
 					_questDuration.Stop();
 					GD.Print($"Consumer {this.Name} task completed successfully!");
 					OnConsumerTaskCompleted?.Invoke();
-					
+
 					SpawnRewardsScreen();
-					
+
 					RemoveAllIncomingPaths();
 				}
-				
+
 				ResetInputInventory();
 				ProduceOutput();
 			}
@@ -369,7 +379,7 @@ public partial class I_GraphNode : CharacterBody2D
 
 		CheckTimer(_taskTimeSeconds);
 	}
-	
+
 	public void CheckTimer(float length)
 	{
 		if (_questDuration.IsStopped())
@@ -377,9 +387,9 @@ public partial class I_GraphNode : CharacterBody2D
 			GD.Print("Timer not running - starting new timer");
 			_questDuration.Start(length);
 		}
-		else 
+		else
 		{
-			GD.Print($"Timer is running. Time left: {_questDuration.TimeLeft:F2} seconds" );
+			GD.Print($"Timer is running. Time left: {_questDuration.TimeLeft:F2} seconds");
 		}
 	}
 
@@ -408,7 +418,7 @@ public partial class I_GraphNode : CharacterBody2D
 		GD.Print($"Consumer {this.Name} timer finished - task failed!");
 		ResetInputInventory();
 		RemoveAllIncomingPaths();
-		
+
 	}
 
 	#region Unit Selection
@@ -427,7 +437,7 @@ public partial class I_GraphNode : CharacterBody2D
 					_mouseOffset = Position - GetViewport().GetCamera2D().GetGlobalMousePosition();
 					FollowMouse = true;
 					_anyUnitBeingDragged = true;
-                
+
 					// Make all selected units follow
 					foreach (I_GraphNode unit in GetTree().GetNodesInGroup("selected_units").Cast<I_GraphNode>())
 					{
@@ -436,7 +446,7 @@ public partial class I_GraphNode : CharacterBody2D
 							unit.StartFollowing(unit.Position - GetViewport().GetCamera2D().GetGlobalMousePosition());
 						}
 					}
-                
+
 					// Consume the event so UnitSelector doesn't start box selecting
 					GetViewport().SetInputAsHandled();
 				}
@@ -448,15 +458,15 @@ public partial class I_GraphNode : CharacterBody2D
 					{
 						unit.Deselect();
 					}
-                
+
 					// Select this unit
 					Select();
-                
+
 					// Start dragging
 					_mouseOffset = Position - GetViewport().GetCamera2D().GetGlobalMousePosition();
 					FollowMouse = true;
 					_anyUnitBeingDragged = true;
-                
+
 					// Consume the event so UnitSelector doesn't start box selecting
 					GetViewport().SetInputAsHandled();
 				}
@@ -468,7 +478,7 @@ public partial class I_GraphNode : CharacterBody2D
 					// Stop dragging
 					FollowMouse = false;
 					_anyUnitBeingDragged = false;
-                
+
 					// Stop all selected units and deselect them
 					foreach (I_GraphNode unit in GetTree().GetNodesInGroup("selected_units").Cast<I_GraphNode>())
 					{
@@ -479,7 +489,7 @@ public partial class I_GraphNode : CharacterBody2D
 			}
 		}
 	}
-	
+
 	public bool IsInsideSelectionBox(Rect2 box)
 	{
 		// copy 
@@ -494,7 +504,7 @@ public partial class I_GraphNode : CharacterBody2D
 			newX = rect.Position.X + rect.Size.X;
 			newSizeX = Math.Abs(rect.Size.X);
 		}
-		
+
 		float newY = rect.Position.Y;
 		float newSizeY = rect.Size.Y;
 		if (rect.Size.Y < 0)
@@ -502,12 +512,12 @@ public partial class I_GraphNode : CharacterBody2D
 			newY = rect.Position.Y + rect.Size.Y;
 			newSizeY = Math.Abs(rect.Size.Y);
 		}
-		
+
 		rect.Position = new Vector2(newX, newY);
 		rect.Size = new Vector2(newSizeX, newSizeY);
 		return rect.HasPoint(Position);
 	}
-	
+
 	public void Select()
 	{
 		// selector.Show(); if there is a selector
@@ -535,12 +545,12 @@ public partial class I_GraphNode : CharacterBody2D
 	{
 		return _anyUnitBeingDragged;
 	}
-	
-	#endregion
-	
-	
 
-	
+	#endregion
+
+
+
+
 
 	public void _on_area_2d_mouse_entered()
 	{
@@ -593,14 +603,14 @@ public partial class I_GraphNode : CharacterBody2D
 			{
 				//End Connection
 				_isConnecting = false;
-				
+
 				// Try to find target node - use _lastHovered if available, otherwise do distance check
 				I_GraphNode targetNode = _lastHovered;
 				if (targetNode == null && _pathOrigin != null)
 				{
 					targetNode = _pathOrigin.FindNodeAtMousePosition();
 				}
-				
+
 				//Try Connection
 				if (targetNode != null && targetNode != _pathOrigin)
 				{
@@ -623,7 +633,7 @@ public partial class I_GraphNode : CharacterBody2D
 			return Math.Clamp(resource.Amount - _inputInventory[resource.Resource], 0, resource.Amount);
 		return 0;
 	}
-	
+
 	private void UpdateLabel()
 	{
 		string text = "";
@@ -661,7 +671,7 @@ public partial class I_GraphNode : CharacterBody2D
 			_pathOrigin.Paths.Add(pathInstance);
 			GetParent()!.AddChild(pathInstance);
 			_pathOrigin.AddPath(pathInstance);
-			
+
 			// Start consumer timer on first connection
 			if (targetNode.NodeType == NodeType.Consumer)
 			{
@@ -673,16 +683,16 @@ public partial class I_GraphNode : CharacterBody2D
 	private I_GraphNode FindNodeAtMousePosition()
 	{
 		var mousePos = GetViewport().GetCamera2D().GetGlobalMousePosition();
-		
+
 		// Get all I_GraphNode instances from the parent (Level) node
 		var allNodes = GetParent()?.GetChildren().OfType<I_GraphNode>()
 			.Where(node => node != null && node != this && node != _pathOrigin)
 			.ToList() ?? new List<I_GraphNode>();
-		
+
 		I_GraphNode closestNode = null;
 		float closestDistance = float.MaxValue;
 		const float maxConnectionDistance = 150.0f; // Match the collision radius
-		
+
 		foreach (var node in allNodes)
 		{
 			var distance = mousePos.DistanceTo(node.Position);
@@ -692,7 +702,7 @@ public partial class I_GraphNode : CharacterBody2D
 				closestNode = node;
 			}
 		}
-		
+
 		return closestNode;
 	}
 
@@ -720,7 +730,7 @@ public partial class I_GraphNode : CharacterBody2D
 		}
 		return true;
 	}
-	
+
 	public override void _PhysicsProcess(double delta)
 	{
 		if (FollowMouse)
@@ -733,6 +743,6 @@ public partial class I_GraphNode : CharacterBody2D
 			MoveAndCollide(Vector2.Zero);
 		}
 	}
-	
-	
+
+
 }
