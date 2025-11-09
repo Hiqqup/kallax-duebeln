@@ -3,41 +3,41 @@
 [ext_resource type="Script" uid="uid://d0ts110a2dyg5" path="res://scripts/Audio/AudioManager.cs" id="1_r1srg"]
 [ext_resource type="Resource" uid="uid://w5nw83s6m0ok" path="res://assets/audio/SoundEffects/SharpPop.tres" id="2_mbly1"]
 [ext_resource type="AudioStream" uid="uid://chun5ykh8shrx" path="res://assets/audio/Music/main_menu_track.mp3" id="3_mbly1"]
-[ext_resource type="AudioStream" uid="uid://bb3yrdeeai7fu" path="res://assets/audio/Music/test_bgm_music.mp3" id="4_qw11x"]
-[ext_resource type="AudioStream" uid="uid://qqjk8e7qievw" path="res://assets/audio/Music/test_bgm_2.mp3" id="5_isk6y"]
+[ext_resource type="AudioStream" uid="uid://bb3yrdeeai7fu" path="res://assets/audio/Music/background_track1.mp3" id="3_qw11x"]
+[ext_resource type="AudioStream" uid="uid://qqjk8e7qievw" path="res://assets/audio/Music/background_track2.mp3" id="5_isk6y"]
 
-[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_2hebn"]
-shuffle = true
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_ns8hx"]
 stream_count = 1
 stream_0 = ExtResource("3_mbly1")
 
-[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_ns8hx"]
+[sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_isk6y"]
+shuffle = true
 stream_count = 2
-stream_0 = ExtResource("4_qw11x")
+stream_0 = ExtResource("3_qw11x")
 stream_1 = ExtResource("5_isk6y")
 
 [sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_b86ia"]
 clip_count = 2
 clip_0/name = &"MainMenu"
-clip_0/stream = SubResource("AudioStreamPlaylist_2hebn")
+clip_0/stream = SubResource("AudioStreamPlaylist_ns8hx")
 clip_0/auto_advance = 0
 clip_1/name = &"BackgroundMusic"
-clip_1/stream = SubResource("AudioStreamPlaylist_ns8hx")
+clip_1/stream = SubResource("AudioStreamPlaylist_isk6y")
 clip_1/auto_advance = 0
 _transitions = {
 Vector2i(-1, 0): {
-"fade_beats": 1.0,
-"fade_mode": 0,
-"from_time": 0,
-"to_time": 1
-},
-Vector2i(-1, 1): {
 "fade_beats": 1.0,
 "fade_mode": 4,
 "from_time": 0,
 "to_time": 1
 },
-Vector2i(0, 1): {
+Vector2i(-1, 2): {
+"fade_beats": 1.0,
+"fade_mode": 0,
+"from_time": 0,
+"to_time": 1
+},
+Vector2i(2, 0): {
 "fade_beats": 1.0,
 "fade_mode": 0,
 "from_time": 0,
