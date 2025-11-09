@@ -275,7 +275,7 @@ public partial class I_GraphNode : CharacterBody2D
 
 		if (NodeType == NodeType.Consumer)
 		{
-			GD.Print("Remaining needed amount " + GetRemainingNeededResourceAmount() + " total needed amount " + GetTotalNeededResourceAmount());
+			//GD.Print("Remaining needed amount " + GetRemainingNeededResourceAmount() + " total needed amount " + GetTotalNeededResourceAmount());
 			scale = 1.0f - ((float)GetRemainingNeededResourceAmount() /
 			         GetTotalNeededResourceAmount());
 		}
@@ -551,7 +551,9 @@ public partial class I_GraphNode : CharacterBody2D
 
 	private int GetInputResourceCount(ResourceAmount resource)
 	{
-		return Math.Clamp(resource.Amount - _inputInventory[resource.Resource], 0, resource.Amount);
+		if (_inputInventory.ContainsKey(resource.Resource))
+			return Math.Clamp(resource.Amount - _inputInventory[resource.Resource], 0, resource.Amount);
+		return 0;
 	}
 	
 	private void UpdateLabel()

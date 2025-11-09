@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwj4q6c7njvo6"]
+
+[ext_resource type="Script" uid="uid://bxwv8q3tigphk" path="res://scripts/LevelGenerator.cs" id="1_83h8t"]
+
+[node name="Procedural" type="Node2D"]
+
+[node name="GenerationCenter" type="Node2D" parent="."]
+position = Vector2(957, 520)
+script = ExtResource("1_83h8t")

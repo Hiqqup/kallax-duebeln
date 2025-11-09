@@ -6,6 +6,7 @@ public partial class Reward : Control
 {
 	private Action<int> _callback;
 	private Array<I_GraphNode> _rewards = new Array<I_GraphNode>();
+	private Array<Button> _rewardButtons = new Array<Button>();
 	// Called when the node enters the scene tree for the first time.
 	
 	private void GenerateRewards()
@@ -17,27 +18,76 @@ public partial class Reward : Control
 			var outputs = new Array<ResourceAmount>();
 			if (i == 0)
 			{
-				// create a producer
-				var randomResource = ProductionResourceExtensions.GetRandom();
+				// slot 0 is always a producer of a random T1 resource
+				ProductionResource randomResource = ProductionResourceExtensions.GetRandomT1Resource();
 				outputs.Add(new ResourceAmount(randomResource, GD.RandRange(1,5)));
 			}
 			else
 			{
+				var recipeTier = GD.RandRange(1, 3); // input tier, output tier is +1
+				
 				var amountOfInputs = GD.RandRange(1, 3);
+				Dictionary<ProductionResource, int> cost = new Dictionary<ProductionResource, int>();
 				for (int j = 0; j < amountOfInputs; j++)
 				{
-					
+					ProductionResource randomResource = ProductionResourceExtensions.GetRandomTierResource(recipeTier);
+					var amountToAdd = GD.RandRange(1,5);
+					if (cost.ContainsKey(randomResource))
+					{
+						cost[randomResource] += amountToAdd;
+					}
+					else
+					{
+						cost.Add(randomResource, amountToAdd);
+					}
 				}
-				outputs.Add(new ResourceAmount(ProductionResourceExtensions.GetRandom(), GD.RandRange(1, 5)));
+
+				foreach (var kvp in cost)
+				{
+					inputs.Add(new ResourceAmount(kvp.Key, kvp.Value));
+				}
+				
+				outputs.Add(new ResourceAmount(ProductionResourceExtensions.GetRandomTierResource(recipeTier+1), GD.RandRange(1, 5)));
 			}
 			
 			_rewards.Add(new I_GraphNode(inputs, outputs));
 		}
 	}
+
+	private void UpdateLabels()
+	{
+		for (int i = 0; i < _rewards.Count; i++)
+		{
+			string label = "";
+
+			if (_rewards[i].Recource_Input.Count > 0)
+			{
+				label += "IN: \n";
+				foreach (var input in _rewards[i].Recource_Input)
+				{
+					label += ( input.Resource.ToString() + " x" + input.Amount.ToString() ) + "\n";
+				}
+			}
+
+			if (_rewards[i].Output.Count > 0)
+			{
+				label += "OUT: \n";
+				label += (_rewards[i].Output[0].Resource.ToString() + " x" + _rewards[i].Output[0].Amount.ToString());
+				label += "\n";
+			}
+			
+			_rewardButtons[i].Text = label;
+		}
+	}
 	
 	public override void _Ready()
 	{
+		_rewardButtons.Add(GetNode<Button>("Button"));
+		_rewardButtons.Add(GetNode<Button>("Button2"));
+		_rewardButtons.Add(GetNode<Button>("Button3"));
+		
 		GenerateRewards();
+		UpdateLabels();
 		_callback = CallbackWasntSetWarning;
 	}
 

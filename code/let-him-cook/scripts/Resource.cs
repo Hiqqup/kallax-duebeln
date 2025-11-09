@@ -25,4 +25,59 @@ public static class ProductionResourceExtensions
     {
         return (ProductionResource)GD.RandRange((int)ProductionResource.None+1, (int)ProductionResource.END-1);
     }
+
+    public static ProductionResource GetRandomT1Resource()
+    {
+        Array<ProductionResource> productionResources = new Array<ProductionResource>();
+        productionResources.Add(ProductionResource.Dowel);
+        productionResources.Add(ProductionResource.PointyScrew);
+        productionResources.Add(ProductionResource.ScrewPlug);
+        return productionResources[GD.RandRange(0, productionResources.Count-1)];
+    }
+
+    public static ProductionResource GetRandomT2Resource()
+    {
+        Array<ProductionResource> productionResources = new Array<ProductionResource>();
+        productionResources.Add(ProductionResource.Dowel);
+        productionResources.Add(ProductionResource.PointyScrew);
+        productionResources.Add(ProductionResource.ScrewPlug);
+        productionResources.Add(ProductionResource.DoubleEndedScrew);
+        productionResources.Add(ProductionResource.Hinge);
+        productionResources.Add(ProductionResource.Plank);
+        return productionResources[GD.RandRange(0, productionResources.Count-1)];
+    }
+
+    public static ProductionResource GetRandomT3Resource()
+    {
+        Array<ProductionResource> productionResources = new Array<ProductionResource>();
+        productionResources.Add(ProductionResource.DoubleEndedScrew);
+        productionResources.Add(ProductionResource.Hinge);
+        productionResources.Add(ProductionResource.Plank);
+        productionResources.Add(ProductionResource.Kallax1x1);
+        productionResources.Add(ProductionResource.Kallax1x2);
+        productionResources.Add(ProductionResource.Kallax2x2);
+        return productionResources[GD.RandRange(0, productionResources.Count-1)];
+    }
+
+    public static ProductionResource GetRandomT4Resource()
+    {
+        Array<ProductionResource> productionResources = new Array<ProductionResource>();
+        productionResources.Add(ProductionResource.Kallax1x1);
+        productionResources.Add(ProductionResource.Kallax1x2);
+        productionResources.Add(ProductionResource.Kallax2x2);
+        productionResources.Add(ProductionResource.kallax2x4);
+        return productionResources[GD.RandRange(0, productionResources.Count-1)];
+    }
+
+    public static ProductionResource GetRandomTierResource(int tier)
+    {
+        return tier switch
+        {
+            1 => GetRandomT1Resource(),
+            2 => GetRandomT2Resource(),
+            3 => GetRandomT3Resource(),
+            4 => GetRandomT4Resource(),
+            _ => GetRandomT1Resource()
+        };
+    }
 }
