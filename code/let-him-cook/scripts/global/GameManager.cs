@@ -29,6 +29,10 @@ public partial class GameManager : Node
 	public override void _Process(double delta)
 	{
 		healthBar.Value = playerHealth;
+		if (Input.IsActionJustPressed("escape"))
+		{
+			modPlayerHealth(-100);
+		}
 	}
 
 	public void LoadScene(string scenePath)
@@ -39,6 +43,7 @@ public partial class GameManager : Node
 		var sceneInstance = scene.Instantiate();
 		CurrentWorld = sceneInstance;
 		AddChild(sceneInstance);
+		playerHealth = 100;
 		AnimationPlayer.Play("fade_from_black");
 	}
 	

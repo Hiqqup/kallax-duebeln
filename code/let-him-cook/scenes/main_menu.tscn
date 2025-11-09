@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://785wfprvqtaw"]
+[gd_scene load_steps=8 format=3 uid="uid://dv1g3l4fhodp6"]
 
 [ext_resource type="Theme" uid="uid://b8by5uv0gw361" path="res://assets/resources/main_gui_theme.tres" id="1_ekxnf"]
 [ext_resource type="Script" uid="uid://cygyvnlrqc4lm" path="res://scripts/MainMenu.cs" id="1_l6cm7"]
@@ -151,6 +151,7 @@ Controls:
  - Delete Connection by Right Clicking
  - Hover Nodes or Press Alt to see required materials
  - Navigate with Middle Mouse Button
+ - Press Esc to go return to the Main Menu
 "
 autowrap_mode = 2
 
