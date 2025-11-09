@@ -12,7 +12,7 @@ public partial class Reward : Control
 	private void GenerateRewards()
 	{
 		_rewards.Clear();
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < Constants.ChoiceCount; i++)
 		{
 			var inputs = new Array<ResourceAmount>();
 			var outputs = new Array<ResourceAmount>();
@@ -24,13 +24,13 @@ public partial class Reward : Control
 			}
 			else
 			{
-				var recipeTier = GD.RandRange(1, 3); // input tier, output tier is +1
+				var inputMaterialsTier = GD.RandRange(1, Constants.MaterialTierCount - 1); 
 				
 				var amountOfInputs = GD.RandRange(1, 3);
 				Dictionary<ProductionResource, int> cost = new Dictionary<ProductionResource, int>();
 				for (int j = 0; j < amountOfInputs; j++)
 				{
-					ProductionResource randomResource = ProductionResourceExtensions.GetRandomTierResource(recipeTier);
+					ProductionResource randomResource = ProductionResourceExtensions.GetRandomTierResource(inputMaterialsTier);
 					var amountToAdd = GD.RandRange(1,5);
 					if (cost.ContainsKey(randomResource))
 					{
@@ -47,7 +47,7 @@ public partial class Reward : Control
 					inputs.Add(new ResourceAmount(kvp.Key, kvp.Value));
 				}
 				
-				outputs.Add(new ResourceAmount(ProductionResourceExtensions.GetRandomTierResource(recipeTier+1), GD.RandRange(1, 5)));
+				outputs.Add(new ResourceAmount(ProductionResourceExtensions.GetRandomTierResource(inputMaterialsTier+1), GD.RandRange(1, 5)));
 			}
 			
 			_rewards.Add(new I_GraphNode(inputs, outputs));
@@ -56,7 +56,7 @@ public partial class Reward : Control
 
 	private void UpdateLabels()
 	{
-		for (int i = 0; i < _rewards.Count; i++)
+		for (int i = 0; i < Constants.ChoiceCount; i++)
 		{
 			string label = "";
 

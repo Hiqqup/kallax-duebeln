@@ -53,7 +53,7 @@ public partial class I_GraphNode : CharacterBody2D
 	private Sprite2D _contentSprite2D;
 	private Label _statusLabel;
 
-	private readonly float _taskTimeSeconds = 30.0f;
+	private readonly float _taskTimeSeconds = 15.0f;
 	
 	private Timer _questDuration;
 
