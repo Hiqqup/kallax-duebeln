@@ -1,10 +1,10 @@
 [gd_scene load_steps=17 format=3 uid="uid://df2at473yqewo"]
 
 [ext_resource type="PackedScene" uid="uid://dgn84hypmmi6h" path="res://scenes/graph_nodes/producer.tscn" id="2_8w4ag"]
-[ext_resource type="Script" uid="uid://bco38vskfst5" path="res://scripts/ResourceAmount.cs" id="3_8w4ag"]
+[ext_resource type="Script" uid="uid://8yjd2o46skby" path="res://scripts/ResourceAmount.cs" id="3_8w4ag"]
 [ext_resource type="PackedScene" uid="uid://sy2xlku1ghrf" path="res://scenes/graph_nodes/consumer.tscn" id="3_foijs"]
-[ext_resource type="Script" uid="uid://cbjk2lp10ylqx" path="res://scripts/UnitSelector.cs" id="5_6pkd6"]
-[ext_resource type="Script" uid="uid://kggxkojncmdr" path="res://scripts/CameraController.cs" id="5_foijs"]
+[ext_resource type="Script" uid="uid://djv8kr6htn6rm" path="res://scripts/UnitSelector.cs" id="5_6pkd6"]
+[ext_resource type="Script" uid="uid://cjpdqu8wak7ui" path="res://scripts/CameraController.cs" id="5_foijs"]
 [ext_resource type="PackedScene" uid="uid://bxk16rwk6e0sh" path="res://scenes/graph_nodes/node.tscn" id="6_6pkd6"]
 
 [sub_resource type="Resource" id="Resource_7nkr0"]
@@ -72,36 +72,36 @@ metadata/_custom_type_script = "uid://bco38vskfst5"
 [node name="ProducerB" parent="." instance=ExtResource("2_8w4ag")]
 material = null
 position = Vector2(-225, -338)
-Output = Array[ExtResource("3_8w4ag")]([SubResource("Resource_7nkr0")])
+Output = [SubResource("Resource_7nkr0")]
 
 [node name="Factory" parent="." instance=ExtResource("3_foijs")]
 material = null
 position = Vector2(226, -124)
-Recource_Input = Array[ExtResource("3_8w4ag")]([SubResource("Resource_8w4ag"), SubResource("Resource_foijs")])
-Output = Array[ExtResource("3_8w4ag")]([SubResource("Resource_mwwd8")])
+Recource_Input = [SubResource("Resource_8w4ag"), SubResource("Resource_foijs")]
+Output = [SubResource("Resource_mwwd8")]
 
 [node name="Consumer2" parent="." instance=ExtResource("3_foijs")]
 material = null
 position = Vector2(723, -79)
-Recource_Input = Array[ExtResource("3_8w4ag")]([SubResource("Resource_6pkd6")])
+Recource_Input = [SubResource("Resource_6pkd6")]
 
 [node name="ProducerA" parent="." instance=ExtResource("2_8w4ag")]
 material = null
 position = Vector2(-389, -97)
-Output = Array[ExtResource("3_8w4ag")]([SubResource("Resource_lkjgc")])
+Output = [SubResource("Resource_lkjgc")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("5_foijs")
 
 [node name="Producer" parent="." instance=ExtResource("2_8w4ag")]
 material = null
-position = Vector2(-323, 207)
-Output = Array[ExtResource("3_8w4ag")]([SubResource("Resource_6uos2")])
+position = Vector2(-298, 412)
+Output = [SubResource("Resource_6uos2")]
 
 [node name="Consumer" parent="." instance=ExtResource("3_foijs")]
 material = null
 position = Vector2(715, 216)
-Recource_Input = Array[ExtResource("3_8w4ag")]([SubResource("Resource_wrlvv")])
+Recource_Input = [SubResource("Resource_wrlvv")]
 
 [node name="Consumer3" parent="." instance=ExtResource("3_foijs")]
 position = Vector2(121, 296)
@@ -111,8 +111,8 @@ script = ExtResource("5_6pkd6")
 
 [node name="Node" parent="." instance=ExtResource("6_6pkd6")]
 position = Vector2(440, 539)
-Output = Array[ExtResource("3_8w4ag")]([SubResource("Resource_3lqth")])
+Output = [SubResource("Resource_3lqth")]
 
 [node name="Node2" parent="." instance=ExtResource("6_6pkd6")]
 position = Vector2(789, 597)
-Recource_Input = Array[ExtResource("3_8w4ag")]([SubResource("Resource_koxqj")])
+Recource_Input = [SubResource("Resource_koxqj")]

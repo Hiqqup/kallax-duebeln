@@ -27,9 +27,9 @@ public partial class CameraController : Camera2D
 	}
 	
 	private void OnWindowSizeChanged()
-    {
-	    UpdateMovementSpeed();
-    }
+	{
+		UpdateMovementSpeed();
+	}
 
 	// Unity update
 	public override void _Process(double delta)
